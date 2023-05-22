@@ -10,6 +10,8 @@ namespace Wolmart.Ecommerce.DAL
             
         }
 
-        public DbSet<SKU> SKUs { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Brand> Brands { get; set; }
     }
 }

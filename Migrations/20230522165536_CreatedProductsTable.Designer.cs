@@ -9,8 +9,8 @@ using Wolmart.Ecommerce.DAL;
 namespace Wolmart.Ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230521202814_CreatedSKUsTable")]
-    partial class CreatedSKUsTable
+    [Migration("20230522165536_CreatedProductsTable")]
+    partial class CreatedProductsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace Wolmart.Ecommerce.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.SKU", b =>
+            modelBuilder.Entity("Wolmart.Ecommerce.Models.Product", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -28,11 +28,27 @@ namespace Wolmart.Ecommerce.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("DiscountedPrice")
+                        .HasColumnType("money");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("money");
 
                     b.HasKey("ID");
 
-                    b.ToTable("SKUs");
+                    b.ToTable("Products");
                 });
 #pragma warning restore 612, 618
         }

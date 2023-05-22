@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wolmart.Ecommerce.DAL;
 
 namespace Wolmart.Ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230522172250_CreatedBrandsTable")]
+    partial class CreatedBrandsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,12 +57,6 @@ namespace Wolmart.Ecommerce.Migrations
                     b.Property<decimal>("DiscountedPrice")
                         .HasColumnType("money");
 
-                    b.Property<string>("HoverImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MainImage")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -76,26 +72,6 @@ namespace Wolmart.Ecommerce.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.ProductImage", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("ProductImages");
-                });
-
             modelBuilder.Entity("Wolmart.Ecommerce.Models.Product", b =>
                 {
                     b.HasOne("Wolmart.Ecommerce.Models.Brand", "Brand")
@@ -107,25 +83,9 @@ namespace Wolmart.Ecommerce.Migrations
                     b.Navigation("Brand");
                 });
 
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.ProductImage", b =>
-                {
-                    b.HasOne("Wolmart.Ecommerce.Models.Product", "Product")
-                        .WithMany("ProductImages")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Wolmart.Ecommerce.Models.Brand", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.Product", b =>
-                {
-                    b.Navigation("ProductImages");
                 });
 #pragma warning restore 612, 618
         }
