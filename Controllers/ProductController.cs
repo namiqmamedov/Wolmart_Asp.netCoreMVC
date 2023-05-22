@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
+using Wolmart.Ecommerce.Models;
 
 namespace Wolmart.Ecommerce.Controllers
 {
@@ -18,9 +19,43 @@ namespace Wolmart.Ecommerce.Controllers
             return View(await _context.Products.ToListAsync());
         }
 
-        public IActionResult Detail(int? id)
+        public async Task<IActionResult> Detail(int? id)
         {
-            return View();  
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            Product product = await _context.Products
+            .Include(p => p.ProductImages)
+            .Include(p => p.Brand)
+            .FirstOrDefaultAsync(p=>p.ID == id);
+
+            if (product == null)
+            {
+                return BadRequest();
+            }
+
+            return View(product);  
+        }
+
+        public async Task<IActionResult> DetailForModal(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            Product product = await _context.Products
+            .Include(p => p.ProductImages)
+            .Include(p => p.Brand)
+            .FirstOrDefaultAsync(p=>p.ID == id);
+
+            if(product == null)
+            {
+                return BadRequest();
+            }
+            return PartialView("_ProductModalPartial",product);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@model Product
 @{
     ViewData["Title"] = "Detail";
 }
@@ -51,48 +51,16 @@
                                             }
                                         }">
                                             <div class="swiper-wrapper row cols-1 gutter-no">
-                                                <div class="swiper-slide">
+                                                @foreach (ProductImage item in Model.ProductImages)
+                                                {
+                                                    <div class="swiper-slide">
                                                     <figure class="product-image">
-                                                        <img src="~/assets/images/products/default/1-800x900.jpg"
-                                                            data-zoom-image="~/assets/images/products/default/1-800x900.jpg"
+                                                        <img src="~/assets/images/products/default/@item.Image"
+                                                            data-zoom-image="~/assets/images/products/default/@item.Image"
                                                             alt="Electronics Black Wrist Watch" width="800" height="900">
                                                     </figure>
                                                 </div>
-                                                <div class="swiper-slide">
-                                                    <figure class="product-image">
-                                                        <img src="~/assets/images/products/default/2-800x900.jpg"
-                                                            data-zoom-image="~/assets/images/products/default/2-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="488" height="549">
-                                                    </figure>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <figure class="product-image">
-                                                        <img src="~/assets/images/products/default/3-800x900.jpg"
-                                                            data-zoom-image="~/assets/images/products/default/3-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                    </figure>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <figure class="product-image">
-                                                        <img src="~/assets/images/products/default/4-800x900.jpg"
-                                                            data-zoom-image="~/assets/images/products/default/4-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                    </figure>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <figure class="product-image">
-                                                        <img src="~/assets/images/products/default/5-800x900.jpg"
-                                                            data-zoom-image="~/assets/images/products/default/5-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                    </figure>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <figure class="product-image">
-                                                        <img src="~/assets/images/products/default/6-800x900.jpg"
-                                                            data-zoom-image="~/assets/images/products/default/6-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                    </figure>
-                                                </div>
+                                                }
                                             </div>
                                             <button class="swiper-button-next"></button>
                                             <button class="swiper-button-prev"></button>
@@ -105,30 +73,13 @@
                                             }
                                         }">
                                             <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="~/assets/images/products/default/1-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="~/assets/images/products/default/2-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="~/assets/images/products/default/3-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="~/assets/images/products/default/4-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="~/assets/images/products/default/5-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="~/assets/images/products/default/6-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
+                                                @foreach (ProductImage item in Model.ProductImages)
+                                                {
+                                                    <div class="product-thumb swiper-slide">
+                                                            <img src="~/assets/images/products/default/@item.Image"
+                                                                alt="Product Thumb" width="800" height="900">
+                                                    </div>
+                                                }
                                             </div>
                                             <button class="swiper-button-next"></button>
                                             <button class="swiper-button-prev"></button>
@@ -137,7 +88,7 @@
                                 </div>
                                 <div class="col-md-6 mb-4 mb-md-6">
                                     <div class="product-details" data-sticky-options="{'minWidth': 767}">
-                                        <h1 class="product-title">Electronics Black Wrist Watch</h1>
+                                        <h1 class="product-title">@Model.Name</h1>
                                         <div class="product-bm-wrapper">
                                             <figure class="brand">
                                                 <img src="~/assets/images/products/brand/brand-1.jpg" alt="Brand"
@@ -156,7 +107,19 @@
 
                                         <hr class="product-divider">
 
-                                        <div class="product-price"><ins class="new-price">$40.00</ins></div>
+                                        <div class="product-price">
+                                        @if(Model.DiscountedPrice > 0)
+                                        {   
+                                             <ins class="new-price">$@Model.Price</ins>
+                                            <del class="old-price">$@Model.DiscountedPrice</del>
+                                        }
+                                        else
+                                        {
+                                            <ins class="new-price">$@Model.Price</ins>
+
+                                        }
+
+                                        </div>
 
                                         <div class="ratings-container">
                                             <div class="ratings-full">
@@ -198,6 +161,13 @@
                                             <a href="#" class="product-variation-clean">Clean All</a>
                                         </div>
 
+                                        @if(Model.Count > 0){
+                                            <span class="stock__text text-success">In Stock</span>
+                                        }
+                                        else
+                                        {
+                                             <span class="nostock text-danger">Out of stock</span>
+                                        }
                                         <div class="product-variation-price">
                                             <span></span>
                                         </div>
