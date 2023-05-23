@@ -1,61 +1,59 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-    <title>Wolmart - Marketplace HTML5 Template</title>
+    <title>Wolmart eCommmerce Marketplace HTML Template</title>
 
     <meta name="keywords" content="Marketplace ecommerce responsive HTML5 Template" />
-    <meta name="description"
-        content="Wolmart is powerful marketplace &amp; ecommerce responsive Html5 Template.">
+    <meta name="description" content="Wolmart is powerful marketplace &amp; ecommerce responsive Html5 Template.">
     <meta name="author" content="D-THEMES">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="~/assets/images/icons/favicon.png">
+    <link rel="icon" type="image/png" href="~/assets//images/icons/favicon.png">
 
     <!-- WebFont.js -->
     <script>
         WebFontConfig = {
-            google: { families: ['Poppins:400,500,600,700,800'] }
+            google: { families: ['Poppins:400,500,600,700'] }
         };
         (function (d) {
             var wf = d.createElement('script'), s = d.scripts[0];
-            wf.src = 'assets/js/webfont.js';
+            wf.src = '~/assets//js/webfont.js';
             wf.async = true;
             s.parentNode.insertBefore(wf, s);
         })(document);
     </script>
 
-    <link rel="preload" href="~/assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="~/assets//vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font" type="font/woff2"
         crossorigin="anonymous">
-    <link rel="preload" href="~/assets/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="~/assets//vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
         crossorigin="anonymous">
-    <link rel="preload" href="~/assets/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
-        crossorigin="anonymous">
-    <link rel="preload" href="~/assets/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
+    <link rel="preload" href="~/assets//vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
+            crossorigin="anonymous">
+    <link rel="preload" href="~/assets//fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" type="text/css" href="~/assets/vendor/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets//vendor/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets//vendor/animate/animate.min.css">
 
     <!-- Plugins CSS -->
-    <!-- <link rel="stylesheet" href="~/assets/vendor/swiper/swiper-bundle.min.css"> -->
-    <link rel="stylesheet" type="text/css" href="~/assets/vendor/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="~/assets/vendor/magnific-popup/magnific-popup.min.css">
-    <!-- Link Swiper's CSS -->
-    <link rel="stylesheet" href="~/assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="~/assets//vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets//vendor/nouislider/nouislider.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets//vendor/magnific-popup/magnific-popup.min.css">
 
     <!-- Default CSS -->
-    <link rel="stylesheet" type="text/css" href="~/assets/css/demo1.min.css">
-
+    <link rel="stylesheet" type="text/css" href="~/assets//css/style.min.css">
 </head>
 
 <body class="home">
     <div class="page-wrapper">
         <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
         <!-- Start of Header -->
-        <header class="header">
+        <header class="header header-border">
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
@@ -106,11 +104,10 @@
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger" aria-label="menu-toggle">
                         </a>
-                        <a asp-controller="home" asp-action="index" class="logo ml-lg-0">
+                        <a href="demo1.html" class="logo ml-lg-0">
                             <img src="~/assets/images/logo.png" alt="logo" width="144" height="45" />
                         </a>
-                        <form method="get" action="#"
-                            class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
+                        <form method="get" action="#" class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
                             <div class="select-box">
                                 <select id="category" name="category">
                                     <option value="">All Categories</option>
@@ -125,8 +122,16 @@
                                     <option value="12">Clothing</option>
                                 </select>
                             </div>
-                            <input type="text" class="form-control" name="search" id="search" placeholder="Search in..."
-                                required />
+                            <input type="text" class="form-control" name="search" id="search"
+                                placeholder="Search in..." required />
+                                <div class="search-body" style="position: absolute;width: 100%;z-index:999;background-color: white;top: 100%;border: 1px solid black;">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <img src="~/assets/images/products/brand/brand-1.jpg" style="width: 100px" alt="Image"/>
+                                            <h5>brand</h5>
+                                        </li>
+                                    </ul>
+                              </div>
                             <button class="btn btn-search" type="submit"><i class="w-icon-search"></i>
                             </button>
                         </form>
@@ -136,7 +141,7 @@
                             <a href="tel:#" class="w-icon-call"></a>
                             <div class="call-info d-lg-show">
                                 <h4 class="chat font-weight-normal font-size-md text-normal ls-normal text-light mb-0">
-                                    <a href="https://portotheme.com/cdn-cgi/l/email-protection#4a69" class="text-capitalize">Live Chat</a> or :</h4>
+                                    <a href="https://portotheme.com/cdn-cgi/l/email-protection#4261" class="text-capitalize">Live Chat</a> or :</h4>
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">0(800)123-456</a>
                             </div>
                         </div>
@@ -223,12 +228,12 @@
             </div>
             <!-- End of Header Middle -->
 
-            <div class="header-bottom sticky-content fix-top sticky-header has-dropdown">
+            <div class="header-bottom sticky-content fix-top sticky-header">
                 <div class="container">
                     <div class="inner-wrap">
                         <div class="header-left">
                             <div class="dropdown category-dropdown has-border" data-visible="true">
-                                <a href="#" class="category-toggle text-dark" role="button" data-toggle="dropdown"
+                                <a href="#" class="category-toggle" role="button" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="true" data-display="static"
                                     title="Browse Categories">
                                     <i class="w-icon-category"></i>
@@ -258,6 +263,7 @@
                                                         </li>
                                                         <li><a href="shop-fullwidth-banner.html">Jewlery &
                                                                 Watches</a></li>
+                                                        <li><a href="shop-fullwidth-banner.html">Sale</a></li>
                                                     </ul>
                                                 </li>
                                                 <li>
@@ -625,7 +631,7 @@
                             </div>
                             <nav class="main-nav">
                                 <ul class="menu active-underline">
-                                    <li class="active">
+                                     <li class="active">
                                         <a asp-controller="home" asp-action="index">Home</a>
                                     </li>
                                     <li>
@@ -723,7 +729,7 @@
                         <div class="col-lg-4 col-sm-6">
                             <div class="widget widget-about">
                                 <a href="demo1.html" class="logo-footer">
-                                    <img src="~/assets/images/logo_footer.png" alt="logo-footer" width="144"
+                                    <img src="~/~/assets/images/logo_footer.png" alt="logo-footer" width="144"
                                         height="45" />
                                 </a>
                                 <div class="widget-body">
@@ -867,7 +873,7 @@
                     <div class="footer-right">
                         <span class="payment-label mr-lg-8">We're using safe payment for</span>
                         <figure class="payment">
-                            <img src="~/assets/images/payment.png" alt="payment" width="159" height="25" />
+                            <img src="~/~/assets/images/payment.png" alt="payment" width="159" height="25" />
                         </figure>
                     </div>
                 </div>
@@ -911,7 +917,7 @@
                         </div>
                         <figure class="product-media">
                             <a href="product-default.html">
-                                <img src="~/assets/images/cart/product-1.jpg" alt="product" height="84" width="94" />
+                                <img src="~/~/assets/images/cart/product-1.jpg" alt="product" height="84" width="94" />
                             </a>
                         </figure>
                         <button class="btn btn-link btn-close" aria-label="button">
@@ -932,7 +938,7 @@
                         </div>
                         <figure class="product-media">
                             <a href="product-default.html">
-                                <img src="~/assets/images/cart/product-2.jpg" alt="product" width="84" height="94" />
+                                <img src="~/~/assets/images/cart/product-2.jpg" alt="product" width="84" height="94" />
                             </a>
                         </figure>
                         <button class="btn btn-link btn-close" aria-label="button">
@@ -1405,22 +1411,31 @@
     </div>
     <!-- End of Newsletter popup -->
 
-    
-    <!-- Plugin JS File -->
+@*        <!-- Start of Quick View -->
+    <div class="product product-single product-popup">
+        <div class="row gutter-lg" >
+            <div id="product-modal"></div>
+        </div>
+    </div>
+    <!-- End of Quick view -->*@
+
+
+        <!-- Plugin JS File -->
     <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="~/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="~/assets/vendor/sticky/sticky.js"></script>
     <script src="~/assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
+    <script src="~/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/assets/vendor/nouislider/nouislider.min.js"></script>
+    <script src="~/assets/vendor/jquery.countdown/jquery.countdown.min.js"></script>
     <script src="~/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="~/assets/vendor/zoom/jquery.zoom.js"></script>
-    <script src="~/assets/vendor/jquery.countdown/jquery.countdown.min.js"></script>
-    <script src="~/assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
     <script src="~/assets/vendor/skrollr/skrollr.min.js"></script>
-
-    <!-- Swiper JS -->
-    <script src="~/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
     <!-- Main JS -->
     <script src="~/assets/js/main.min.js"></script>
     <script src="~/assets/js/script.js"></script>
-<script>(function(){var js = "window['__CF$cv$params']={r:'7cac67d53fdd5284',m:'G0rxBn.U8MTvHSLVxOFgqpMMKfDOEWNVro8xNtLpioA-1684667769-0-AWaME4Plfh1hWk/EcVoDvLSbxK/5HnS4AM3mpJTQFtJM',u:'/cdn-cgi/challenge-platform/h/g'};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='../../cdn-cgi/challenge-platform/h/g/scripts/jsd/7fe8adc8/invisible.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.nonce = '';_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+<script>(function(){var js = "window['__CF$cv$params']={r:'7cac68295c258ec2',m:'EhmqnA6ZtunpgLWMh9n.G.MU0oTlf2fO8xkV9ctFx.I-1684667782-0-AWPyjIy+wU9mTXFsRSEriCAY4QxqCDNam4dnZrThuF5Q',u:'/cdn-cgi/challenge-platform/h/g'};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='../../cdn-cgi/challenge-platform/h/g/scripts/jsd/7fe8adc8/invisible.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.nonce = '';_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
 
 </html>
+    
