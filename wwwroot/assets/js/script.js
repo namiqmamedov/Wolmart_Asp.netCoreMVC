@@ -14,25 +14,22 @@
 
     $('.searchInput').keyup(function () {
 
-        let search = $(this).val();
-        console.log(search)
+        let search = $(this).val().trim();
 
         let url = $(this).data("url")
+
         console.log(url)
 
         url = url + '?search=' + search
-        console.log(url);
 
-        fetch(url).then(res => {
-            return res.json();
-        }).then(data => {
 
-            //<li class="list-group-item d-flex align-items-center">
-            //    <img src="~/assets/images/products/brand/brand-1.jpg" style="width: 100px" alt="Image" />
-            //    <h5>brand</h5>
-            //</li>
-
-            console.log(data);
-        })
+        if (search) {
+            fetch(url).then(res => res.text()).then(data => {
+                $('.search-body .list-group').html(data);
+            })
+        }
+        else {
+            $('.search-body .list-group').html('');
+        }
     })
 })

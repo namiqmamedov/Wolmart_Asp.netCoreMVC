@@ -1,0 +1,11 @@
+﻿@model List<Product>
+
+@foreach(Product item in Model)
+{
+    <li class="list-group-item d-flex align-items-center">
+                <img src="assets/images/shop/@item.MainImage" style="width: 100px" alt="Image" />
+                <h5>@item.Name</h5>
+    </li>
+}
+
+    

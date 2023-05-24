@@ -64,10 +64,10 @@ namespace Wolmart.Ecommerce.Controllers
         {
             List<Product> products = await _context.Products
            .Where(p => p.Name.ToLower().Contains(search.Trim().ToLower())).ToListAsync();
-            
-            string prod = JsonConvert.SerializeObject(products);
 
-            return Json(prod);
+            //string prod = JsonConvert.SerializeObject(products);
+
+            return PartialView("_SearchPartial", products);
         }
     }
 }
