@@ -5,15 +5,15 @@
                     <div class="swiper-container product-single-swiper swiper-theme nav-inner">
                         <div class="swiper-wrapper row cols-1 gutter-no">
                             @foreach (ProductImage item in Model.ProductImages)
-                {
-                    <div class="swiper-slide">
-                                <figure class="product-image">
-                                    <img src="~/assets/images/products/default/@item.Image"
-                                        data-zoom-image="~/assets/images/products/default/@item.Image"
-                                        alt="Water Boil Black Utensil" width="800" height="900">
-                                </figure>
-                            </div>
-                }
+                            {
+                                <div class="swiper-slide">
+                                            <figure class="product-image">
+                                                <img src="~/assets/images/shop/@item.Product.MainImage"
+                                                    data-zoom-image="~/assets/images/shop/@item.Product.MainImage"
+                                                    alt="Water Boil Black Utensil" width="800" height="900">
+                                            </figure>
+                                        </div>
+                            }
                         </div>
                         <button class="swiper-button-next"></button>
                         <button class="swiper-button-prev"></button>
@@ -24,15 +24,16 @@
                             'prevEl': '.swiper-button-prev'
                         }
                     }">
-                        @foreach (ProductImage item in Model.ProductImages)
-                        {
+                       
                             <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
-                                        <div class="product-thumb swiper-slide">
-                                            <img src="~/assets/images/shop/@item.Image" alt="Product Thumb" width="103"
-                                                height="116">
-                                        </div>
+                            @foreach (ProductImage item in Model.ProductImages)
+                            {
+                                            <div class="product-thumb swiper-slide">
+                                                <img src="~/assets/images/products/product-gallery/@item.Image" alt="Product Thumb" width="103"
+                                                 height="116">
+                                            </div>
+                            }
                             </div>
-                        }
                         <button class="swiper-button-next"></button>
                         <button class="swiper-button-prev"></button>
                     </div>

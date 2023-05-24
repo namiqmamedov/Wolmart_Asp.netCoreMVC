@@ -13,7 +13,7 @@
     <meta name="author" content="D-THEMES">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="~/assets//images/icons/favicon.png">
+    <link rel="icon" type="image/png" href="~/assets/images/icons/favicon.png">
 
     <!-- WebFont.js -->
     <script>
@@ -22,31 +22,31 @@
         };
         (function (d) {
             var wf = d.createElement('script'), s = d.scripts[0];
-            wf.src = '~/assets//js/webfont.js';
+            wf.src = '~/assets/js/webfont.js';
             wf.async = true;
             s.parentNode.insertBefore(wf, s);
         })(document);
     </script>
 
-    <link rel="preload" href="~/assets//vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="~/assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font" type="font/woff2"
         crossorigin="anonymous">
-    <link rel="preload" href="~/assets//vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="~/assets/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font" type="font/woff2"
         crossorigin="anonymous">
-    <link rel="preload" href="~/assets//vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
+    <link rel="preload" href="~/assets/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font" type="font/woff2"
             crossorigin="anonymous">
-    <link rel="preload" href="~/assets//fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
+    <link rel="preload" href="~/assets/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff" crossorigin="anonymous">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" type="text/css" href="~/assets//vendor/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="~/assets//vendor/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/vendor/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/vendor/animate/animate.min.css">
 
     <!-- Plugins CSS -->
-    <link rel="stylesheet" href="~/assets//vendor/swiper/swiper-bundle.min.css">
-    <link rel="stylesheet" type="text/css" href="~/assets//vendor/nouislider/nouislider.min.css">
-    <link rel="stylesheet" type="text/css" href="~/assets//vendor/magnific-popup/magnific-popup.min.css">
+    <link rel="stylesheet" href="~/assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/vendor/nouislider/nouislider.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/vendor/magnific-popup/magnific-popup.min.css">
 
     <!-- Default CSS -->
-    <link rel="stylesheet" type="text/css" href="~/assets//css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/style.min.css">
 </head>
 
 <body class="home">
@@ -122,16 +122,12 @@
                                     <option value="12">Clothing</option>
                                 </select>
                             </div>
-                            <input type="text" class="form-control" name="search" id="search"
-                                placeholder="Search in..." required />
-                                <div class="search-body" style="position: absolute;width: 100%;z-index:999;background-color: white;top: 100%;border: 1px solid black;">
+                            <input type="text" class="form-control searchInput" data-url="http://localhost:52606/product/search" id="search" placeholder="Search in..."/>
+                            <div class="search-body" style="position: absolute;width: 100%;z-index:999;background-color: white;top: 100%;border: 1px solid black;">
                                     <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <img src="~/assets/images/products/brand/brand-1.jpg" style="width: 100px" alt="Image"/>
-                                            <h5>brand</h5>
-                                        </li>
+                                        
                                     </ul>
-                              </div>
+                            </div>
                             <button class="btn btn-search" type="submit"><i class="w-icon-search"></i>
                             </button>
                         </form>
@@ -1411,13 +1407,13 @@
     </div>
     <!-- End of Newsletter popup -->
 
-@*        <!-- Start of Quick View -->
+        <!-- Start of Quick View -->
     <div class="product product-single product-popup">
-        <div class="row gutter-lg" >
-            <div id="product-modal"></div>
+        <div class="row gutter-lg" id="product-modal" >
+            
         </div>
     </div>
-    <!-- End of Quick view -->*@
+    <!-- End of Quick view -->
 
 
         <!-- Plugin JS File -->
@@ -1431,6 +1427,9 @@
     <script src="~/assets/vendor/zoom/jquery.zoom.js"></script>
     <script src="~/assets/vendor/skrollr/skrollr.min.js"></script>
     <script src="~/assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+        <!-- Swiper JS -->
+    <script src="~/assets/vendor/swiper/swiper-bundle.min.js"></script>
 
     <!-- Main JS -->
     <script src="~/assets/js/main.min.js"></script>

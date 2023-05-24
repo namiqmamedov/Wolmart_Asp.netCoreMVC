@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
@@ -56,6 +58,16 @@ namespace Wolmart.Ecommerce.Controllers
                 return BadRequest();
             }
             return PartialView("_ProductModalPartial",product);
+        }
+
+        public async Task<IActionResult> Search(string search)
+        {
+            List<Product> products = await _context.Products
+           .Where(p => p.Name.ToLower().Contains(search.Trim().ToLower())).ToListAsync();
+            
+            string prod = JsonConvert.SerializeObject(products);
+
+            return Json(prod);
         }
     }
 }
