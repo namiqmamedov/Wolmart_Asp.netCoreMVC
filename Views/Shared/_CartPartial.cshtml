@@ -16,9 +16,9 @@
                 <img src="~/assets/images/cart/product-1.jpg" alt="product" height="84" width="94">
             </a>
         </figure>
-        <button class="btn btn-link btn-close" aria-label="button">
+        <a asp-controller="cart" asp-action="DeleteCart" asp-route-id="@cartVM.ProductID" id="deleteCart"  class="btn btn-link btn-close" aria-label="button">
             <i class="fas fa-times"></i>
-        </button>
+        </a>
     </div>   
     }   
     <div class="cart-total">

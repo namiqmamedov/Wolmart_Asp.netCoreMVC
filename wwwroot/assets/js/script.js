@@ -51,4 +51,17 @@
             });
     })
 
+    // ------- Delete From Cart ---------
+
+    $(document).on('click', '#deleteCart', function (e) {
+        e.preventDefault();
+
+        let url = $(this).attr('href');
+
+        fetch(url)
+            .then(res => res.text())
+            .then(data => {
+                $('#product__item-list').html(data);
+            })
+    })
 })

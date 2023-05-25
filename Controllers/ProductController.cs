@@ -68,58 +68,5 @@ namespace Wolmart.Ecommerce.Controllers
 
             return PartialView("_SearchPartial", products);
         }
-
-        public async Task<IActionResult> AddToCart(int? id)
-        {
-            if (id == null)
-            {
-                return BadRequest();
-            }
-
-            Product product = await _context.Products.FirstOrDefaultAsync(p => p.ID == id);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            string cart = HttpContext.Request.Cookies["cart"];
-
-            List<CartVM> cartVMs = null;
-
-            if(cart != null)
-            {
-                cartVMs = JsonConvert.DeserializeObject<List<CartVM>>(cart);
-            }
-            else
-            {
-                cartVMs = new List<CartVM>();
-            }
-
-            if (cartVMs.Exists(p=>p.ProductID == id)) 
-            {
-                cartVMs.Find(p => p.ProductID == id).Count++; // the same product just increment  not the duplicate
-            }
-            else
-            {
-                CartVM cartVM = new CartVM
-                {
-                    ProductID = product.ID,
-                    Count = 1,
-                    Image = product.MainImage,
-                    Name = product.Name,
-                    Price = product.DiscountedPrice > 0 ? product.DiscountedPrice : product.Price,
-                };
-                cartVMs.Add(cartVM);
-            }
-
-
-            cart = JsonConvert.SerializeObject(cartVMs);  // yeniden stringe cevirmek
-
-            HttpContext.Response.Cookies.Append("cart", cart);
-
-            return PartialView("_CartPartial", cartVMs);
-
-        }
     }
 }
