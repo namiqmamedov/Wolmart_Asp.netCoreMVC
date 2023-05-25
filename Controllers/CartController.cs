@@ -60,9 +60,6 @@ namespace Wolmart.Ecommerce.Controllers
                 {
                     ProductID = product.ID,
                     Count = 1,
-                    Image = product.MainImage,
-                    Name = product.Name,
-                    Price = product.DiscountedPrice > 0 ? product.DiscountedPrice : product.Price,
                 };
                 cartVMs.Add(cartVM);
             }
@@ -72,7 +69,7 @@ namespace Wolmart.Ecommerce.Controllers
 
             HttpContext.Response.Cookies.Append("cart", cart);
 
-            return PartialView("_CartPartial", cartVMs);
+            return PartialView("_CartPartial", await _getCartItemAsync(cartVMs));
 
         }
         
@@ -103,7 +100,22 @@ namespace Wolmart.Ecommerce.Controllers
             cart = JsonConvert.SerializeObject(cartVMs);
             HttpContext.Response.Cookies.Append("cart",cart);
 
-            return PartialView("_CartPartial",cartVMs);
+            return PartialView("_CartPartial", await _getCartItemAsync(cartVMs));
+        }
+
+        private async  Task<List<CartVM>> _getCartItemAsync(List<CartVM> cartVMs)
+        {
+            foreach (CartVM item in cartVMs) // mes: sekil falan dbda deyisilende saytda reski gorsenmesi ucun
+            {
+                Product dbProduct = await _context.Products.FirstOrDefaultAsync(p => p.ID == item.ProductID);
+
+                item.Name = dbProduct.Name;
+                item.Price = dbProduct.DiscountedPrice > 0 ? dbProduct.DiscountedPrice : dbProduct.Price;
+                item.Image = dbProduct.MainImage;
+            }
+
+            return cartVMs;
+
         }
     }
 }

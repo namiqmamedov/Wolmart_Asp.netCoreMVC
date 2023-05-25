@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
+using Wolmart.Ecommerce.Services;
 
 namespace Wolmart.Ecommerce
 {
@@ -33,6 +34,8 @@ namespace Wolmart.Ecommerce
             });
 
             services.AddDbContext<AppDbContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<LayoutService>();
 
             services.AddHttpContextAccessor();
         }

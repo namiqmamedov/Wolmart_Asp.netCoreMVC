@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Wolmart.Ecommerce.Services
+@inject LayoutService layoutService
+
+@{
+    List<CartVM> cartVMs = await layoutService.GetCart();
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 
 
@@ -150,23 +158,7 @@
                             <span class="compare-label d-lg-show">Compare</span>
                         </a>
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
-                            <div class="cart-overlay"></div>
-                            <a href="#" class="cart-toggle label-down link">
-                                <i class="w-icon-cart">
-                                    <span class="cart-count">2</span>
-                                </i>
-                                <span class="cart-label">Cart</span>
-                            </a>
-                            <div class="dropdown-box">
-                                <div class="cart-header">
-                                    <span>Shopping Cart</span>
-                                    <a href="#" class="btn-close">Close<i class="w-icon-long-arrow-right"></i></a>
-                                </div>
-                                
-                            <div id="product__item-list" class="products">
-                            </div>
-                                
-                            </div>
+                                @await Html.PartialAsync("_CartPartial",cartVMs)
                             <!-- End of Dropdown Box -->
                         </div>
                     </div>

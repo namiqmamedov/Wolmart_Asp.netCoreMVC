@@ -47,7 +47,8 @@
 
         fetch(url).then(res => res.text())
             .then(data => {
-                $('#product__item-list').html(data);
+                //$('#product__item-list').html(data);
+                $('.cart-dropdown').html(data);
             });
     })
 
@@ -61,7 +62,7 @@
         fetch(url)
             .then(res => res.text())
             .then(data => {
-                $('#product__item-list').html(data);
+                $('.cart-dropdown').html(data);
             })
     })
 })
