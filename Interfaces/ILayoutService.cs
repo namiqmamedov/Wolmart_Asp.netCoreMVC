@@ -7,5 +7,6 @@ namespace Wolmart.Ecommerce.Interfaces
     public interface ILayoutService
     {
         Task<List<CartVM>> GetCart();
+        Task<IDictionary<string, string>> GetSetting();
     }
 }

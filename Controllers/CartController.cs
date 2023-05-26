@@ -52,7 +52,7 @@ namespace Wolmart.Ecommerce.Controllers
 
             if (cartVMs.Exists(p => p.ProductID == id))
             {
-                cartVMs.Find(p => p.ProductID == id).Count++; // the same product just increment  not the duplicate
+                cartVMs.Find(p => p.ProductID == id).Count++; // the same product just increment  not the create duplicate
             }
             else
             {

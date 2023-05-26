@@ -3,6 +3,7 @@
 
 @{
     List<CartVM> cartVMs = await layoutService.GetCart();
+    IDictionary<string, string> settings = await layoutService.GetSetting();
 }
 
 
@@ -65,7 +66,7 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
-                        <p class="welcome-msg">Welcome to Wolmart Store message or remove it!</p>
+                        <p class="welcome-msg">@settings.FirstOrDefault(x=>x.Key == "HeaderTitle").Value</p>
                     </div>
                     <div class="header-right">
                         <div class="dropdown">

@@ -48,9 +48,11 @@ namespace Wolmart.Ecommerce.Services
             return cartVMs;
         }
 
-        public Task<List<CartVM>> GetCarts()
+        public async Task<IDictionary<string, string>> GetSetting()
         {
-            throw new System.NotImplementedException();
+            IDictionary<string, string> settings = await _context.Settings.ToDictionaryAsync(x=>x.Key,x=>x.Value);
+
+            return settings;
         }
     }
 }
