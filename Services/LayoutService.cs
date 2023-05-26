@@ -4,12 +4,13 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
+using Wolmart.Ecommerce.Interfaces;
 using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.ViewModels.CartViewModels;
 
 namespace Wolmart.Ecommerce.Services
 {
-    public class LayoutService
+    public class LayoutService : ILayoutService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AppDbContext _context;
@@ -45,6 +46,11 @@ namespace Wolmart.Ecommerce.Services
             }
 
             return cartVMs;
+        }
+
+        public Task<List<CartVM>> GetCarts()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,0 +1,11 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Wolmart.Ecommerce.ViewModels.CartViewModels;
+
+namespace Wolmart.Ecommerce.Interfaces
+{
+    public interface ILayoutService
+    {
+        Task<List<CartVM>> GetCart();
+    }
+}

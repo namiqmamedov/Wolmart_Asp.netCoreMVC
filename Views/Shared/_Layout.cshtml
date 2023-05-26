@@ -1,5 +1,5 @@
-﻿@using Wolmart.Ecommerce.Services
-@inject LayoutService layoutService
+﻿@using Wolmart.Ecommerce.Interfaces
+@inject ILayoutService layoutService
 
 @{
     List<CartVM> cartVMs = await layoutService.GetCart();
