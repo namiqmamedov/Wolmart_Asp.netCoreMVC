@@ -21,10 +21,8 @@ namespace Wolmart.Ecommerce.ViewComponents
             _context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(IDictionary<string, string> settings)
         {
-
-            IDictionary<string,string> settings = await _context.Settings.ToDictionaryAsync(x=>x.Key,x=>x.Value);
 
             List<CartVM> cartVMs = null;
 

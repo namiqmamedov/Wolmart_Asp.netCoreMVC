@@ -1,0 +1,55 @@
+﻿@model List<Slider>
+
+     <div class="swiper-wrapper">
+                        @foreach(Slider item in Model){
+                            <div class="swiper-slide banner banner-fixed intro-slide intro-slide2"
+                            style="background-image: url(/assets/images/demos/demo1/sliders/@item.BackgroundImage); background-color: #ebeef2;">
+                            <div class="container">
+                                <figure class="slide-image skrollable slide-animate" data-animation-options="{
+                                    'name': 'fadeInUpShorter',
+                                    'duration': '1s'
+                                }">
+                                    <img src="~/assets/images/demos/demo1/sliders/@item.Image" alt="Banner"
+                                     data-bottom-top="transform: translateX(10vh);"
+                                     data-top-bottom="transform: translateX(-10vh);"
+                                     width="480" height="633">
+                                </figure>
+                                <div class="banner-content d-inline-block y-50">
+                                    <h5 class="banner-subtitle font-weight-normal text-default ls-50 slide-animate"
+                                        data-animation-options="{
+                                        'name': 'fadeInUpShorter',
+                                        'duration': '1s',
+                                        'delay': '.2s'
+                                    }">
+                                        @Html.Raw(item.MainTitle);
+                                    </h5>
+                                    <h3 class="banner-title font-weight-bolder text-dark mb-0 ls-25 slide-animate"
+                                        data-animation-options="{
+                                        'name': 'fadeInUpShorter',
+                                        'duration': '1s',
+                                        'delay': '.4s'
+                                    }">
+                                        @item.SubTitle
+                                    </h3>
+                                    <p class="font-weight-normal text-default slide-animate" data-animation-options="{
+                                        'name': 'fadeInUpShorter',
+                                        'duration': '1s',
+                                        'delay': '.8s'
+                                    }">
+                                        @item.Description
+                                    </p>
+                                    <a href="@item.RedirectURL"
+                                        class="btn btn-dark btn-outline btn-rounded btn-icon-right slide-animate"
+                                        data-animation-options="{
+                                        'name': 'fadeInUpShorter',
+                                        'duration': '1s',
+                                        'delay': '1s'
+                                    }">
+                                        SHOP NOW<i class="w-icon-long-arrow-right"></i>
+                                    </a>
+                                </div>
+                                <!-- End of .banner-content -->
+                            </div>
+                        </div>
+                        };
+                    </div>
