@@ -1,4 +1,5 @@
 ﻿@model List<CartVM>  
+
 <div class="cart-overlay"></div>
 
     <a href="#" class="cart-toggle label-down link">
@@ -25,7 +26,7 @@
                                 </div>
                                 <figure class="product-media">
                                     <a href="product-default.html">
-                                        <img src="~/assets/images/cart/product-1.jpg" alt="product" height="84" width="94">
+                                        <img src="~/assets/images/shop/@cartVM.Image" alt="product" height="84" width="94">
                                     </a>
                                 </figure>
                                 <a asp-controller="cart" asp-action="DeleteCart" asp-route-id="@cartVM.ProductID" id="deleteCart"  class="btn btn-link btn-close" aria-label="button">

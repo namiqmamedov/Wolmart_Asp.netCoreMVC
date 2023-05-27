@@ -441,12 +441,12 @@
                                                 <div class="product-price">
                                                 @if(product.DiscountedPrice > 0)
                                                 {
-                                                    <ins class="new-price">$30.00</ins>
-                                                    <del class="old-price">$60.00</del>
+                                                    <ins class="new-price">$@product.DiscountedPrice</ins>
+                                                    <del class="old-price">@product.Price</del>
                                                 }
                                                 else
                                                 {
-                                                    <del class="old-price">$60.00</del>
+                                                    <del class="old-price">$@product.Price</del>
                                                 }
 
                                                     @*@product.DiscountedPrice > 0 ?  <ins class="new-price">$30.00</ins> <del class="old-price">$60.00</del> 

@@ -5,7 +5,10 @@ namespace Wolmart.Ecommerce.Models
     public class Slider
     {
         public int ID { get; set; }
-        [Required,StringLength(1000)]
+        [Required, StringLength(1024)]
+        public string BackgroundImage { get; set; }
+
+        [Required,StringLength(1024)]
         public string Image { get; set; }
         [Required, StringLength(1024)]
         public string MainTitle { get; set; }
@@ -16,6 +19,6 @@ namespace Wolmart.Ecommerce.Models
         [Required, StringLength(1024)]
         public string BannerSubTitle { get; set; }
         [Required, StringLength(1024)]
-        public string RedirectURL { get; set; }
+        public string RedirectURL { get; set; } 
     }
 }

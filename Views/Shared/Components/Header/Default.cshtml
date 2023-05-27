@@ -51,7 +51,7 @@
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger" aria-label="menu-toggle">
                         </a>
-                        <a href="demo1.html" class="logo ml-lg-0">
+                        <a  asp-controller="home" class="logo ml-lg-0">
                             <img src="~/assets/images/@Model.Settings.FirstOrDefault(x=>x.Key == "HeaderLogo").Value" alt="logo" width="144" height="45" />
                         </a>
                         <form method="get" action="#" class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
@@ -85,7 +85,7 @@
                             <div class="call-info d-lg-show">
                                 <h4 class="chat font-weight-normal font-size-md text-normal ls-normal text-light mb-0">
                                     <a href="https://portotheme.com/cdn-cgi/l/email-protection#4261" class="text-capitalize">Live Chat</a> or :</h4>
-                                <a href="tel:#" class="phone-number font-weight-bolder ls-50">0(800)123-456</a>
+                                <a href="tel:#" class="phone-number font-weight-bolder ls-50">0(800)123-456</a> 
                             </div>
                         </div>
                         <a class="wishlist label-down link d-xs-show" href="wishlist.html">
@@ -97,7 +97,7 @@
                             <span class="compare-label d-lg-show">Compare</span>
                         </a>
                         <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
-                                @await Html.PartialAsync("_CartPartial",Model.CartVMs);
+                                @await Html.PartialAsync("_CartPartial",Model.CartVMs)
                             <!-- End of Dropdown Box -->
                         </div>
                     </div>

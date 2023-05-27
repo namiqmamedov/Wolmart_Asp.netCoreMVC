@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections;
@@ -33,10 +33,6 @@ namespace Wolmart.Ecommerce.ViewComponents
             if (!string.IsNullOrWhiteSpace(cart)) 
             {
                 cartVMs = JsonConvert.DeserializeObject<List<CartVM>>(cart);
-            }
-            else
-            {
-                cartVMs = new List<CartVM>();
 
                 foreach (CartVM cartVM in cartVMs)
                 {
@@ -46,6 +42,10 @@ namespace Wolmart.Ecommerce.ViewComponents
                     cartVM.Name = product.Name;
                     cartVM.Price = product.DiscountedPrice > 0 ? product.DiscountedPrice : product.Price;
                 }
+            }
+            else
+            {
+                cartVMs = new List<CartVM>();
             }
 
             HeaderVM headerVM = new HeaderVM
