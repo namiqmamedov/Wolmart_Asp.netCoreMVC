@@ -26,6 +26,12 @@ namespace Wolmart.Ecommerce.Models
         public string MainImage { get; set; }
         public string HoverImage { get; set; }
 
+        public bool IsNewArrival { get; set; }
+        public bool IsBestSeller { get; set; }
+        public bool IsMostPopular { get; set; }
+        public bool IsFeatured { get; set; }
+
+
         public IEnumerable<ProductImage> ProductImages { get; set; }
     }
 }
