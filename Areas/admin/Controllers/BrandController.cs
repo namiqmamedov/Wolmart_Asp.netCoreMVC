@@ -54,5 +54,27 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
             return View(brand);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(int? id,Brand brand)
+        {
+            if (!ModelState.IsValid) return View(); 
+            if(id == null) return BadRequest();
+            if (id != brand.ID)
+            {
+                return BadRequest();
+            }
+
+            Brand dbBrand = await _context.Brands.FirstOrDefaultAsync(p => p.ID == id);
+
+            if (dbBrand == null) { return NotFound(); }
+
+            dbBrand.Image = brand.Image;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("index");
+
+        }
     }
 }

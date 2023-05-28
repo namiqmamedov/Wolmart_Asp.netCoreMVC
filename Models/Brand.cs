@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Wolmart.Ecommerce.Models
 {
-    public class Brand
+    public class Brand : BaseEntity
     {
         public int ID { get; set; }
         [StringLength(1000)]
