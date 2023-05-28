@@ -14,6 +14,7 @@
 
     <!-- Core css -->
     <link href="~/admin/assets/css/app.min.css" rel="stylesheet">
+    <link href="~/admin/assets/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -227,9 +228,9 @@
                     </li>
                     <li class="nav-group-title">APPS</li>
                     <li class="nav-menu-item">
-                        <a href="v-mail.html">
+                        <a asp-controller="product" asp-action="index">
                             <i class="feather icon-mail"></i>
-                            <span class="nav-menu-item-title">Mail</span>
+                            <span class="nav-menu-item-title">Product</span>
                         </a>
                     </li>
                     <li class="nav-menu-item">
@@ -425,7 +426,7 @@
             <!-- Side Nav END -->
             <!-- Content START -->
             <div class="content">
-               @RenderBody();
+               @RenderBody()
                 <!-- Footer START -->
                 <div class="footer">
                     <div class="footer-content">

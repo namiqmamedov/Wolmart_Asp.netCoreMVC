@@ -1,0 +1,49 @@
+﻿.content {
+    margin-left: 50px;
+    padding-left: 100px;
+    padding-right: 100px;
+    background: white;
+}
+
+.content .table{
+    margin-top: -150px;
+}
+
+.content h1{
+    margin-top: 50px;
+}
+
+.new-post {
+    margin-top: 55px;
+}
+
+
+.form-input input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-input input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-input input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+.form-input {
+    border-radius: 5px;
+    padding: 10px;
+}
