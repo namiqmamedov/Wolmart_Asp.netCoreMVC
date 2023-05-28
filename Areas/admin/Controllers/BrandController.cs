@@ -2,6 +2,8 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Models;
@@ -18,7 +20,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Brands.ToListAsync());
+            return View(await _context.Brands.Where(p => !p.IsDeleted).ToListAsync());
         }
 
         [HttpGet]
@@ -32,6 +34,8 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         public async Task<IActionResult> Create(Brand brand)
         {
             if (!ModelState.IsValid)  return View();
+
+            brand.CreatedAt = DateTime.UtcNow.AddHours(+4);
 
             await _context.Brands.AddAsync(brand);
 
@@ -70,6 +74,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
             if (dbBrand == null) { return NotFound(); }
 
             dbBrand.Image = brand.Image;
+            dbBrand.UpdatedAt = DateTime.UtcNow.AddHours(+4);
 
             await _context.SaveChangesAsync();
 
