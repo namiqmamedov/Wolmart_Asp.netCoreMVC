@@ -15669,6 +15669,8 @@ body .product-popup {
   font-weight: 600;
   margin: 0;
   line-height: 1.7rem;
+  margin-left: -4px !important;
+  margin-top: -4px !important;
 }
 
 .category-dropdown > a {
