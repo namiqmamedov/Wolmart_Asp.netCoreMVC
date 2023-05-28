@@ -23,14 +23,14 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
-        {
-            if(!ModelState.IsValid) { return View();}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(Product product)
+        //{
+        //    if(!ModelState.IsValid) { return View();}
 
-            return View();
-        }
+        //    return View();
+        //}
 
 
     }

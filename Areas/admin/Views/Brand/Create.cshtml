@@ -1,0 +1,27 @@
+﻿@model Brand
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+
+<div class="form-input">
+  <form method="POST" asp-controller="brand" asp-action="create" asp-area="admin">
+    <label asp-for="Image">First Name</label>
+    <input asp-for="Image" placeholder="Your name..">
+    <span class="text-danger" asp-validation-for="Image"></span>
+
+    <label for="lname">Last Name</label>
+    <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+    <label for="country">Country</label>
+    <select id="country" name="country">
+      <option value="australia">Australia</option>
+      <option value="canada">Canada</option>
+      <option value="usa">USA</option>
+    </select>
+  
+    <input type="submit" value="Submit">
+  </form>
+</div>
