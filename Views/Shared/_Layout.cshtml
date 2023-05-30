@@ -626,6 +626,32 @@
     <!-- Main JS -->
     <script src="~/assets/js/main.min.js"></script>
     <script src="~/assets/js/script.js" asp-append-version="true"></script>
+
+    <script>
+        $(document.ready(function () {
+        Command: toastr["success"]("Clear itself?<br /><br /><button type="button" class="btn clear">Yes</button>")
+
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": 0,
+          "extendedTimeOut": 0,
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut",
+          "tapToDismiss": false
+        } 
+        })   
+    </script>
+
 <script>(function(){var js = "window['__CF$cv$params']={r:'7cac68295c258ec2',m:'EhmqnA6ZtunpgLWMh9n.G.MU0oTlf2fO8xkV9ctFx.I-1684667782-0-AWPyjIy+wU9mTXFsRSEriCAY4QxqCDNam4dnZrThuF5Q',u:'/cdn-cgi/challenge-platform/h/g'};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='../../cdn-cgi/challenge-platform/h/g/scripts/jsd/7fe8adc8/invisible.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.nonce = '';_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
 
 </html>

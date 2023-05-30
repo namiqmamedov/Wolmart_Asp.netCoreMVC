@@ -1,4 +1,5 @@
-﻿@model Brand
+﻿
+@model Brand
 
 @{
     ViewData["Title"] = "Update";
@@ -13,16 +14,10 @@
     <input asp-for="Image" placeholder="Your name..">
     <span class="text-danger" asp-validation-for="Image"></span>
 
-    <label for="lname">Last Name</label>
-    <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-
-    <label for="country">Country</label>
-    <select id="country" name="country">
-      <option value="australia">Australia</option>
-      <option value="canada">Canada</option>
-      <option value="usa">USA</option>
-    </select>
-  
-    <input type="submit" value="Submit">
+    <button type="submit" value="Submit">Update</button> 
   </form>
 </div>
+
+@section Script{
+    <partial name="_ValidationPartial">
+}

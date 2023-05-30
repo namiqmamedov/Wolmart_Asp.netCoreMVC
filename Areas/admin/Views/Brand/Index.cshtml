@@ -11,7 +11,7 @@
         <h1>Products</h1>
     </div>
     <div class="col-lg-10 text-end new-post">
-        <a asp-controller="product" asp-action="create" asp-area="admin">New Post</a>
+        <a asp-controller="brand" asp-action="create" asp-area="admin" class="btn btn-success">New Post</a>
     </div>
 </div>
 
@@ -30,13 +30,13 @@
               <th>@counter</th>
               <td>@item.Image</td>
               <td>
-                  <a class="btn btn-primary">
+                   <a asp-controller="brand" asp-action="update" asp-area="admin" asp-route-id="@item.ID" class="btn btn-primary">
                       <i class="fa-solid fa-pen-to-square"></i>
                   </a>
-                  <a class="btn btn-danger">
+                  <a asp-controller="brand" asp-action="delete" asp-area="admin" asp-route-id="@item.ID" class="btn btn-danger">
                       <i class="fa-regular fa-trash-can"></i>
                   </a>
-                  <a class="btn btn-white">
+                  <a class="btn btn-secondary">
                     <i class="fa-solid fa-circle-info"></i>
                   </a>
               </td>

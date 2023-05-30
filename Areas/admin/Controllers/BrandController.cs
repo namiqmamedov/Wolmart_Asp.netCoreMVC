@@ -35,11 +35,18 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         {
             if (!ModelState.IsValid)  return View();
 
+            if (await _context.Brands.AnyAsync(p => p.Image.ToLower().Trim() == brand.Image.ToLower().Trim() && p.IsDeleted))
+            {
+                ModelState.AddModelError("Image", $"{brand.Image} is already exists.");
+            }
+
             brand.CreatedAt = DateTime.UtcNow.AddHours(+4);
 
             await _context.Brands.AddAsync(brand);
 
             await _context.SaveChangesAsync();
+
+            TempData["success"] = "My name is Inigo Montoya. You killed my father. Prepare to die!";
 
             return RedirectToAction("index");   
        
@@ -48,25 +55,34 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int? id)
         {
-            if (!ModelState.IsValid) return View();
+            //if (!ModelState.IsValid) return View();
 
             if(id == null) return BadRequest();
             
             Brand brand = await _context.Brands.FirstOrDefaultAsync(p=>p.ID == id); 
             
-            if (brand == null) { return NotFound();}
+            if (brand == null)  return NotFound();
 
             return View(brand);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id,Brand brand)
         {
             if (!ModelState.IsValid) return View(); 
+
             if(id == null) return BadRequest();
+
             if (id != brand.ID)
             {
                 return BadRequest();
+            }
+
+            if (await _context.Brands.AnyAsync(p => p.ID != brand.ID && p.IsDeleted && p.Image.ToLower().Trim() == brand.Image.ToLower().Trim()))
+            {
+                ModelState.AddModelError("Image", $"{brand.Image} is already exists.");
+                return View();
             }
 
             Brand dbBrand = await _context.Brands.FirstOrDefaultAsync(p => p.ID == id);
@@ -80,6 +96,22 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
             return RedirectToAction("index");
 
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) return BadRequest();
+
+            Brand brand = await _context.Brands.FirstOrDefaultAsync(p => p.ID == id);
+
+            if (brand == null) { return NotFound(); }
+
+            brand.IsDeleted = true;
+            brand.DeletedAt = DateTime.UtcNow.AddHours(+4);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("index");
         }
     }
 }
