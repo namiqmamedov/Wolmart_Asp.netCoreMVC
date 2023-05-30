@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Models;
+using Wolmart.Ecommerce.ViewModels;
 
 namespace Wolmart.Ecommerce.Areas.admin.Controllers
 {
@@ -24,15 +25,16 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         {
             IQueryable<Brand> query = _context.Brands;
 
-            ViewBag.PageCount = (int)Math.Round((decimal)query.Count() / 5); 
-            ViewBag.Page = page;
-            List<Brand> brands = await _context.Brands.Skip((page - 1) * 5).Take(5).ToListAsync();
-            ViewBag.ItemCount =  brands.Count;
-            return View(brands);
+            int itemCount = int.Parse(_context.Settings.FirstOrDefault(x => x.Key == "PageItem").Value);
+
+            //ViewBag.PageCount = (int)Math.Ceiling((decimal)query.Count() / itemCount); 
+            //ViewBag.Page = page;
+            //List<Brand> brands = await query.Skip((page - 1) * itemCount).Take(itemCount).ToListAsync();
+            //ViewBag.ItemCount = itemCount;
+            return View(PagenationList<Brand>.Create(query, page, itemCount));
         }
 
         [HttpGet]
-
         public IActionResult Create()
         {
             return View();

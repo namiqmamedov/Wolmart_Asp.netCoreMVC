@@ -1,7 +1,7 @@
-﻿@model List<Brand>  
+﻿@model PagenationList<Brand>
 
 @{
-    int counter = ((ViewBag.Page * 5) - ViewBag.ItemCount) + 1;
+    int counter  = Model.ItemCount * (Model.Page - 1);
 }
 
   <table class="table table-hover table-bordered table-striped">
@@ -16,6 +16,8 @@
   <tbody>
     @foreach (Brand item in Model)
     {
+            counter++;
+
             <tr>    
               <th>@counter</th>
               <td>@item.Image</td>
@@ -44,7 +46,6 @@
                   </a>
               </td>
             </tr>
-            counter++;
     }
   </tbody>
 </table>
