@@ -1,10 +1,10 @@
 ﻿@model List<Brand>  
 
 @{
-    int counter = 1;
+    int counter = ((ViewBag.Page * 5) - ViewBag.ItemCount) + 1;
 }
 
-    <table class="table table-hover table-bordered table-striped">
+  <table class="table table-hover table-bordered table-striped">
   <thead>
     <tr>
       <th scope="col">#</th>

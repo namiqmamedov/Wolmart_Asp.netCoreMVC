@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
@@ -18,9 +20,15 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Brands.ToListAsync());
+            IQueryable<Brand> query = _context.Brands;
+
+            ViewBag.PageCount = (int)Math.Round((decimal)query.Count() / 5); 
+            ViewBag.Page = page;
+            List<Brand> brands = await _context.Brands.Skip((page - 1) * 5).Take(5).ToListAsync();
+            ViewBag.ItemCount =  brands.Count;
+            return View(brands);
         }
 
         [HttpGet]
