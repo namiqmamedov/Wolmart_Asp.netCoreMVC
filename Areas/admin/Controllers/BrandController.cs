@@ -20,7 +20,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Brands.Where(p => !p.IsDeleted).ToListAsync());
+            return View(await _context.Brands.ToListAsync());
         }
 
         [HttpGet]
@@ -46,7 +46,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
             await _context.SaveChangesAsync();
 
-            TempData["success"] = "My name is Inigo Montoya. You killed my father. Prepare to die!";
+            TempData["success"] = "Great! You have created successfully.";
 
             return RedirectToAction("index");   
        
@@ -111,7 +111,23 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("index");
+            return PartialView("_BrandIndexPartial", await _context.Brands.Where(p => !p.IsDeleted).ToListAsync());
+        }
+
+        public async Task<IActionResult> Restore(int? id)
+        {
+            if (id == null) return BadRequest();
+
+            Brand brand = await _context.Brands.FirstOrDefaultAsync(p => p.ID == id);
+
+            if (brand == null) { return NotFound(); }
+
+            brand.IsDeleted = false;
+            brand.DeletedAt = null ;
+
+            await _context.SaveChangesAsync();
+
+            return PartialView("_BrandIndexPartial", await _context.Brands.ToListAsync());
         }
     }
 }

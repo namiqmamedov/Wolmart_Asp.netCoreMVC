@@ -1,0 +1,50 @@
+﻿@model List<Brand>  
+
+@{
+    int counter = 1;
+}
+
+    <table class="table table-hover table-bordered table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Image</th>
+      <th scope="col">Status</th>
+      <th scope="col">Settings</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (Brand item in Model)
+    {
+            <tr>    
+              <th>@counter</th>
+              <td>@item.Image</td>
+              <td style="color:@(item.IsDeleted ? "red":"green")">
+                  @(item.IsDeleted ? "Deactive":"Active")
+              </td>
+              <td>
+                   <a asp-controller="brand" asp-action="update" asp-area="admin" asp-route-id="@item.ID" class="btn btn-primary">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                  </a>
+
+                    @if (item.IsDeleted)
+                    {
+                        <a asp-controller="brand" asp-action="restore" asp-area="admin" asp-route-id="@item.ID" id="restoreBtn" class="btn btn-primary">
+                          <i class="fa-solid fa-arrow-rotate-right"></i>
+                        </a>
+                    }
+                    else
+                    {
+                         <a asp-controller="brand" asp-action="delete" asp-area="admin" asp-route-id="@item.ID" id="deleteBtn" class="btn btn-danger">
+                              <i class="fa-regular fa-trash-can"></i>
+                          </a>
+                    }
+                  <a class="btn btn-secondary">
+                    <i class="fa-solid fa-circle-info"></i>
+                  </a>
+              </td>
+            </tr>
+            counter++;
+    }
+  </tbody>
+</table>

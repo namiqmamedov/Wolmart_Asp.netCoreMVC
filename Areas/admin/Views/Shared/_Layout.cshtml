@@ -18,7 +18,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/brands.min.css" integrity="sha512-9YHSK59/rjvhtDcY/b+4rdnl0V4LPDWdkKceBl8ZLF5TB6745ml1AfluEU6dFWqwDw9lPvnauxFgpKvJqp7jiQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/fontawesome.min.css" integrity="sha512-SgaqKKxJDQ/tAUAAXzvxZz33rmn7leYDYfBP+YoMRSENhf3zJyx3SBASt/OfeQwBHA1nxMis7mM3EV/oYT6Fdw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="~/admin/assets/css/sweetalert2.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+        
 
 </head>
 
@@ -172,9 +174,9 @@
                             <div class="dropdown header-nav-item-select nav-profile" >
                                 <div class="toggle-wrapper" id="nav-profile-dropdown" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-circle avatar-image" style="width: 35px; height: 35px; line-height: 35px;">
-                                        <img src="~/admin/assets/images/avatars/thumb-1.jpg" alt="">
+                                        <img src="~/admin/assets/images/avatars/thumb-14.jpg" alt="">
                                     </div>
-                                    <span class="fw-bold mx-1">Julio Baker</span>
+                                    <span class="fw-bold mx-1">Namiq Mamedov</span>
                                     <i class="feather icon-chevron-down"></i>
                                 </div>
                                 <div class="dropdown-menu dropdown-menu-end">
@@ -541,42 +543,11 @@
 
     <!-- Core JS -->
     <script src="~/admin/assets/js/app.min.js"></script>
+    <script src="~/admin/assets/js/script.js" asp-append-version="true"></script>
+    <script src="~/admin/assets/js/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <script>
-        $(document).ready(function () {
-        //Command: toastr["success"]("Clear itself?<br /><br /><button type="button" class="btn clear">Yes</button>")
-
-        toastr.options = {
-          "closeButton": true,
-          "debug": false,
-          "newestOnTop": false,
-          "progressBar": true,
-          "positionClass": "toast-top-right",
-          "preventDuplicates": false,
-          "onclick": null,
-          "showDuration": "300",
-          "hideDuration": "1000",
-          "timeOut": 0,
-          "extendedTimeOut": 0,
-          "showEasing": "swing",
-          "hideEasing": "linear",
-          "showMethod": "fadeIn",
-          "hideMethod": "fadeOut",
-          "tapToDismiss": false
-        }
-
-        if ($('#successInput').val().length) 
-        {
-            toastr["success"]($('#successInput').val())
-        }
-
-        })   
-    </script>
-
-        @RenderSection("Script",false)
-
-
+    @RenderSection("Script",false)
 </body>
 
 </html>
