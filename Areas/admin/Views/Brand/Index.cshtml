@@ -42,7 +42,7 @@
                        <li class="page-item"><a class="page-link" asp-area="admin" asp-controller="brand" asp-action="index" asp-route-page="@i">@i</a></li>   
                   }
                     
-                    @if (Model.Page < ViewBag.PageCount)
+                    @if (Model.HasNext)
                     {
                         <li class="page-item">
                                   <a class="page-link" asp-area="admin" asp-controller="brand" asp-action="index" asp-route-page="@(Model.Page+1)" aria-label="Next">
@@ -51,7 +51,7 @@
                                   </a>
                                 </li>
                                 <li class="page-item">
-                                  <a class="page-link" asp-area="admin" asp-controller="brand" asp-action="index" asp-route-page="@(Model.PageCount)"  aria-label="Next">
+                                  <a class="page-link" asp-area="admin" asp-controller="brand" asp-action="index" asp-route-page="@Model.PageCount"  aria-label="Next">
                                     <span aria-hidden="true">&raquo;&raquo;</span>
                                     <span class="sr-only">Next</span>
                                   </a>

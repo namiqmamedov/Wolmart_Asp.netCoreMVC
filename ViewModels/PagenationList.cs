@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Wolmart.Ecommerce.ViewModels
             ItemCount = itemcount;
             HasNext = page < pagecount;
             HasPrev = page > 1;
+            this.AddRange(query);
         }
 
         public int Page { get;}
@@ -24,7 +26,12 @@ namespace Wolmart.Ecommerce.ViewModels
 
         public static PagenationList<T> Create(IQueryable<T> query, int page, int itemCount)
         {
-              int pageCount = (int)Math.Ceiling((decimal)query.Count() / itemCount);
+
+            int pageCount = (int)Math.Ceiling((decimal)query.Count() / itemCount);
+
+            page  = page < 1 ||  page > pageCount ? 1 : page;   
+
+            query = query.Skip((page - 1) * itemCount).Take(itemCount);
 
             return new PagenationList<T>(query,page,pageCount,itemCount);
         }
