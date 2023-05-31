@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+
     $(document).on('click', '#deleteBtn', function (e) {
         e.preventDefault();
 
@@ -54,6 +55,26 @@
                 )
             }
         })
+    })   
+
+    if ($('.isMain').is(":checked")) {
+        $('.imageContainer').removeClass('d-none')
+        $('.parentContainer').addClass('d-none')
+    }
+    else {
+        $('.imageContainer').addClass('d-none')
+        $('.parentContainer').removeClass('d-none')
+    }
+
+    $(document).on('change', '.isMain', function () {
+        if ($(this).is(":checked")) {
+            $('.imageContainer').removeClass('d-none')
+            $('.parentContainer').addClass('d-none')
+        }
+        else {
+            $('.imageContainer').addClass('d-none')
+            $('.parentContainer').removeClass('d-none')
+        }
     })
 
     toastr.options = {

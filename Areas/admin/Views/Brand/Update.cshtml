@@ -9,12 +9,12 @@
 
 
 <div class="form-input">
-  <form method="POST" asp-controller="brand" asp-action="create" asp-area="admin">
+  <form method="POST" asp-controller="brand" asp-action="update" asp-area="admin">
     <label asp-for="Image">First Name</label>
     <input asp-for="Image" placeholder="Your name..">
     <span class="text-danger" asp-validation-for="Image"></span>
 
-    <button type="submit" value="Submit">Update</button> 
+    <button type="submit">Update</button> 
   </form>
 </div>
 

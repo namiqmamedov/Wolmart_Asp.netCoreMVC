@@ -22,6 +22,9 @@ namespace Wolmart.Ecommerce.Models
         public int Count { get; set; }
 
         public int BrandID { get; set; }
+
+        public int? CategoryID { get; set; }
+        public Category Category { get; set; }
         public Brand Brand { get; set; }
         public string MainImage { get; set; }
         public string HoverImage { get; set; }

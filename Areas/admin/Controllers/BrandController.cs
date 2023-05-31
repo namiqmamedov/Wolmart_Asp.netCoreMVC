@@ -48,6 +48,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
             if (await _context.Brands.AnyAsync(p => p.Image.ToLower().Trim() == brand.Image.ToLower().Trim() && p.IsDeleted))
             {
                 ModelState.AddModelError("Image", $"{brand.Image} is already exists.");
+                return View();
             }
 
             brand.CreatedAt = DateTime.UtcNow.AddHours(+4);
@@ -65,9 +66,9 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int? id)
         {
-            //if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid) return View();
 
-            if(id == null) return BadRequest();
+            if (id == null) return BadRequest();
             
             Brand brand = await _context.Brands.FirstOrDefaultAsync(p=>p.ID == id); 
             
@@ -80,8 +81,6 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int? id,Brand brand)
         {
-            if (!ModelState.IsValid) return View(); 
-
             if(id == null) return BadRequest();
 
             if (id != brand.ID)
@@ -97,7 +96,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
             Brand dbBrand = await _context.Brands.FirstOrDefaultAsync(p => p.ID == id);
 
-            if (dbBrand == null) { return NotFound(); }
+            if (dbBrand == null)  return NotFound(); 
 
             dbBrand.Image = brand.Image;
             dbBrand.UpdatedAt = DateTime.UtcNow.AddHours(+4);
