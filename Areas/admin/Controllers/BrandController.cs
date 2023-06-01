@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.ViewModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Wolmart.Ecommerce.Areas.admin.Controllers
 {
@@ -107,7 +109,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, int page)
         {
             if (id == null) return BadRequest();
 
@@ -117,13 +119,16 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
             brand.IsDeleted = true;
             brand.DeletedAt = DateTime.UtcNow.AddHours(+4);
-
             await _context.SaveChangesAsync();
 
-            return PartialView("_BrandIndexPartial", await _context.Brands.Where(p => !p.IsDeleted).ToListAsync());
+            IQueryable<Brand> query = _context.Brands;
+
+            int itemCount = int.Parse(_context.Settings.FirstOrDefault(x => x.Key == "PageItem").Value);
+
+            return PartialView("_BrandIndexPartial", PagenationList<Brand>.Create(query, page, itemCount));
         }
 
-        public async Task<IActionResult> Restore(int? id)
+        public async Task<IActionResult> Restore(int? id,int page)
         {
             if (id == null) return BadRequest();
 
@@ -136,7 +141,11 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
             await _context.SaveChangesAsync();
 
-            return PartialView("_BrandIndexPartial", await _context.Brands.ToListAsync());
+            IQueryable<Brand> query = _context.Brands;
+
+            int itemCount = int.Parse(_context.Settings.FirstOrDefault(x => x.Key == "PageItem").Value);
+
+            return PartialView("_BrandIndexPartial", PagenationList<Brand>.Create(query, page, itemCount));
         }
     }
 }

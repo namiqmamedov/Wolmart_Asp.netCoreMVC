@@ -38,9 +38,9 @@
                             </li>
                     }
                     @for(int i = 1; i <= Model.PageCount; i++)
-                  {
-                       <li class="page-item"><a class="page-link" asp-area="admin" asp-controller="category" asp-action="index" asp-route-page="@i">@i</a></li>   
-                  }
+                    {
+                       <li class="page-item @(Model.Page == i ? "active" : "")"><a class="page-link" asp-area="admin" asp-controller="category" asp-action="index" asp-route-page="@i">@i</a></li>   
+                    }
                     
                     @if (Model.HasNext)
                     {

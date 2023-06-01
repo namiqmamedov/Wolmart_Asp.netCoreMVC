@@ -44,15 +44,28 @@
 
                 let url = $(this).attr('href');
 
-                fetch(url).then(res => res.text())
-                    .then(data => { $('.table-content').html(data) });
+                fetch(url).then(res => {
+                    if (res.status == 400) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                            footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+                    else {
 
+                        Swal.fire(
+                            'Restore!',
+                            'Your file has been restored.',
+                            'success'
+                        )
 
-                Swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                )
+                        return res.text();
+                    }
+                    
+                }).then(data => { $('.table-content').html(data) });
+
             }
         })
     })   

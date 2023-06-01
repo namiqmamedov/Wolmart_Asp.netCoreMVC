@@ -33,13 +33,13 @@
 
                     @if (item.IsDeleted)
                     {
-                        <a asp-controller="category" asp-action="restore" asp-area="admin" asp-route-id="@item.ID" id="restoreBtn" class="btn btn-primary">
+                        <a asp-controller="category" asp-action="restore" asp-area="admin" asp-route-id="@item.ID" asp-route-page="@Model.Page" id="restoreBtn" class="btn btn-primary">
                           <i class="fa-solid fa-arrow-rotate-right"></i>
                         </a>
                     }
                     else
                     {
-                         <a asp-controller="category" asp-action="delete" asp-area="admin" asp-route-id="@item.ID" id="deleteBtn" class="btn btn-danger">
+                         <a asp-controller="category" asp-action="delete" asp-area="admin" asp-route-id="@item.ID" asp-route-page="@Model.Page" id="deleteBtn" class="btn btn-danger">
                               <i class="fa-regular fa-trash-can"></i>
                           </a>
                     }
