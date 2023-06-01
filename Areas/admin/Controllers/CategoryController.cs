@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Extensions;
+using Wolmart.Ecommerce.Helpers;
 using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.ViewModels;
 
@@ -78,13 +79,13 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
             if (category.File != null)
             {
-                if (category.File.ContentType != "image/png")
+                if (!category.File.CheckContentType("image/png"))
                 {
                     ModelState.AddModelError("File", "Photo type must have been image extension");
                     return View();
                 }
 
-                if ((category.File.Length / 1024) > 15)
+                if (category.File.CheckFileLength(15))
                 {
                     ModelState.AddModelError("File", "Your file must be a maximum of 15 kb");
                     return View();
@@ -139,20 +140,11 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
             if (id != category.ID) return BadRequest();
 
-            if (category.IsMain && category.Image == null) 
+            if (category.IsMain || (category.ParentID == null || !await _context.Categories.AnyAsync(p => p.ID == category.ParentID && p.IsMain && !p.IsDeleted)))
             {
-                ModelState.AddModelError("Image", "Photo is required");
+                ModelState.AddModelError("ParentID", "Main category required");
 
                 return View(category);
-            }
-            else
-            {
-                if(category.ParentID == null || !await _context.Categories.AnyAsync(p => p.ID == category.ParentID && p.IsMain && !p.IsDeleted))
-                {
-                    ModelState.AddModelError("ParentID", "Main category required");
-
-                    return View(category);
-                }
             }
 
             Category dbCategory = await _context.Categories.FirstOrDefaultAsync(p => !p.IsDeleted && p.ID == category.ID);
@@ -167,9 +159,29 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
                 return View(category);
             }
 
+
+            if (category.File != null)
+            {
+                if (!category.File.CheckContentType("image/png"))
+                {
+                    ModelState.AddModelError("File", "Photo type must have been image extension");
+                    return View(category);
+                }
+
+                if (category.File.CheckFileLength(15))
+                {
+                    ModelState.AddModelError("File", "Your file must be a maximum of 15 kb");
+                    return View(category);
+                }
+
+                FileHelper.DeleteFile(_env, dbCategory.Image, "admin","assets","images");
+
+                dbCategory.Image = await category.File.CreateAsync(_env, "admin", "assets", "images");
+            }
+
+
             dbCategory.Name = category.Name.Trim();
             dbCategory.IsMain = category.IsMain;
-            dbCategory.Image = category.Image;
             dbCategory.ParentID = category.IsMain ? null : category.ParentID;
             dbCategory.UpdatedAt = DateTime.UtcNow.AddHours(+4);
 

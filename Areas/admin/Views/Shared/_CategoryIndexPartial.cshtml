@@ -21,7 +21,9 @@
 
             <tr>    
               <th>@counter</th>
-              <td>@item.Image</td>
+              <td>
+                  <img class="img-fluid" src="~/admin/assets/images/@item.Image"/>
+              </td>
               <td>@item.Name</td>
               <td style="color:@(item.IsDeleted ? "red":"green")">
                   @(item.IsDeleted ? "Deactive":"Active")

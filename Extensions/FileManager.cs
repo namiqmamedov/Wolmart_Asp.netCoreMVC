@@ -9,6 +9,16 @@ namespace Wolmart.Ecommerce.Extensions
 {
     public static class FileManager
     {
+        public static bool CheckContentType(this IFormFile file, string contentType)
+        {
+            return file.ContentType == contentType;
+        }
+
+        public static bool CheckFileLength(this IFormFile file, double fileLength)
+        {
+            return ((double)file.Length / 1024) > fileLength; // double kesriynen vermesi ucun
+        }
+
         public async static Task<string> CreateAsync(this IFormFile file, IWebHostEnvironment env, params string[] folders)
         {
             string fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
