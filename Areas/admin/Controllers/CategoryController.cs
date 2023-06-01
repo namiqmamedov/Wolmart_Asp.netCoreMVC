@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
+using Wolmart.Ecommerce.Extensions;
 using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.ViewModels;
 
@@ -89,18 +90,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
                     return View();
                 }
                 
-                string fileName = Guid.NewGuid().ToString()+"_" + category.File.FileName;
-
-                //string path = _env.WebRootPath + @"\admin\assets\images\" + fileName;
-
-                string path = Path.Combine(_env.WebRootPath, "admin", "assets", "images",fileName);
-
-                using (FileStream stream = new FileStream(path,FileMode.Create))
-                {
-                    await category.File.CopyToAsync(stream);
-                }
-
-                category.Image = category.File.FileName;
+                category.Image = await category.File.CreateAsync(_env,"admin","assets","images");
             }
 
 
