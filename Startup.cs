@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Interfaces;
+using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.Services;
 
 namespace Wolmart.Ecommerce
@@ -35,6 +37,20 @@ namespace Wolmart.Ecommerce
             });
 
             services.AddDbContext<AppDbContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+                options.Lockout.MaxFailedAccessAttempts = 4;
+               
+            }).AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
 
             services.AddScoped<ILayoutService, LayoutService>();
 
