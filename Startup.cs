@@ -41,7 +41,6 @@ namespace Wolmart.Ecommerce
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
-                options.Password.RequiredLength = 8;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -65,9 +64,12 @@ namespace Wolmart.Ecommerce
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseRouting();
+
             app.UseStaticFiles();
 
-            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

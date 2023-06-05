@@ -10,10 +10,13 @@ namespace Wolmart.Ecommerce.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
-        public AccountController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
+        private readonly SignInManager<AppUser> _signInManager; 
+        public AccountController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _signInManager = signInManager;
+
         }
         public IActionResult Index()
         {
@@ -28,6 +31,10 @@ namespace Wolmart.Ecommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM registerVM)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
 
             AppUser appUser = new AppUser
             {
@@ -50,7 +57,51 @@ namespace Wolmart.Ecommerce.Controllers
 
             await _userManager.AddToRoleAsync(appUser, "Member");
 
-            return Content("ok");
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Login(LoginVM loginVM)
+        {
+            if (!ModelState.IsValid) return View(loginVM);
+
+            AppUser appUser = await _userManager.FindByEmailAsync(loginVM.LoginEmail);
+
+            if (appUser == null)
+            {
+                ModelState.AddModelError("", "Email or Password is incorrect");
+                return View(loginVM);
+            }
+
+            if (appUser.isAdmin)
+            {
+                ModelState.AddModelError("", "Email or Password is incorrect");
+                return View(loginVM);
+            }
+
+            if (!await _userManager.CheckPasswordAsync(appUser, loginVM.LoginPassword))
+            {
+                ModelState.AddModelError("", "Email or Password is incorrect");
+                return View(loginVM);
+            }
+
+            await _signInManager.SignInAsync(appUser, loginVM.RemindMe); // true olaraq veririkki her defe useri yaddasda saxlasin
+
+            return RedirectToAction("index","home");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("index", "home");
         }
 
         //public async Task<IActionResult> CreateRole()

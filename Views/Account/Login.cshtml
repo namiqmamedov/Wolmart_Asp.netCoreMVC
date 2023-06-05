@@ -1,6 +1,6 @@
-﻿@model RegisterVM
+﻿@model LoginVM
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Login";
 }
 
         <!-- Start of Main -->
@@ -29,31 +29,36 @@
                         <div class="tab tab-nav-boxed tab-nav-center tab-nav-underline">
                             <ul class="nav nav-tabs text-uppercase" role="tablist">
                                 <li class="nav-item">
-                                    <a href="#sign-in" class="nav-link">Sign In</a>
+                                    <a href="#sign-in" class="nav-link active">Sign In</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#sign-up" class="nav-link active">Sign Up</a>
+                                    <a href="#sign-up" class="nav-link">Sign Up</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane" id="sign-in">
+                             <div class="text text-danger" asp-validation-summary="ModelOnly"></div>
+                                <form method="POST" class="tab-pane active" id="sign-in">
                                     <div class="form-group">
                                         <label>Username or email address *</label>
-                                        <input type="text" class="form-control" name="username" id="username" required>
+                                        <input asp-for="LoginEmail" class="form-control" required>
+                                        <span cite="text text-danger" asp-validation-for="LoginEmail"></span>
+
                                     </div>
                                     <div class="form-group mb-0">
                                         <label>Password *</label>
-                                        <input type="text" class="form-control" name="password" id="password" required>
+                                        <input asp-for="LoginPassword" class="form-control" required>
+                                        <span cite="text text-danger" asp-validation-for="LoginPassword"></span>
+
                                     </div>
                                     <div class="form-checkbox d-flex align-items-center justify-content-between">
-                                        <input type="checkbox" class="custom-checkbox" id="remember1" name="remember1" required="">
-                                        <label for="remember1">Remember me</label>
+                                        <input asp-for="RemindMe" class="custom-checkbox">
+                                        <label for="RemindMe">Remember me</label>
                                         <a href="#">Last your password?</a>
                                     </div>
-                                    <a href="#" class="btn btn-primary">Sign In</a>
-                                </div>
+                                    <button type="submit" class="btn btn-primary">Sign In</button>
+                                </form>
                                 <div class="text text-danger" asp-validation-summary="ModelOnly"></div>
-                                <form method="POST" class="tab-pane active" id="sign-up">
+                                <form method="POST" class="tab-pane" id="sign-up">
                                     <div class="form-group">
                                         <label>Your email address *</label>
                                         <input asp-for="Email" class="form-control" required>
@@ -88,7 +93,7 @@
                                     <p>Your personal data will be used to support your experience 
                                         throughout this website, to manage access to your account, 
                                         and for other purposes described in our <a href="#" class="text-primary">privacy policy</a>.</p>
-                                    <a href="#" class="d-block mb-5 text-primary">Signup as a vendor?</a>
+                                    <a asp-action="login" asp-controller="login" class="d-block mb-5 text-primary">Signup as a vendor?</a>
                                     <div class="form-checkbox d-flex align-items-center justify-content-between mb-5">
                                         <input type="checkbox" class="custom-checkbox" id="remember" name="remember" required="">
                                         <label for="remember" class="font-size-md">I agree to the <a  href="#" class="text-primary font-size-md">privacy policy</a></label>

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Models;
@@ -7,6 +9,8 @@ using Wolmart.Ecommerce.Models;
 namespace Wolmart.Ecommerce.Areas.admin.Controllers
 {
     [Area("admin")]
+    [Authorize(Roles = "Admin")]
+
     public class ProductController : Controller
     {
         private readonly AppDbContext _context;

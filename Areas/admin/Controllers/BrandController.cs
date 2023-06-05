@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -16,6 +17,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace Wolmart.Ecommerce.Areas.admin.Controllers
 {
     [Area("admin")]
+    [Authorize(Roles = "Admin")]
     public class BrandController : Controller
     {
         private readonly AppDbContext _context;

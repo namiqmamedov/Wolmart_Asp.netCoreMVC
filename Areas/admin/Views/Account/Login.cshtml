@@ -1,0 +1,107 @@
+﻿
+@model LoginVM
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Wolmart - Admin </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/admin/assets/images/logo/favicon.ico">
+
+    <!-- page css -->
+
+    <!-- Core css -->
+    <link href="~/admin/assets/css/app.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="auth-full-height d-flex flex-row align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="m-2">
+                                <div class="d-flex justify-content-center mt-3">
+                                    <div class="text-center logo">
+                                        <img alt="logo" class="img-fluid" src="~/admin/assets/images/logo/logo-fold.png" style="height: 70px;">
+                                    </div>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <h3 class="fw-bolder">Sign In</h3>
+                                    <p class="text-muted">Sign in your account to continue</p>
+                                </div>
+                                <div class="text text-danger" asp-validation-summary="ModelOnly"></div>
+                                <form method="POST">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label">Username</label>
+                                        <input class="form-control" asp-for="Username" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label d-flex justify-content-between">
+                                            <span>Password</span>
+                                            <a href="#" class="text-primary font">Forget Password?</a>
+                                        </label>
+                                        <div class="form-group input-affix flex-column">
+                                            <label class="d-none">Password</label>
+                                            <input class="form-control" asp-for="Password">
+                                            <i class="suffix-icon feather cursor-pointer text-dark icon-eye" ng-reflect-ng-class="icon-eye"></i>
+                                        </div>
+                                         <div class="form-checkbox d-flex align-items-center justify-content-between">
+                                        <input asp-for="RemindMe" class="custom-checkbox">
+                                        <label for="RemindMe">Remember me</label>
+                                    </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Log In</button>
+                                </form>
+                                <div class="divider">
+                                    <span class="divider-text text-muted">or login with</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col px-1">
+                                        <button class="btn btn-outline-secondary w-100">
+                                            <img src="~/admin/assets/images/thumbs/thumb-1.png" alt="" style="max-width: 20px;">
+                                        </button>
+                                    </div>
+                                    <div class="col px-1">
+                                        <button class="btn btn-outline-secondary w-100">
+                                            <img src="~/admin/assets/images/thumbs/thumb-2.png" alt="" style="max-width: 20px;">
+                                        </button>
+                                    </div>
+                                    <div class="col px-1">
+                                        <button class="btn btn-outline-secondary w-100">
+                                            <img src="~/admin/assets/images/thumbs/thumb-3.png" alt="" style="max-width: 20px;">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-4">
+                                    <p class="text-muted">Don't have an account yet? <a href="http://www.themenate.net/auth/register-1">Sign Up</a></p>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+    
+    <!-- Core Vendors JS -->
+    <script src="~/admin/assets/js/vendors.min.js"></script>
+
+    <!-- page js -->
+
+    <!-- Core JS -->
+    <script src="~/admin/assets/js/app.min.js"></script>
+
+</body>
+
+</html>
