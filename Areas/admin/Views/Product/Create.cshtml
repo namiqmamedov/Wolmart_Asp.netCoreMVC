@@ -1,4 +1,4 @@
-﻿@model Product
+﻿@model Brand
 @{
     ViewData["Title"] = "Create";
 }
@@ -7,21 +7,21 @@
 
 
 <div class="form-input">
-  <form method="POST" asp-controller="product" asp-action="create" asp-area="admin">
-    <label asp-for="Name">First Name</label>
-    <input asp-for="Name" placeholder="Your name..">
-    <span class="text-danger" asp-validation-for="Name"></span>
+  <form method="POST">
+    <label asp-for="Image">Brand Image</label>
+    <input asp-for="Image" placeholder="Image...">
+    <span class="text-danger" asp-validation-for="Image"></span>
 
-    <label for="lname">Last Name</label>
-    <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+@*    <label for="lname">Last Name</label>
+    <input type="text" id="lname" name="lastname" placeholder="Your last name..">*@
 
-    <label for="country">Country</label>
+@*    <label for="country">Country</label>
     <select id="country" name="country">
       <option value="australia">Australia</option>
       <option value="canada">Canada</option>
       <option value="usa">USA</option>
-    </select>
+    </select>*@
   
-    <input type="submit" value="Submit">
+    <button type="submit" value="Submit">Create</button>
   </form>
 </div>

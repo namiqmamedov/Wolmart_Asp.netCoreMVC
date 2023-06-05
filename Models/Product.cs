@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Wolmart.Ecommerce.Models
 {
-    public class Product
+    public class Product : BaseEntity
     {
         public int ID { get; set; }
         [Required]
@@ -33,7 +33,6 @@ namespace Wolmart.Ecommerce.Models
         public bool IsBestSeller { get; set; }
         public bool IsMostPopular { get; set; }
         public bool IsFeatured { get; set; }
-
 
         public IEnumerable<ProductImage> ProductImages { get; set; }
     }

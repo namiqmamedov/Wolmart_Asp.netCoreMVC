@@ -1,4 +1,11 @@
-﻿@model PagenationList<Product>
+﻿
+@{
+    ViewData["Title"] = "View";
+}
+
+
+
+@model PagenationList<Brand>
 
 @{
     int counter  = Model.ItemCount * (Model.Page - 1);
@@ -9,22 +16,18 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Image</th>
-      <th scope="col">Name</th>
-      <th scope="col">Price</th>
-      <th scope="col">Discounted Price</th>
       <th scope="col">Status</th>
       <th scope="col">Settings</th>
     </tr>
   </thead>
   <tbody>
-    @foreach (Product item in Model)
+    @foreach (Brand item in Model)
     {
             counter++;
+
             <tr>    
               <th>@counter</th>
-              <td>@item.MainImage</td>
-               <td>@item.Price.ToString("F2")</td>
-              <td>@item.DiscountedPrice.ToString("F2")</td>
+              <td>@item.Image</td>
               <td style="color:@(item.IsDeleted ? "red":"green")">
                   @(item.IsDeleted ? "Deactive":"Active")
               </td>
