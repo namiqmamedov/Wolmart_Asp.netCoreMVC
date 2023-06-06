@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -34,6 +35,14 @@ namespace Wolmart.Ecommerce.Models
         public bool IsMostPopular { get; set; }
         public bool IsFeatured { get; set; }
 
-        public IEnumerable<ProductImage> ProductImages { get; set; }
+        public List<ProductImage> ProductImages { get; set; }
+        
+        [NotMapped]
+        public IFormFile MainFile { get; set; }
+        [NotMapped]
+        public IFormFile HoverFile { get; set; }
+        [NotMapped]
+        [MaxLength(5)]
+        public IEnumerable<IFormFile> Files { get; set; }
     }
 }

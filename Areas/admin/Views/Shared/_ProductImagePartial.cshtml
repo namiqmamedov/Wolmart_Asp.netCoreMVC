@@ -1,0 +1,12 @@
+﻿@model List<ProductImage>
+
+@foreach (ProductImage item in Model)
+  {
+     <div class="d-flex flex-column">
+        <a class="deleteProductImage text-end" asp-area="admin" asp-controller="product" asp-action="DeleteImage" asp-route-id="@item.ID" >
+             <span>X</span>
+        </a>
+        <img class="img-fluid" style="height:200px" src="~/assets/images/shop/@item.Image"/>           
+     </div>             
+ }           
+            

@@ -38,6 +38,16 @@
         }
     })
 
+    $(document).on('click', '.deleteProductImage', function (e) {
+        e.preventDefault();
+
+        fetch($(this).attr('href'))
+            .then(res => res.text())
+            .then(data => {
+                $('#productImages').html(data);
+            })
+    })
+
     // ------- Add To Cart ---------
 
     $('.AddToCart').click(function (e) {
@@ -65,4 +75,62 @@
                 $('.cart-dropdown').html(data);
             })
     })
+
+
+    $(document).on('click', '#quantity-minus', function (e) {
+        e.preventDefault();
+
+        let inputCount = $(this).prev().prev().val();
+
+        console.log(inputCount)
+
+        if (inputCount >= 2) {
+            inputCount--;
+            $(this).prev().prev().val(inputCount);
+            let url = $(this).attr('href') + '/?count=' + inputCount;
+
+            fetch(url)
+                .then(res => res.text())
+                .then(data => {
+                    $('#cartIndex').html(data);
+                })
+        }
+    })
+
+
+    $(document).on('click', '#quantity-plus', function (e) {
+        e.preventDefault();
+
+        let inputCount = $(this).prev().val();
+        
+        console.log(inputCount)
+
+        if (inputCount > 0) {
+            inputCount++;
+        }
+        else {
+            inputCount = 1;
+        }
+
+        $(this).prev().val(inputCount);
+
+        let url = $(this).attr('href') + '/?count=' + inputCount;
+
+        fetch(url)
+            .then(res => res.text())
+            .then(data => {
+                $('#cartIndex').html(data);
+            })
+    })
+
+    $(document).on('click', '.deleteFromCart', function (e) {
+        e.preventDefault();
+
+        fetch($(this).attr('href'))
+            .then(res => res.text())
+            .then(data => {
+                $('#cartIndex').html(data);
+            })
+    })
+
 })

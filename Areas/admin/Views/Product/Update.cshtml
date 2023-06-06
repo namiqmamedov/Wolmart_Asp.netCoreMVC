@@ -1,11 +1,11 @@
 ﻿@model Product
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Update";
     SelectList selectListItems = new SelectList(ViewBag.Brands, nameof(Brand.ID), nameof(Brand.Image));
     SelectList selectListItems2 = new SelectList(ViewBag.Categories, nameof(Category.ID), nameof(Category.Image));
 }
 
-<h1>Create</h1>
+<h1>Update</h1>
 
 
 <div class="form-input">
@@ -31,18 +31,21 @@
         <span class="text-danger" asp-validation-for="Count"></span>
     </div>
      <div class="form-group">
-        <label asp-for="Count">Count</label>
-        <input asp-for="Count" placeholder="Count...">
-        <span class="text-danger" asp-validation-for="Count"></span>
-    </div>
-     <div class="form-group">
         <label asp-for="MainFile">Main Image</label>
         <input asp-for="MainFile" placeholder="Main Image...">
         <span class="text-danger" asp-validation-for="MainFile"></span>
     </div>
+       <div class="form-group">
+        <label asp-for="HoverFile">Hover Image</label>
+        <input asp-for="HoverFile" placeholder="Hover Image...">
+        <span class="text-danger" asp-validation-for="HoverFile"></span>
+    </div>
         <div class="form-group">
-        <label asp-for="Files">Main Image</label>
-        <input asp-for="Files" multiple placeholder="Main Image...">
+        <label asp-for="Files">Image List</label>
+        <input asp-for="Files" multiple placeholder="Image List...">
+        <div id="productImages" class="d-flex  gap-2 ">
+            @await Html.PartialAsync("_ProductImagePartial",Model.ProductImages)   
+        </div>
         <span class="text-danger" asp-validation-for="Files"></span>
     </div>
         <div class="form-group">
@@ -60,15 +63,29 @@
         <span class="text-danger" asp-validation-for="CategoryID"></span>
         </div>
        <div class="form-check">
-      <input class="form-check-input" asp-for="IsBestSeller" id="flexCheckDefault">
-      <label class="form-check-label" asp-for="IsBestSeller">
-        IsBestSeller
-      </label>
-      <span class="text-danger" asp-validation-for="IsBestSeller"></span>
+          <input class="form-check-input" asp-for="IsBestSeller" id="flexCheckDefault">
+          <label class="form-check-label" asp-for="IsBestSeller">
+            IsBestSeller
+          </label>
+          <span class="text-danger" asp-validation-for="IsBestSeller"></span>
+       </div>
+       <div class="form-check">
+          <input class="form-check-input" asp-for="IsNewArrival" id="flexCheckDefault">
+          <label class="form-check-label" asp-for="IsNewArrival">
+            IsNewArrival
+          </label>
+          <span class="text-danger" asp-validation-for="IsNewArrival"></span>
+       </div>
+       <div class="form-check">
+          <input class="form-check-input" asp-for="IsFeatured" id="flexCheckDefault">
+          <label class="form-check-label" asp-for="IsFeatured">
+            IsFeatured
+          </label>
+          <span class="text-danger" asp-validation-for="IsFeatured"></span>
+       </div>
 
-   </div>
 
-
-    <button type="submit" value="Submit">Create</button>
+    <button type="submit" value="Submit">Update</button>
   </form>
 </div>
+

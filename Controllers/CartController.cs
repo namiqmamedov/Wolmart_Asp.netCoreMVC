@@ -18,9 +18,22 @@ namespace Wolmart.Ecommerce.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async  Task<IActionResult> Index()
         {
-            return View();
+            string cart = HttpContext.Request.Cookies["cart"];
+
+            List<CartVM> cartVMs = null;
+
+            if (!string.IsNullOrWhiteSpace(cart))
+            {
+                cartVMs = JsonConvert.DeserializeObject<List<CartVM>>(cart);
+            }
+            else
+            {
+                cartVMs = new List<CartVM>();
+            }
+
+            return View(await _getCartItemAsync(cartVMs));
         }
 
         public async Task<IActionResult> AddToCart(int? id)
@@ -103,6 +116,70 @@ namespace Wolmart.Ecommerce.Controllers
             return PartialView("_CartPartial", await _getCartItemAsync(cartVMs));
         }
 
+        public async Task<IActionResult> UpdateCount(int? id,int count)
+        {
+            if (id == null) return BadRequest();
+
+            if (!await _context.Products.AnyAsync(p=>p.ID == id))
+            {
+                return NotFound();
+            }
+
+            string cart = HttpContext.Request.Cookies["cart"];
+
+            List<CartVM> cartVMs = null;
+
+            if (!string.IsNullOrWhiteSpace(cart))
+            {
+                cartVMs = JsonConvert.DeserializeObject<List<CartVM>>(cart);
+            
+                CartVM cartVM = cartVMs.FirstOrDefault(p=>p.ProductID == id);
+
+                if (cartVM == null) return BadRequest();
+                 
+                cartVM.Count = count <= 0 ? 1 : count;
+
+                cart = JsonConvert.SerializeObject(cartVMs);
+
+                HttpContext.Response.Cookies.Append("cart", cart);
+            }
+            else
+            {
+                return BadRequest(); 
+            }
+
+            return PartialView("_CartIndexPartial", await _getCartItemAsync(cartVMs));
+        }
+
+        public async Task<IActionResult> DeleteFromCart(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            if (!await _context.Products.AnyAsync(p => p.ID == id))
+            {
+                return NotFound();
+            }
+
+            string cart = HttpContext.Request.Cookies["cart"];
+
+            if (string.IsNullOrWhiteSpace(cart)) { return BadRequest(); }
+
+            List<CartVM> cartVMs = JsonConvert.DeserializeObject<List<CartVM>>(cart);
+
+            CartVM cartVM = cartVMs.Find(p => p.ProductID == id);
+
+            if (cartVM == null) { return NotFound(); }
+
+            cartVMs.Remove(cartVM);
+
+            cart = JsonConvert.SerializeObject(cartVMs);
+            HttpContext.Response.Cookies.Append("cart", cart);
+
+            return PartialView("_CartIndexPartial", await _getCartItemAsync(cartVMs));
+        }
         private async  Task<List<CartVM>> _getCartItemAsync(List<CartVM> cartVMs)
         {
             foreach (CartVM item in cartVMs) // mes: sekil falan dbda deyisilende saytda reski gorsenmesi ucun

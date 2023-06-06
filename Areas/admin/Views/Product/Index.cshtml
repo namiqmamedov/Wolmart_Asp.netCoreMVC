@@ -1,16 +1,18 @@
-﻿@model List<Product>
+﻿@model PagenationList<Product>
 @{
     ViewData["Title"] = "Index";
-    int counter = 0;
+    int counter  = Model.ItemCount * (Model.Page - 1);
 }
 
-<div class="row justify-content-between align-items-center">
+<div class="container">
+    <div class="row justify-content-between align-items-center">
     <div class="col-lg-2">
         <h1>Products</h1>
     </div>
     <div class="col-lg-10 text-end new-post">
         <a asp-controller="product" asp-action="create" asp-area="admin">New Post</a>
     </div>
+</div>
 </div>
 
 <table class="table table-hover table-bordered table-striped">
@@ -21,20 +23,46 @@
       <th scope="col">Name</th>
       <th scope="col">Price</th>
       <th scope="col">Discounted Price</th>
+      <th scope="col">Status</th>
+      <th scope="col">Settings</th>
     </tr>
   </thead>
   <tbody>
     @foreach (Product item in Model)
         {
             counter++;
-            <tr>
+            <tr>    
               <th>@counter</th>
-              <th>
-                  <img src="~/assets/images/products/@item.MainImage"/>
-              </th>
-              <td>@item.Name</td>
+              <td>
+                    <img src="~/assets/images/shop/@item.MainImage"/>
+              </td>
+              <th>@item.Name</th>
               <td>@item.Price.ToString("F2")</td>
               <td>@item.DiscountedPrice.ToString("F2")</td>
+              <td style="color:@(item.IsDeleted ? "red":"green")">
+                  @(item.IsDeleted ? "Deactive":"Active")
+              </td>
+              <td>
+                   <a asp-controller="product" asp-action="update" asp-area="admin" asp-route-id="@item.ID" class="btn btn-primary">
+                      <i class="fa-solid fa-pen-to-square"></i>
+                  </a>
+
+                    @if (item.IsDeleted)
+                    {
+                        <a asp-controller="product" asp-action="restore" asp-area="admin" asp-route-id="@item.ID" asp-route-page="@Model.Page"  id="restoreBtn" class="btn btn-primary">
+                          <i class="fa-solid fa-arrow-rotate-right"></i>
+                        </a>
+                    }
+                    else
+                    {
+                         <a asp-controller="product" asp-action="delete" asp-area="admin" asp-route-id="@item.ID" asp-route-page="@Model.Page" id="deleteBtn" class="btn btn-danger">
+                              <i class="fa-regular fa-trash-can"></i>
+                          </a>
+                    }
+                  <a class="btn btn-secondary">
+                    <i class="fa-solid fa-circle-info"></i>
+                  </a>
+              </td>
             </tr>
     }
   </tbody>
