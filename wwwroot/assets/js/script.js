@@ -134,4 +134,31 @@
             })
     })
 
+
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-left",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    if ($('#successInput').val().length) {
+        toastr["success"]($('#successInput').val().slice(6), $('#successInput').val().split(' ')[0]);
+    }
+
+    if ($('#successInputPassword').val().length) {
+        toastr["success"]($('#successInputPassword').val().slice(6), $('#successInputPassword').val().split(' ')[0]);
+    }
+
 })

@@ -187,14 +187,14 @@ namespace Wolmart.Ecommerce.Controllers
             return RedirectToAction("index", "home");
         }
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Member")]
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
 
             if (User.Identity.IsAuthenticated)
             {
-                AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u=>u.UserName == User.Identity.Name && !u.isAdmin && ! u.IsDeleted);
+                AppUser appUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
                 if (appUser == null) return NotFound();
 
@@ -213,14 +213,56 @@ namespace Wolmart.Ecommerce.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Member")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(ProfileVM profileVM)
         {
-
-
             if (!ModelState.IsValid) return View("Profile",profileVM);
+
+            AppUser dbAppUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (dbAppUser.NormalizedUserName != profileVM.Username.Trim().ToUpperInvariant() ||
+                dbAppUser.FirstName != profileVM.Name.Trim().ToUpperInvariant() ||
+                dbAppUser.LastName != profileVM.Surname.Trim().ToUpperInvariant() ||
+                dbAppUser.UserName != profileVM.Username.Trim().ToUpperInvariant() ||
+                dbAppUser.Email != profileVM.Email.Trim().ToUpperInvariant())
+            {
+                dbAppUser.FirstName = profileVM.Name;
+                dbAppUser.LastName = profileVM.Surname;
+                dbAppUser.UserName = profileVM.Username;
+                dbAppUser.Email = profileVM.Email;
+
+                IdentityResult identityResult = await _userManager.UpdateAsync(dbAppUser);
+
+                if (!identityResult.Succeeded)
+                {
+                    foreach (var item in identityResult.Errors)
+                    {
+                        ModelState.AddModelError("", item.Description);
+                    };
+
+                    return View("Profile", profileVM);
+                }
+                TempData["success"] = "Great! You have updated successfully.";
+            }
+
+            if (profileVM.CurrentPassword != null && profileVM.Password != null)
+            {
+                IdentityResult identityResult = await _userManager.ChangePasswordAsync(dbAppUser, profileVM.CurrentPassword, profileVM.Password);
+
+                if (!identityResult.Succeeded)
+                {
+                    foreach (var item in identityResult.Errors)
+                    {
+                        ModelState.AddModelError("", item.Description);
+                    };
+
+                    return View("Profile", profileVM);
+                }
+                TempData["successPassword"] = "Great! Your password changed succesfully.";
+ 
+            }
 
             return RedirectToAction("Profile");
         }
