@@ -70,6 +70,16 @@
         })
     })   
 
+    $(document).on('click', '.deleteProductImage', function (e) {
+        e.preventDefault();
+
+        fetch($(this).attr('href'))
+            .then(res => res.text())
+            .then(data => {
+                $('#productImages').html(data);
+            })
+    })
+
     if ($('.isMain').is(":checked")) {
         $('.imageContainer').removeClass('d-none')
         $('.parentContainer').addClass('d-none')

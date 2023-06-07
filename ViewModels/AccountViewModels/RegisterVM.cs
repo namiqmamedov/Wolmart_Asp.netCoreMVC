@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Numerics;
 
 namespace Wolmart.Ecommerce.ViewModels.AccountViewModels
 {

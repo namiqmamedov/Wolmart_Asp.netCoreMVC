@@ -13,58 +13,57 @@
         <a asp-controller="product" asp-action="create" asp-area="admin">New Post</a>
     </div>
 </div>
+       
+<div class="table-content">
+    @await Html.PartialAsync("_ProductIndexPartial",Model)
 </div>
 
-<table class="table table-hover table-bordered table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Image</th>
-      <th scope="col">Name</th>
-      <th scope="col">Price</th>
-      <th scope="col">Discounted Price</th>
-      <th scope="col">Status</th>
-      <th scope="col">Settings</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (Product item in Model)
-        {
-            counter++;
-            <tr>    
-              <th>@counter</th>
-              <td>
-                    <img src="~/assets/images/shop/@item.MainImage"/>
-              </td>
-              <th>@item.Name</th>
-              <td>@item.Price.ToString("F2")</td>
-              <td>@item.DiscountedPrice.ToString("F2")</td>
-              <td style="color:@(item.IsDeleted ? "red":"green")">
-                  @(item.IsDeleted ? "Deactive":"Active")
-              </td>
-              <td>
-                   <a asp-controller="product" asp-action="update" asp-area="admin" asp-route-id="@item.ID" class="btn btn-primary">
-                      <i class="fa-solid fa-pen-to-square"></i>
-                  </a>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination" style="justify-content: center;">
+                    @if(Model.HasPrev)
+                    {
+                            <li class="page-item">
+                              <a class="page-link" asp-area="admin" asp-controller="product" asp-action="index" asp-route-page="1" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                            </li>
+                            <li class="page-item">
+                              <a class="page-link" asp-area="admin" asp-controller="product" asp-action="index" asp-route-page="@(Model.Page-1)"  aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                            </li>
+                    }
+                    @for(int i = 1; i <= Model.PageCount; i++)
+                    {
+                       <li class="page-item @(Model.Page == i ? "active" : "")"><a class="page-link" asp-area="admin" asp-controller="product" asp-action="index" asp-route-page="@i">@i</a></li>   
+                    }
+                    
+                    @if (Model.HasNext)
+                    {
+                        <li class="page-item">
+                                  <a class="page-link" asp-area="admin" asp-controller="product" asp-action="index" asp-route-page="@(Model.Page+1)" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                  </a>
+                                </li>
+                                <li class="page-item">
+                                  <a class="page-link" asp-area="admin" asp-controller="product" asp-action="index" asp-route-page="@Model.PageCount"  aria-label="Next">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                  </a>
+                        </li>        
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
 
-                    @if (item.IsDeleted)
-                    {
-                        <a asp-controller="product" asp-action="restore" asp-area="admin" asp-route-id="@item.ID" asp-route-page="@Model.Page"  id="restoreBtn" class="btn btn-primary">
-                          <i class="fa-solid fa-arrow-rotate-right"></i>
-                        </a>
-                    }
-                    else
-                    {
-                         <a asp-controller="product" asp-action="delete" asp-area="admin" asp-route-id="@item.ID" asp-route-page="@Model.Page" id="deleteBtn" class="btn btn-danger">
-                              <i class="fa-regular fa-trash-can"></i>
-                          </a>
-                    }
-                  <a class="btn btn-secondary">
-                    <i class="fa-solid fa-circle-info"></i>
-                  </a>
-              </td>
-            </tr>
-    }
-  </tbody>
-</table>
+
+
 

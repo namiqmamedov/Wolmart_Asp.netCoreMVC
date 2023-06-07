@@ -1,50 +1,50 @@
-﻿
-@{
-    ViewData["Title"] = "View";
-}
-
-
-
-@model PagenationList<Brand>
+﻿@model PagenationList<Product>
 
 @{
     int counter  = Model.ItemCount * (Model.Page - 1);
 }
 
-  <table class="table table-hover table-bordered table-striped">
+<table class="table table-hover table-bordered table-striped">
   <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Image</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Discounted Price</th>
       <th scope="col">Status</th>
       <th scope="col">Settings</th>
     </tr>
   </thead>
   <tbody>
-    @foreach (Brand item in Model)
-    {
+    @foreach (Product item in Model)
+        {
             counter++;
-
             <tr>    
               <th>@counter</th>
-              <td>@item.Image</td>
+              <td>
+                    <img src="~/assets/images/shop/@item.MainImage"/>
+              </td>
+              <th>@item.Name</th>
+              <td>@item.Price.ToString("F2")</td>
+              <td>@item.DiscountedPrice.ToString("F2")</td>
               <td style="color:@(item.IsDeleted ? "red":"green")">
                   @(item.IsDeleted ? "Deactive":"Active")
               </td>
               <td>
-                   <a asp-controller="brand" asp-action="update" asp-area="admin" asp-route-id="@item.ID" class="btn btn-primary">
+                   <a asp-controller="product" asp-action="update" asp-area="admin" asp-route-id="@item.ID" class="btn btn-primary">
                       <i class="fa-solid fa-pen-to-square"></i>
                   </a>
 
                     @if (item.IsDeleted)
                     {
-                        <a asp-controller="brand" asp-action="restore" asp-area="admin" asp-route-id="@item.ID" asp-route-page="@Model.Page"  id="restoreBtn" class="btn btn-primary">
+                        <a asp-controller="product" asp-action="restore" asp-area="admin" asp-route-id="@item.ID" asp-route-page="@Model.Page"  id="restoreBtn" class="btn btn-primary">
                           <i class="fa-solid fa-arrow-rotate-right"></i>
                         </a>
                     }
                     else
                     {
-                         <a asp-controller="brand" asp-action="delete" asp-area="admin" asp-route-id="@item.ID" asp-route-page="@Model.Page" id="deleteBtn" class="btn btn-danger">
+                         <a asp-controller="product" asp-action="delete" asp-area="admin" asp-route-id="@item.ID" asp-route-page="@Model.Page" id="deleteBtn" class="btn btn-danger">
                               <i class="fa-regular fa-trash-can"></i>
                           </a>
                     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wolmart.Ecommerce.DAL;
 
 namespace Wolmart.Ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230606230426_AddedCartsTable")]
+    partial class AddedCartsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -165,8 +167,14 @@ namespace Wolmart.Ecommerce.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -217,6 +225,9 @@ namespace Wolmart.Ecommerce.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -282,9 +293,6 @@ namespace Wolmart.Ecommerce.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AppUserID")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
@@ -292,8 +300,6 @@ namespace Wolmart.Ecommerce.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("AppUserID");
 
                     b.HasIndex("ProductID");
 
@@ -572,17 +578,11 @@ namespace Wolmart.Ecommerce.Migrations
 
             modelBuilder.Entity("Wolmart.Ecommerce.Models.Cart", b =>
                 {
-                    b.HasOne("Wolmart.Ecommerce.Models.AppUser", "AppUser")
-                        .WithMany("Carts")
-                        .HasForeignKey("AppUserID");
-
                     b.HasOne("Wolmart.Ecommerce.Models.Product", "Product")
                         .WithMany("Carts")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppUser");
 
                     b.Navigation("Product");
                 });
@@ -622,11 +622,6 @@ namespace Wolmart.Ecommerce.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.AppUser", b =>
-                {
-                    b.Navigation("Carts");
                 });
 
             modelBuilder.Entity("Wolmart.Ecommerce.Models.Brand", b =>

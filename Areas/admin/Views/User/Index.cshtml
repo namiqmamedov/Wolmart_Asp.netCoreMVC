@@ -1,19 +1,19 @@
-﻿
+﻿﻿
 @model PagenationList<AppUser>
 
 
 <div class="row justify-content-between align-items-center">
     <div class="col-lg-2">
-        <h1>Brand</h1>
+        <h1>Users</h1>
     </div>
     <div class="col-lg-10 text-end new-post">
-        <a asp-controller="brand" asp-action="user" asp-area="admin" class="btn btn-success">New Post</a>
+        @*<a asp-controller="user" asp-action="user" asp-area="admin" class="btn btn-success">New Post</a>*@
     </div>
 </div>
 
 
 <div class="table-content">
-    @await Html.PartialAsync("_BrandIndexPartial",Model)
+    @await Html.PartialAsync("_UserIndexPartial",Model)
 </div>
 
 
@@ -37,10 +37,10 @@
                               </a>
                             </li>
                     }
-                    @for(int i = 1; i <= Model.PageCount; i++)
-                  {
-                       <li class="page-item @(Model.Page == i ? "active" : "")"><a class="page-link" asp-area="admin" asp-controller="user " asp-action="index" asp-route-page="@i">@i</a></li>   
-                  }
+                      @for(int i = 1; i <= Model.PageCount; i++)
+                      {
+                           <li class="page-item @(Model.Page == i ? "active" : "")"><a class="page-link" asp-area="admin" asp-controller="user " asp-action="index" asp-route-page="@i">@i</a></li>   
+                      }
                     
                     @if (Model.HasNext)
                     {

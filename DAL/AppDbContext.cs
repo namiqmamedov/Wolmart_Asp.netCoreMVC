@@ -18,6 +18,6 @@ namespace Wolmart.Ecommerce.DAL
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Category> Categories { get; set; }
-        //public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Cart> Carts { get; set; }
     } 
 }

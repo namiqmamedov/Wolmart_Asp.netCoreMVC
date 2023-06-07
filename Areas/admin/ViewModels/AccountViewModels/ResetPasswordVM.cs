@@ -2,7 +2,7 @@
 
 namespace Wolmart.Ecommerce.Areas.admin.ViewModels.AccountViewModels
 {
-    public class ResetPassVM
+    public class ResetPasswordVM
     {
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password, ErrorMessage = "Please enter a valid password.")]

@@ -34,8 +34,8 @@ namespace Wolmart.Ecommerce.Models
         public bool IsBestSeller { get; set; }
         public bool IsMostPopular { get; set; }
         public bool IsFeatured { get; set; }
-
         public List<ProductImage> ProductImages { get; set; }
+        public IEnumerable<Cart> Carts { get; set; }
         
         [NotMapped]
         public IFormFile MainFile { get; set; }

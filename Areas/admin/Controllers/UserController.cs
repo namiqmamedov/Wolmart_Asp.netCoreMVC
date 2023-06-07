@@ -8,7 +8,7 @@ using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.ViewModels;
 
-namespace Wolmart.Ecommerce.Controllers
+namespace Wolmart.Ecommerce.Areas.admin.Controllers
 {
     [Area("admin")]
     [Authorize(Roles = "Admin")]
@@ -47,7 +47,6 @@ namespace Wolmart.Ecommerce.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> ResetPassword(string id, ResetPasswordVM resetPassVM)
         {
             if (!ModelState.IsValid) return View();

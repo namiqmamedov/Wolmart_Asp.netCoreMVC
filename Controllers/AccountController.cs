@@ -1,8 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.ViewModels.AccountViewModels;
+using Wolmart.Ecommerce.ViewModels.CartViewModels;
 
 namespace Wolmart.Ecommerce.Controllers
 {
@@ -10,13 +17,14 @@ namespace Wolmart.Ecommerce.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager; 
-        public AccountController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly AppDbContext _context;
+        public AccountController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, AppDbContext context)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
-
+            _context = context;
         }
         public IActionResult Index()
         {
@@ -29,6 +37,7 @@ namespace Wolmart.Ecommerce.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterVM registerVM)
         {
             if (!ModelState.IsValid)
@@ -67,32 +76,106 @@ namespace Wolmart.Ecommerce.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
 
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
-            if (!ModelState.IsValid) return View(loginVM);
 
-            AppUser appUser = await _userManager.FindByEmailAsync(loginVM.LoginEmail);
+            AppUser appUser = await _userManager.Users.Include(u => u.Carts).FirstOrDefaultAsync(u => u.NormalizedEmail == loginVM.LoginEmail.Trim().ToUpperInvariant() && !u.isAdmin && !u.IsDeleted);
+            //AppUser appUser = await _userManager.FindByEmailAsync(loginVM.LoginEmail);
 
             if (appUser == null)
             {
-                ModelState.AddModelError("", "Email or Password is incorrect");
+                ModelState.AddModelError("", "Email or password is incorrect");
                 return View(loginVM);
             }
 
             if (appUser.isAdmin)
             {
-                ModelState.AddModelError("", "Email or Password is incorrect");
+                ModelState.AddModelError("", "Email or password is incorrect");
                 return View(loginVM);
             }
 
             if (!await _userManager.CheckPasswordAsync(appUser, loginVM.LoginPassword))
             {
-                ModelState.AddModelError("", "Email or Password is incorrect");
+                ModelState.AddModelError("", "Email or password is incorrect");
                 return View(loginVM);
             }
+            await _signInManager.SignInAsync(appUser, loginVM.RemindMe); // RemindMe olaraq veririkki her defe useri yaddasda saxlasin (isPersistent methodu)
 
-            await _signInManager.SignInAsync(appUser, loginVM.RemindMe); // true olaraq veririkki her defe useri yaddasda saxlasin
+            string cart = HttpContext.Request.Cookies["cart"];
+
+            if (!string.IsNullOrWhiteSpace(cart))
+            {
+                List<CartVM> cartVMs = JsonConvert.DeserializeObject<List<CartVM>>(cart);
+
+                List<Cart> carts = new List<Cart>();
+
+                foreach (CartVM cartVM in cartVMs )
+                {
+                    if (appUser.Carts != null && appUser.Carts.Count() > 0)
+                    {
+                        Cart existedCart = appUser.Carts.FirstOrDefault(c => c.ProductID != cartVM.ProductID);
+
+                        if (existedCart == null)
+                        {
+                            Cart dbCart = new Cart
+                            {
+                                AppUserID = appUser.Id,
+                                ProductID = cartVM.ProductID,
+                                Count = cartVM.Count,
+                            };
+
+                            carts.Add(dbCart);
+                        }
+                        else
+                        {
+                            existedCart.Count = cartVM.Count;
+                            cartVM.Count = existedCart.Count;
+                        }
+                    }
+                    else
+                    {
+                        Cart dbCart = new Cart
+                        {
+                            AppUserID = appUser.Id,
+                            ProductID = cartVM.ProductID,
+                            Count = cartVM.Count,
+                        };
+
+                        carts.Add(dbCart);
+                    }
+                }
+
+                cart = JsonConvert.SerializeObject(cartVMs);
+
+                HttpContext.Response.Cookies.Append("cart",cart);
+
+                await _context.Carts.AddRangeAsync(carts);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                if(appUser.Carts != null && appUser.Carts.Count() > 0)
+                {
+                    List<CartVM> cartVMs = new List<CartVM>();
+                    foreach (Cart carts in appUser.Carts)
+                    {
+                        CartVM cartVM = new CartVM
+                        {
+                            ProductID = carts.ProductID,
+                            Count = carts.Count
+                        };
+
+                        cartVMs.Add(cartVM);
+                    }
+
+                    cart = JsonConvert.SerializeObject(cartVMs);
+
+                    HttpContext.Response.Cookies.Append("cart", cart);
+                }
+            }
+
 
             return RedirectToAction("index","home");
         }
@@ -102,6 +185,44 @@ namespace Wolmart.Ecommerce.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("index", "home");
+        }
+
+        [Authorize(Roles ="Admin")]
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+
+            if (User.Identity.IsAuthenticated)
+            {
+                AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u=>u.UserName == User.Identity.Name && !u.isAdmin && ! u.IsDeleted);
+
+                if (appUser == null) return NotFound();
+
+                ProfileVM profileVM = new ProfileVM
+                {
+                    Name = appUser.FirstName,
+                    Surname = appUser.LastName,
+                    Email = appUser.Email,
+                    Username = appUser.UserName
+                };
+
+                return View(profileVM);
+            }
+
+            return RedirectToAction("login");
+
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(ProfileVM profileVM)
+        {
+
+
+            if (!ModelState.IsValid) return View("Profile",profileVM);
+
+            return RedirectToAction("Profile");
         }
 
         //public async Task<IActionResult> CreateRole()

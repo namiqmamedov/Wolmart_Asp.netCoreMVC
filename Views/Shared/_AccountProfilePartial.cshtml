@@ -1,0 +1,59 @@
+﻿@model ProfileVM
+
+<form class="form account-details-form" method="post" asp-controller="account" asp-action="update">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="firstname">First name *</label>
+                                                <input asp-for="Name" id="firstname" name="firstname" placeholder="John"
+                                                    class="form-control form-control-md">
+                                                <span class="text text-danger" asp-validation-for="Name"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="lastname">Last name *</label>
+                                                <input asp-for="Surname" id="lastname" name="lastname" placeholder="Doe"
+                                                    class="form-control form-control-md">
+                                                <span class="text text-danger" asp-validation-for="Surname"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="display-name">Username *</label>
+                                        <input asp-for="Username" id="display-name" name="display_name" placeholder="John Doe"
+                                            class="form-control form-control-md mb-0">
+                                            <span class="text text-danger" asp-validation-for="Username"></span>
+                                    </div>
+
+                                    <div class="form-group mb-6">
+                                        <label for="email_1">Email address *</label>
+                                        <input asp-for="Email" id="email_1" name="email_1"
+                                            class="form-control form-control-md">
+                                        <span class="text text-danger" asp-validation-for="Email"></span>
+
+                                    </div>
+                                  
+                                    <h4 class="title title-password ls-25 font-weight-bold">Password change</h4>
+                                    <div class="form-group">
+                                        <label class="text-dark" for="cur-password">Current Password leave blank to leave unchanged</label>
+                                        <input type="password" class="form-control form-control-md"
+                                            id="cur-password" name="cur_password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="text-dark" for="new-password">New Password leave blank to leave unchanged</label>
+                                        <input type="password" class="form-control form-control-md"
+                                            id="new-password" name="new_password">
+                                    </div>
+                                    <div class="form-group mb-10">
+                                        <label class="text-dark" for="conf-password">Confirm Password</label>
+                                        <input type="password" class="form-control form-control-md"
+                                            id="conf-password" name="conf_password">
+                                    </div>
+                                    <button type="submit" class="btn btn-dark btn-rounded btn-sm mb-4">Save Changes</button>
+</form>
+
+@section Script {
+    <partial name="_ValidationPartial" />
+}
