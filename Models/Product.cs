@@ -10,7 +10,7 @@ namespace Wolmart.Ecommerce.Models
     {
         public int ID { get; set; }
         [Required]
-        [StringLength(255  )] 
+        [StringLength(255)] 
         public string Name { get; set; }
         [Required]
         [Column(TypeName = "money")]
@@ -36,6 +36,7 @@ namespace Wolmart.Ecommerce.Models
         public bool IsFeatured { get; set; }
         public List<ProductImage> ProductImages { get; set; }
         public IEnumerable<Cart> Carts { get; set; }
+        public IEnumerable<OrderItem> OrderItems { get; set; }
         
         [NotMapped]
         public IFormFile MainFile { get; set; }

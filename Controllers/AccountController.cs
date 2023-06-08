@@ -241,6 +241,13 @@ namespace Wolmart.Ecommerce.Controllers
 
             if (profileVM.CurrentPassword != null && profileVM.Password != null)
             {
+                if (await _userManager.CheckPasswordAsync(dbAppUser,profileVM.CurrentPassword) && profileVM.CurrentPassword == profileVM.Password)
+                {
+                    ModelState.AddModelError("", "The old password is the same as the password you typed now!");
+                    return View("Profile", profileVM);
+
+                }
+
                 identityResult = await _userManager.ChangePasswordAsync(dbAppUser, profileVM.CurrentPassword, profileVM.Password);
 
                 if (!identityResult.Succeeded)
