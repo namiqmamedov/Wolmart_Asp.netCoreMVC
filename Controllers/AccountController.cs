@@ -33,7 +33,7 @@ namespace Wolmart.Ecommerce.Controllers
 
         public async Task<IActionResult> Register()
         {
-            return View();    
+            return View();
         }
 
         [HttpPost]
@@ -53,7 +53,7 @@ namespace Wolmart.Ecommerce.Controllers
                 Email = registerVM.Email,
             };
 
-             IdentityResult result = await _userManager.CreateAsync(appUser, registerVM.Password);
+            IdentityResult result = await _userManager.CreateAsync(appUser, registerVM.Password);
 
             if (!result.Succeeded)
             {
@@ -111,7 +111,7 @@ namespace Wolmart.Ecommerce.Controllers
 
                 List<Cart> carts = new List<Cart>();
 
-                foreach (CartVM cartVM in cartVMs )
+                foreach (CartVM cartVM in cartVMs)
                 {
                     if (appUser.Carts != null && appUser.Carts.Count() > 0)
                     {
@@ -149,14 +149,14 @@ namespace Wolmart.Ecommerce.Controllers
 
                 cart = JsonConvert.SerializeObject(cartVMs);
 
-                HttpContext.Response.Cookies.Append("cart",cart);
+                HttpContext.Response.Cookies.Append("cart", cart);
 
                 await _context.Carts.AddRangeAsync(carts);
                 await _context.SaveChangesAsync();
             }
             else
             {
-                if(appUser.Carts != null && appUser.Carts.Count() > 0)
+                if (appUser.Carts != null && appUser.Carts.Count() > 0)
                 {
                     List<CartVM> cartVMs = new List<CartVM>();
                     foreach (Cart carts in appUser.Carts)
@@ -177,7 +177,7 @@ namespace Wolmart.Ecommerce.Controllers
             }
 
 
-            return RedirectToAction("index","home");
+            return RedirectToAction("index", "home");
         }
 
         public async Task<IActionResult> Logout()
@@ -191,19 +191,25 @@ namespace Wolmart.Ecommerce.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-                AppUser appUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            AppUser appUser = await _userManager.Users.Include(u=>u.Orders).ThenInclude(u=>u.OrderItems).ThenInclude(u=>u.Product).FirstOrDefaultAsync( u=>u.UserName == User.Identity.Name);
 
-                if (appUser == null) return NotFound();
+            if (appUser == null) return NotFound();
 
-                ProfileVM profileVM = new ProfileVM
-                {
-                    Name = appUser.FirstName,
-                    Surname = appUser.LastName,
-                    Email = appUser.Email,
-                    Username = appUser.UserName
-                };
+            ProfileVM profileVM = new ProfileVM
+            {
+                Name = appUser.FirstName,
+                Surname = appUser.LastName,
+                Email = appUser.Email,
+                Username = appUser.UserName
+            };
 
-                return View(profileVM);
+            MemberVM memberVM = new MemberVM
+            {
+                ProfileVM = profileVM,
+                Orders = appUser.Orders,
+            };
+
+            return View(memberVM);
         }
 
         [Authorize(Roles = "Member")]
@@ -211,7 +217,7 @@ namespace Wolmart.Ecommerce.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(ProfileVM profileVM)
         {
-            if (!ModelState.IsValid) return View("Profile",profileVM);
+            if (!ModelState.IsValid) return View("Profile", profileVM);
 
             AppUser dbAppUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
@@ -220,7 +226,7 @@ namespace Wolmart.Ecommerce.Controllers
             dbAppUser.UserName = profileVM.Username;
             dbAppUser.Email = profileVM.Email;
 
-            IdentityResult identityResult =  await _userManager.UpdateAsync(dbAppUser);
+            IdentityResult identityResult = await _userManager.UpdateAsync(dbAppUser);
 
             if (!identityResult.Succeeded)
             {
@@ -229,12 +235,12 @@ namespace Wolmart.Ecommerce.Controllers
                     ModelState.AddModelError("", item.Description);
                 };
 
-                return View("Profile",profileVM);
+                return View("Profile", profileVM);
             }
 
             if (profileVM.CurrentPassword != null && profileVM.Password != null)
             {
-                if (await _userManager.CheckPasswordAsync(dbAppUser,profileVM.CurrentPassword) && profileVM.CurrentPassword == profileVM.Password)
+                if (await _userManager.CheckPasswordAsync(dbAppUser, profileVM.CurrentPassword) && profileVM.CurrentPassword == profileVM.Password)
                 {
                     ModelState.AddModelError("", "The old password is the same as the password you typed now!");
                     return View("Profile", profileVM);

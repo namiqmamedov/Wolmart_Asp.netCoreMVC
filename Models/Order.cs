@@ -53,7 +53,8 @@ namespace Wolmart.Ecommerce.Models
         [StringLength(255)]
         public string ZipCode { get; set; }
         public OrderStatus OrderStatus { get; set; }
-        
+        public string Comment  { get; set; }
+
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
         public IEnumerable<OrderItem> OrderItems { get; set; }

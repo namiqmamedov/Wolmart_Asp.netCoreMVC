@@ -1,7 +1,8 @@
-﻿@model ProfileVM
+﻿@model MemberVM
 
 @{
     ViewData["Title"] = "Profile";
+    int counter = 0;
 }
 
 
@@ -172,20 +173,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="order-id">#2321</td>
-                                            <td class="order-name">Namiq Mamedov</td>
-                                            <td class="order-date">August 20, 2021</td>
-                                            <td class="order-status">Processing</td>
+                                        @foreach (Order order in Model.Orders)
+                                {
+                                    counter++;
+                                    <tr>
+                                            <td class="order-id">#@counter</td>MMM/DD/YY
+                                            @*<td class="order-name">@order.Name @order.Surname</td>*@
+                                            <td class="order-date">@order.CreatedAt?.ToString("MMMM dd, yyyy")</td>
+                                            <td class="order-status">@order.OrderStatus</td>
                                             <td class="order-total">
-                                                <span class="order-price">$121.00</span> for
-                                                <span class="order-quantity"> 1</span> item
+                                                <span class="order-price">$@order.TotalPrice</span> for
+                                               @order.OrderItems.Sum(o=>o.Count)
+                                                item
                                             </td>
                                             <td class="order-action">
                                                 <a href="#"
                                                     class="btn btn-outline btn-default btn-block btn-sm btn-rounded">View</a>
                                             </td>
                                         </tr>
+                                        }
                                     </tbody>
                                 </table>
 
@@ -311,7 +317,7 @@
                                         <h4 class="icon-box-title mb-0 ls-normal">Account Details</h4>
                                     </div>
                                 </div>
-                                @await Html.PartialAsync("_AccountProfilePartial",Model)
+                                @await Html.PartialAsync("_AccountProfilePartial",Model.ProfileVM)
                             </div>
                         </div>
                     </div>
