@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
+using Wolmart.Ecommerce.Enums;
 
 namespace Wolmart.Ecommerce.Models
 {
@@ -39,7 +40,6 @@ namespace Wolmart.Ecommerce.Models
         [Required]
         [StringLength(255)]
         public string AddressFirst { get; set; }
-        [Required]
         [StringLength(255)]
         public string AddressSecond { get; set; }
         public string Country { get; set; }
@@ -52,7 +52,9 @@ namespace Wolmart.Ecommerce.Models
         [Required]
         [StringLength(255)]
         public string ZipCode { get; set; }
-        public int UserID { get; set; }
+        public OrderStatus OrderStatus { get; set; }
+        
+        public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
         public IEnumerable<OrderItem> OrderItems { get; set; }
     }

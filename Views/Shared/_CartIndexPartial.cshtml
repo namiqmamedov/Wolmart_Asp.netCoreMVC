@@ -151,7 +151,7 @@
                                         <label>Total</label>
                                         <span class="ls-50">$@(Model.Sum(b=>b.Count * b.Price))</span>
                                     </div>
-                                    <a href="#"
+                                    <a asp-controller="order" asp-action="index"
                                         class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
                                         Proceed to checkout<i class="w-icon-long-arrow-right"></i></a>
                                 </div>

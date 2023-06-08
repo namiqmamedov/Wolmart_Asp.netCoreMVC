@@ -191,9 +191,6 @@ namespace Wolmart.Ecommerce.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-
-            if (User.Identity.IsAuthenticated)
-            {
                 AppUser appUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
                 if (appUser == null) return NotFound();
@@ -207,10 +204,6 @@ namespace Wolmart.Ecommerce.Controllers
                 };
 
                 return View(profileVM);
-            }
-
-            return RedirectToAction("login");
-
         }
 
         [Authorize(Roles = "Member")]

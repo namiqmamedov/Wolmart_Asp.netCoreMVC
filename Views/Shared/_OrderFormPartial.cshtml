@@ -1,0 +1,90 @@
+﻿@model Order
+
+
+<div class="col-lg-7 pr-lg-4 mb-4" >
+                                <h3 class="title billing-title text-uppercase ls-10 pt-1 pb-3 mb-0">
+                                    Billing Details
+                                </h3>
+                                <div class="row gutter-sm">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label>First name *</label>
+                                            <input asp-for="Name" class="form-control form-control-md" 
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label>Last name *</label>
+                                            <input asp-for="Surname" class="form-control form-control-md" 
+                                                required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Company name (optional)</label>
+                                    <input asp-for="CompanyName" class="form-control form-control-md">
+                                </div>
+                                <div class="form-group">
+                                    @*<label>Country / Region *</label>
+                                    <div class="select-box">
+                                        <select name="country" class="form-control form-control-md">
+                                            <option value="default" selected="selected">United States
+                                                (US)
+                                            </option>
+                                            <option value="uk">United Kingdom (UK)</option>
+                                            <option value="us">United States</option>
+                                            <option value="fr">France</option>
+                                            <option value="aus">Australia</option>
+                                        </select>
+                                    </div>*@
+                                </div>
+                                <div class="form-group">
+                                    <label>Street address *</label>
+                                    <input asp-for="AddressFirst" placeholder="House number and street name"
+                                        class="form-control form-control-md mb-2"  required>
+                                    <input asp-for="AddressSecond"  placeholder="Apartment, suite, unit, etc. (optional)"
+                                        class="form-control form-control-md" >
+                                </div>
+                                <div class="row gutter-sm">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Town / City *</label>
+                                            <input asp-for="TownCity" class="form-control form-control-md" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>ZIP *</label>
+                                            <input asp-for="ZipCode" class="form-control form-control-md" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>State *</label>
+                                            @*<div class="select-box">
+                                                <select name="country" class="form-control form-control-md">
+                                                    <option value="default" selected="selected">California</option>
+                                                    <option value="uk">United Kingdom (UK)</option>
+                                                    <option value="us">United States</option>
+                                                    <option value="fr">France</option>
+                                                    <option value="aus">Australia</option>
+                                                </select>
+                                            </div>*@
+                                            <input asp-for="State" class="form-control form-control-md" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Phone *</label>
+                                            <input asp-for="Phone" class="form-control form-control-md" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-7">
+                                    <label>Email address *</label>
+                                    <input asp-for="Email" class="form-control form-control-md" required>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label for="order-notes">Order notes (optional)</label>
+                                    <textarea class="form-control mb-0" id="order-notes" name="order-notes" cols="30"
+                                        rows="4"
+                                        placeholder="Notes about your order, e.g special notes for delivery"></textarea>
+                                </div>
+                            </div>
