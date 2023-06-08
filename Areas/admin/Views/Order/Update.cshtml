@@ -1,14 +1,12 @@
 ﻿@model Order
 @{
-    ViewData["Title"] = "Update";
-    int counter = 0;
+ViewData["Title"] = "Update";
+int counter = 0;
 }
-
 <div class="row justify-content-center" >
-    <div class="col-lg-10" >
-        <div class="card" >
-          <img class="card-img-top" src="..." alt="Card image cap">
-          <div class="card-body">
+   <div class="col-lg-10" >
+      <div class="card" >
+         <div class="card-body">
             <h5 class="card-title">@Model.Name @Model.Surname</h5>
             <p class="card-text">@Model.OrderStatus</p>
             <p class="card-text">@Model.TotalPrice</p>
@@ -17,57 +15,54 @@
             <p class="card-text">@Model.CompanyName</p>
             <p class="card-text">@Model.Phone</p>
             <p class="card-text">@Model.CreatedAt?.ToString("MMMM dd, yyyy")</p>
-          </div>
-          <div>
-              <table class="table table-bordered table-active table-striped">
-                  <thead>
-                      <tr>
-                          <th>#</th>
-                          <th>Product Name</th>
-                          <th>Product Price</th>
-                          <th>Product Count</th>
-                          <th>Product Total price</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                     @foreach (OrderItem orderItem in Model.OrderItems)
-                        {
-                            counter++;
-                            <tr>
-                              <td>@counter</td>
-                              <td>@orderItem.Product.Name</td>
-                              <td>@orderItem.Price</td>
-                              <td>@orderItem.Count</td>
-                              <td>@orderItem.TotalPrice</td>
-                          </tr>
-                        }
-                  </tbody>
-              </table>
-          </div>
-        </div>
-    </div>
-    <div class="col-lg-10"> 
-        <form method="post" asp-area="admin" asp-controller="order" asp-action="update">
-            <div class="form-group">
-        <label asp-for="Name">Name</label>
-        <input name="id" type="hidden" value="@Model.ID" placeholder="Name...">
-        <span class="text-danger" asp-validation-for="Name"></span>
-    </div>
+         </div>
+         <div>
+            <table class="table table-bordered table-active table-striped">
+               <thead>
+                  <tr>
+                     <th>#</th>
+                     <th>Product Name</th>
+                     <th>Product Price</th>
+                     <th>Product Count</th>
+                     <th>Product Total price</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  @foreach (OrderItem orderItem in Model.OrderItems)
+                  {
+                  counter++;
+                  <tr>
+                     <td>@counter</td>
+                     <td>@orderItem.Product.Name</td>
+                     <td>@orderItem.Price</td>
+                     <td>@orderItem.Count</td>
+                     <td>@orderItem.TotalPrice</td>
+                  </tr>
+                  }
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+   <div class="col-lg-10">
+      <form method="post" asp-area="admin" asp-controller="order" asp-action="update">
+         <div class="form-group">
+            <input name="id" type="hidden" value="@Model.ID" placeholder="Name...">
+         </div>
          <div class="form-group">
             <label for="orderStatus">Order Status</label>
             <select name="orderStatus" id="orderStatus" class="form-select" asp-items="new SelectList(Enum.GetValues(typeof(OrderStatus)),Model.OrderStatus)" aria-label="Default select example">
             </select>
             @*<span class="text-danger" asp-validation-for="CategoryID"></span>*@
-            </div>
-            <div class="form-group">
-                 <label for="Comment">Message</label>
-                 <textarea name="Comment" id="Comment" class="form-control" rows="3">
-
-                 </textarea>
-                 @*<span class="text-danger" asp-validation-for="CategoryID"></span>*@
-            </div>
-            <button type="submit" class="btn btn-primary mt-3">Send</button>
-            </form>
-    </div>
+         </div>
+         <div class="form-group">
+            <label for="Comment">Message</label>
+            <textarea name="Comment" id="Comment" class="form-control" rows="3">
+            @Model.Comment
+            </textarea>
+            @*<span class="text-danger" asp-validation-for="CategoryID"></span>*@
+         </div>
+         <button type="submit" class="btn btn-primary mt-3">Send</button>
+      </form>
+   </div>
 </div>
-

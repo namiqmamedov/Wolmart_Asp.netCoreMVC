@@ -52,12 +52,16 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
             if (id == null) return BadRequest();
 
             Order order = await _context.Orders
-                .FirstOrDefaultAsync(o => o.ID == id);
+            .FirstOrDefaultAsync(o => o.ID == id);
 
             if (order == null) return NotFound();
 
+            order.OrderStatus = orderStatus;
+            order.Comment = Comment;
 
-            return Ok();
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("index") ;
         }
         
     }
