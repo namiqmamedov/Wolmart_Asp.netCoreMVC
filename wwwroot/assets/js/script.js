@@ -134,7 +134,6 @@
             })
     })
 
-
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -153,8 +152,8 @@
         "hideMethod": "fadeOut"
     }
 
-    if ($('#successInput').val().length) {
-        toastr["success"]($('#successInput').val().slice(6), $('#successInput').val().split(' ')[0]);
+    if ($('#successInputAcc').val().length) {
+        toastr["success"]($('#successInputAcc').val().slice(6), $('#successInputAcc').val().split(' ')[0]);
     }
 
     if ($('#successInputPassword').val().length) {

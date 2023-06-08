@@ -222,34 +222,26 @@ namespace Wolmart.Ecommerce.Controllers
 
             AppUser dbAppUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            if (dbAppUser.NormalizedUserName != profileVM.Username.Trim().ToUpperInvariant() ||
-                dbAppUser.FirstName != profileVM.Name.Trim().ToUpperInvariant() ||
-                dbAppUser.LastName != profileVM.Surname.Trim().ToUpperInvariant() ||
-                dbAppUser.UserName != profileVM.Username.Trim().ToUpperInvariant() ||
-                dbAppUser.Email != profileVM.Email.Trim().ToUpperInvariant())
+            dbAppUser.FirstName = profileVM.Name;
+            dbAppUser.LastName = profileVM.Surname;
+            dbAppUser.UserName = profileVM.Username;
+            dbAppUser.Email = profileVM.Email;
+
+            IdentityResult identityResult =  await _userManager.UpdateAsync(dbAppUser);
+
+            if (!identityResult.Succeeded)
             {
-                dbAppUser.FirstName = profileVM.Name;
-                dbAppUser.LastName = profileVM.Surname;
-                dbAppUser.UserName = profileVM.Username;
-                dbAppUser.Email = profileVM.Email;
-
-                IdentityResult identityResult = await _userManager.UpdateAsync(dbAppUser);
-
-                if (!identityResult.Succeeded)
+                foreach (var item in identityResult.Errors)
                 {
-                    foreach (var item in identityResult.Errors)
-                    {
-                        ModelState.AddModelError("", item.Description);
-                    };
+                    ModelState.AddModelError("", item.Description);
+                };
 
-                    return View("Profile", profileVM);
-                }
-                TempData["success"] = "Great! You have updated successfully.";
+                return View("Profile",profileVM);
             }
 
             if (profileVM.CurrentPassword != null && profileVM.Password != null)
             {
-                IdentityResult identityResult = await _userManager.ChangePasswordAsync(dbAppUser, profileVM.CurrentPassword, profileVM.Password);
+                identityResult = await _userManager.ChangePasswordAsync(dbAppUser, profileVM.CurrentPassword, profileVM.Password);
 
                 if (!identityResult.Succeeded)
                 {
@@ -260,9 +252,9 @@ namespace Wolmart.Ecommerce.Controllers
 
                     return View("Profile", profileVM);
                 }
-                TempData["successPassword"] = "Great! Your password changed succesfully.";
- 
             }
+
+            TempData["success"] = "Great! You have updated successfully.";
 
             return RedirectToAction("Profile");
         }
