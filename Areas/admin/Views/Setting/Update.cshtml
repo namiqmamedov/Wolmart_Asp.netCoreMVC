@@ -1,0 +1,37 @@
+﻿@model Setting
+
+@{ ViewData["Title"] = "Update"; }
+
+<h1>Update</h1>
+<script src="~/assets/ckeditor5-build-classic/ckeditor.js"></script>
+    <div class="main product-index">
+        <div class="row">
+            <form method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label asp-for="Value" for="inputCKname" class="form-label"></label>
+                        <textarea id="inputCKname" asp-for="Value"></textarea>
+                        @*<span asp-validation-for="Value"></span>*@
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+
+
+
+<script>
+
+        ClassicEditor
+        .create(document.querySelector('#inputCKname'), {
+        })
+        .then(editor => {
+            window.editor = editor;
+        })
+        .catch(err => {
+            console.error(err.stack);
+        });
+
+</script>
+
