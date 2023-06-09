@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Models;
@@ -12,10 +15,12 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
     public class SettingController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public SettingController(AppDbContext context)
+        public SettingController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
         public async Task<IActionResult> Index()
         {
@@ -54,6 +59,24 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("index");
+        }
+
+        [HttpPost]
+        public ActionResult UploadImage(List<IFormFile> upload)
+        {
+            var filepath = "";
+
+            foreach (IFormFile photo in Request.Form.Files)
+            {
+                string serverMapPath = Path.Combine(_env.WebRootPath, "assets", "images", photo.FileName);
+                using (var stream = new FileStream(serverMapPath, FileMode.Create))
+                {
+                    photo.CopyTo(stream);
+                }
+                filepath = "/assets/" + "images/" + photo.FileName;
+            }
+
+            return Json(new { url = filepath });
         }
     }
 }
