@@ -32,7 +32,7 @@ namespace Wolmart.Ecommerce.ViewComponents
 
             string cart = HttpContext.Request.Cookies["cart"];
 
-            if (!string.IsNullOrWhiteSpace(cart)) 
+            if (!string.IsNullOrWhiteSpace(cart))
             {
                 cartVMs = JsonConvert.DeserializeObject<List<CartVM>>(cart);
 
@@ -61,6 +61,24 @@ namespace Wolmart.Ecommerce.ViewComponents
 
                         HttpContext.Response.Cookies.Append("cart", cart);
                     }
+
+                    else if (appUser.Carts != null && appUser.Carts.Count() > 0)
+                    {
+                        foreach (CartVM cartVM in cartVMs)
+                        {
+                            if (cartVMs.Any(c => c.ProductID == cartVM.ProductID))
+                            {
+                                Cart existedCart = appUser.Carts.FirstOrDefault(c => c.ProductID == cartVM.ProductID);
+
+                                appUser.Carts.Remove(existedCart);
+                            }
+                        }
+                        await _context.SaveChangesAsync();
+
+                        cart = JsonConvert.SerializeObject(cartVMs);
+
+                        HttpContext.Response.Cookies.Append("cart", cart);
+                    }
                 }
 
                 foreach (CartVM cartVM in cartVMs)
@@ -83,7 +101,7 @@ namespace Wolmart.Ecommerce.ViewComponents
                 CartVMs = cartVMs
             };
 
-             return View(await Task.FromResult(headerVM));
+            return View(await Task.FromResult(headerVM));
         }
 
     }

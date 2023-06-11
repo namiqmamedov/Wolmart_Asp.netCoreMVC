@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +62,24 @@ namespace Wolmart.Ecommerce.Services
                             cartVMs.Add(cartVM);
                         }
                     }
+
+                    cart = JsonConvert.SerializeObject(cartVMs);
+
+                    _httpContextAccessor.HttpContext.Response.Cookies.Append("cart", cart);
+                }
+
+                else if (appUser.Carts != null && appUser.Carts.Count() > 0)
+                {
+                    foreach (CartVM cartVM in cartVMs)
+                    {
+                        if (cartVMs.Any(c => c.ProductID == cartVM.ProductID))
+                        {
+                            Cart existedCart = appUser.Carts.FirstOrDefault(c => c.ProductID == cartVM.ProductID);
+
+                            appUser.Carts.Remove(existedCart);
+                        }
+                    }
+                    await _context.SaveChangesAsync();
 
                     cart = JsonConvert.SerializeObject(cartVMs);
 

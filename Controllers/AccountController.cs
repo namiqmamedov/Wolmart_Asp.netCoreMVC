@@ -70,7 +70,7 @@ namespace Wolmart.Ecommerce.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login()
+        public IActionResult Login()
         {
             return View();
         }
@@ -78,10 +78,11 @@ namespace Wolmart.Ecommerce.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Login(LoginVM loginVM)
+        public async Task<IActionResult> Login(int? id,LoginVM loginVM)
         {
 
-            AppUser appUser = await _userManager.Users.Include(u => u.Carts).FirstOrDefaultAsync(u => u.NormalizedEmail == loginVM.LoginEmail.Trim().ToUpperInvariant() && !u.isAdmin && !u.IsDeleted);
+            AppUser appUser = await _userManager.Users.Include(u => u.Carts).FirstOrDefaultAsync(u => u.NormalizedEmail == 
+            loginVM.LoginEmail.Trim().ToUpperInvariant() && !u.isAdmin && !u.IsDeleted);
             //AppUser appUser = await _userManager.FindByEmailAsync(loginVM.LoginEmail);
 
             if (appUser == null)
@@ -130,7 +131,7 @@ namespace Wolmart.Ecommerce.Controllers
                         }
                         else
                         {
-                            existedCart.Count = cartVM.Count;
+                            existedCart.Count += cartVM.Count;
                             cartVM.Count = existedCart.Count;
                         }
                     }
@@ -158,13 +159,13 @@ namespace Wolmart.Ecommerce.Controllers
             {
                 if (appUser.Carts != null && appUser.Carts.Count() > 0)
                 {
-                    List<CartVM> cartVMs = new List<CartVM>();
+                    List<CartVM> cartVMs = new List<CartVM>(); 
                     foreach (Cart carts in appUser.Carts)
                     {
                         CartVM cartVM = new CartVM
                         {
                             ProductID = carts.ProductID,
-                            Count = carts.Count
+                            Count = carts.Count,
                         };
 
                         cartVMs.Add(cartVM);
@@ -176,6 +177,26 @@ namespace Wolmart.Ecommerce.Controllers
                 }
             }
 
+            if (User.Identity.IsAuthenticated)
+            {
+                List<CartVM> cartVMs = JsonConvert.DeserializeObject<List<CartVM>>(cart);
+
+                foreach (CartVM cartVM in cartVMs)
+                {
+                    if (appUser.Carts != null && appUser.Carts.Count() > 0)
+                    {
+                        Cart existedCart = appUser.Carts.FirstOrDefault(c => c.ProductID == cartVM.ProductID);
+
+                        appUser.Carts.Remove(existedCart);
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+
+                cart = JsonConvert.SerializeObject(cartVMs);
+
+                HttpContext.Response.Cookies.Append("cart", cart);
+            }
 
             return RedirectToAction("index", "home");
         }

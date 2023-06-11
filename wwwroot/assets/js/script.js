@@ -62,6 +62,11 @@
             .then(res => res.text())
             .then(data => {
                 $('.cart-dropdown').html(data);
+                //fetch('.cart-dropdown')
+                //    .then(res => res.text())
+                //    .then(data => {
+                //        $('#cartIndex .cart-table tbody tr').html(data);
+                //    })
             })
     })
 

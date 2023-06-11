@@ -21,7 +21,7 @@ namespace Wolmart.Ecommerce.Controllers
             _userManager = userManager;
         }
 
-        public async  Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             string cart = HttpContext.Request.Cookies["cart"];
 
@@ -150,7 +150,7 @@ namespace Wolmart.Ecommerce.Controllers
             }
 
             if(!await _context.Products.AnyAsync(p=>p.ID == id))
-            {
+            {   
                 return NotFound();    
             }
 
@@ -163,6 +163,20 @@ namespace Wolmart.Ecommerce.Controllers
             CartVM cartVM = cartVMs.Find(p => p.ProductID == id);
 
             if(cartVM == null) { return NotFound(); }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                AppUser appUser = await _userManager.Users.Include(u => u.Carts).FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+                if (appUser != null && appUser.Carts.Count() > 0)
+                {
+                    Cart dbCart = appUser.Carts.FirstOrDefault(c => c.ProductID == id);
+
+                    appUser.Carts.Remove(dbCart);
+                }
+
+                await _context.SaveChangesAsync();
+            }
 
             cartVMs.Remove(cartVM);
 
@@ -207,7 +221,7 @@ namespace Wolmart.Ecommerce.Controllers
             return PartialView("_CartIndexPartial", await _getCartItemAsync(cartVMs));
         }
 
-        public async Task<IActionResult> DeleteFromCart(int? id)
+        public async Task<IActionResult> DeleteFromCart(int? id) 
         {
             if (id == null)
             {
@@ -228,6 +242,20 @@ namespace Wolmart.Ecommerce.Controllers
             CartVM cartVM = cartVMs.Find(p => p.ProductID == id);
 
             if (cartVM == null) { return NotFound(); }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                AppUser appUser = await _userManager.Users.Include(u => u.Carts).FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+                if (appUser != null && appUser.Carts.Count() > 0)
+                {
+                    Cart dbCart = appUser.Carts.FirstOrDefault(c => c.ProductID == id);
+
+                    appUser.Carts.Remove(dbCart);
+                }
+                await _context.SaveChangesAsync();
+            }
+
 
             cartVMs.Remove(cartVM);
 
