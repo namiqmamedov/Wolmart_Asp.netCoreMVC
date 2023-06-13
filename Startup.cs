@@ -6,15 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NETCore.MailKit.Core;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Interfaces;
 using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.Services;
+using IEmailService = Wolmart.Ecommerce.Interfaces.IEmailService;
 
 namespace Wolmart.Ecommerce
 {
@@ -53,6 +52,7 @@ namespace Wolmart.Ecommerce
 
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
             services.AddScoped<ILayoutService, LayoutService>();
+            services.AddScoped<IEmailService, Services.EmailService>();
 
             services.AddHttpContextAccessor();
         }

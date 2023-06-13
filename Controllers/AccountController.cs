@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using NETCore.MailKit.Core;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
+using Wolmart.Ecommerce.Interfaces;
 using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.ViewModels.AccountViewModels;
 using Wolmart.Ecommerce.ViewModels.CartViewModels;
@@ -81,7 +81,7 @@ namespace Wolmart.Ecommerce.Controllers
 
                 if (!string.IsNullOrEmpty(token))
                 {
-
+                    await SendEmailConfirmationEmail(appUser, token);
                 }
             }
 
@@ -317,11 +317,11 @@ namespace Wolmart.Ecommerce.Controllers
                 PlaceHolders = new List<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("{{UserName}}", appUser.FirstName),
-                    new KeyValuePair<string, string>("{{Link}}", string.Format(appDomain + confirmationLink,appUser.Id,token)
+                    new KeyValuePair<string, string>("{{Link}}", string.Format(appDomain + confirmationLink,appUser.Id,token))
                 }
             };
 
-            //await _emailService.Send(options);
+            await _emailService.SendEmailForEmailConfirmation(options);
         }
     }
 }

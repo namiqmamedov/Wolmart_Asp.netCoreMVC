@@ -6,11 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.Models;
 using Microsoft.Extensions.Options;
+using Wolmart.Ecommerce.Interfaces;
 using System.IO;
 
 namespace Wolmart.Ecommerce.Services
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
         private const string templatePath = @"EmailTemplate/{0}.html";
         private readonly SMTPConfigModel _smtpConfig;
