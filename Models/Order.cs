@@ -58,6 +58,9 @@ namespace Wolmart.Ecommerce.Models
         public Countries Countries { get; set; }
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
+       
         public IEnumerable<OrderItem> OrderItems { get; set; }
+        [NotMapped]
+        public List<int> CountryIDs { get; set; }
     }
 }

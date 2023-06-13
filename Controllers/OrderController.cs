@@ -28,6 +28,7 @@ namespace Wolmart.Ecommerce.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            ViewBag.Countries = await _context.Countries.ToListAsync();
             AppUser appUser = await  _userManager.FindByNameAsync(User.Identity.Name);
 
             List<Cart> carts = await _context.Carts.Include(c=>c.Product).Where(c => c.AppUserID == appUser.Id).ToListAsync();
@@ -50,6 +51,7 @@ namespace Wolmart.Ecommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(Order order)
         {
+            ViewBag.Countries = await _context.Countries.ToListAsync();
             AppUser appUser = await _userManager.Users.Include(u=>u.Carts).ThenInclude(c=>c.Product).FirstOrDefaultAsync(u=>u.UserName == User.Identity.Name);
 
             List<OrderItem> orderItems = new List<OrderItem>();
@@ -75,7 +77,6 @@ namespace Wolmart.Ecommerce.Controllers
 
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
-            //order.UserID
 
             return RedirectToAction("Index", "home",appUser); 
         }

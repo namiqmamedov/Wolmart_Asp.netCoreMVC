@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using NETCore.MailKit.Core;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +21,29 @@ namespace Wolmart.Ecommerce.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly AppDbContext _context;
-        public AccountController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, AppDbContext context)
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
+
+        public AccountController(RoleManager<IdentityRole> roleManager, 
+            UserManager<AppUser> userManager, 
+            SignInManager<AppUser> signInManager, 
+            AppDbContext context,
+            IEmailService emailService,
+            IConfiguration configuration)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _emailService = emailService;
+            _configuration = configuration;
         }
         public IActionResult Index()
         {
             return View();
         }
 
-        public async Task<IActionResult> Register()
+        public IActionResult Register()
         {
             return View();
         }
@@ -62,6 +74,15 @@ namespace Wolmart.Ecommerce.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
                 return View();
+            }
+            else
+            {
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(appUser);
+
+                if (!string.IsNullOrEmpty(token))
+                {
+
+                }
             }
 
             await _userManager.AddToRoleAsync(appUser, "Member");
@@ -286,30 +307,21 @@ namespace Wolmart.Ecommerce.Controllers
             return RedirectToAction("Profile");
         }
 
-        //public async Task<IActionResult> CreateRole()
-        //{
-        //    await _roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
-        //    await _roleManager.CreateAsync(new IdentityRole { Name = "Member" });
+        private async Task SendEmailConfirmationEmail(AppUser appUser, string token)
+        {
+            string appDomain = _configuration.GetSection("Application:AppDomain").Value;
+            string confirmationLink = _configuration.GetSection("Application:EmailConfirmation").Value;
+            UserEmailOptions options = new UserEmailOptions
+            {
+                ToEmails = new List<string>() { appUser.Email },
+                PlaceHolders = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("{{UserName}}", appUser.FirstName),
+                    new KeyValuePair<string, string>("{{Link}}", string.Format(appDomain + confirmationLink,appUser.Id,token)
+                }
+            };
 
-        //    return Content("success!");
-        //}
-
-        //public async Task<IActionResult> CreateAdmin()
-        //{
-        //    AppUser appUser = new AppUser
-        //    {
-        //        FirstName = "Namiq",
-        //        LastName = "Mamedov",
-        //        UserName = "namiq",
-        //        Email = "techzip13@gmail.com",
-        //        isAdmin = true,
-        //    };
-
-        //    await _userManager.CreateAsync(appUser,"namiq1144");
-
-        //    await _userManager.AddToRoleAsync(appUser, "Admin");
-
-        //    return Content("Admin is created");
-        //}
+            //await _emailService.Send(options);
+        }
     }
 }

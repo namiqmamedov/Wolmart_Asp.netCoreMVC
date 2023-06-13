@@ -49,8 +49,9 @@ namespace Wolmart.Ecommerce
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
                 options.Lockout.MaxFailedAccessAttempts = 4;
                
-            }).AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
+            services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
             services.AddScoped<ILayoutService, LayoutService>();
 
             services.AddHttpContextAccessor();
@@ -65,12 +66,9 @@ namespace Wolmart.Ecommerce
             }
 
             app.UseRouting();
-
             app.UseStaticFiles();
-
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
