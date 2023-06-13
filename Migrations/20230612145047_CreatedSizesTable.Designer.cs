@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wolmart.Ecommerce.DAL;
 
 namespace Wolmart.Ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230612145047_CreatedSizesTable")]
+    partial class CreatedSizesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -568,36 +570,6 @@ namespace Wolmart.Ecommerce.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.ProductColorSize", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ColorID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SizeID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ColorID");
-
-                    b.HasIndex("ProductID");
-
-                    b.HasIndex("SizeID");
-
-                    b.ToTable("ProductColorSizes");
-                });
-
             modelBuilder.Entity("Wolmart.Ecommerce.Models.ProductImage", b =>
                 {
                     b.Property<int>("ID")
@@ -826,33 +798,6 @@ namespace Wolmart.Ecommerce.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.ProductColorSize", b =>
-                {
-                    b.HasOne("Wolmart.Ecommerce.Models.Color", "Color")
-                        .WithMany("ProductColorSizes")
-                        .HasForeignKey("ColorID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Wolmart.Ecommerce.Models.Product", "Product")
-                        .WithMany("ProductColorSizes")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Wolmart.Ecommerce.Models.Size", "Size")
-                        .WithMany("ProductColorSizes")
-                        .HasForeignKey("SizeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Color");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Size");
-                });
-
             modelBuilder.Entity("Wolmart.Ecommerce.Models.ProductImage", b =>
                 {
                     b.HasOne("Wolmart.Ecommerce.Models.Product", "Product")
@@ -883,11 +828,6 @@ namespace Wolmart.Ecommerce.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.Color", b =>
-                {
-                    b.Navigation("ProductColorSizes");
-                });
-
             modelBuilder.Entity("Wolmart.Ecommerce.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -899,14 +839,7 @@ namespace Wolmart.Ecommerce.Migrations
 
                     b.Navigation("OrderItems");
 
-                    b.Navigation("ProductColorSizes");
-
                     b.Navigation("ProductImages");
-                });
-
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.Size", b =>
-                {
-                    b.Navigation("ProductColorSizes");
                 });
 #pragma warning restore 612, 618
         }

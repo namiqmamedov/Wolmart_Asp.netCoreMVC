@@ -44,6 +44,10 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         {
             ViewBag.Brands = await _context.Brands.Where(b=>!b.IsDeleted).ToListAsync();
             ViewBag.Categories = await _context.Categories.Where(b=>!b.IsDeleted &&  !b.IsMain).ToListAsync();
+            ViewBag.Colors = await _context.Colors.ToListAsync();
+            ViewBag.Sizes = await _context.Sizes.ToListAsync();
+
+
             return View();
         }
 
@@ -53,6 +57,8 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         {
             ViewBag.Brands = await _context.Brands.Where(b => !b.IsDeleted).ToListAsync();
             ViewBag.Categories = await _context.Categories.Where(b => !b.IsDeleted && !b.IsMain).ToListAsync();
+            ViewBag.Colors = await _context.Colors.ToListAsync();
+            ViewBag.Sizes = await _context.Sizes.ToListAsync();
 
             if (!ModelState.IsValid) return View();
 
@@ -74,6 +80,50 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
                 return View();
             }
+
+            if (product.ColorIDs.Count() != product.SizeIDs.Count() || product.ColorIDs.Count() != product.Counts.Count() || product.SizeIDs.Count() != product.Counts.Count())
+            {
+                ModelState.AddModelError("", "Select a correct list");
+
+                return View();
+            }
+
+            List<ProductColorSize> productColorSizes = new List<ProductColorSize>();
+            
+            for (int i = 0; i < product.ColorIDs.Count(); i++)
+            {
+
+                if (!await _context.Colors.AnyAsync(c=>c.ID == product.ColorIDs[i]))
+                {
+                    ModelState.AddModelError("", $"This color id {product.ColorIDs[i]} is incorrect`");
+
+                    return View();
+                }
+
+                if (!await _context.Sizes.AnyAsync(c => c.ID == product.SizeIDs[i]))
+                {
+                    ModelState.AddModelError("", $"This color id {product.SizeIDs[i]} is incorrect`");
+
+                    return View();
+                }
+
+                if (product.Counts[i] <= 0)
+                {
+                    ModelState.AddModelError("", $"Count is incorrect");
+
+                    return View();
+                }
+
+                ProductColorSize productColorSize = new ProductColorSize
+                {
+                    ColorID = product.ColorIDs[i],
+                    SizeID = product.SizeIDs[i],
+                    Count = product.Counts[i],
+                };
+
+                productColorSizes.Add(productColorSize);
+            }
+            product.ProductColorSizes = productColorSizes;
 
             if (product.Files != null && product.Files.Count() > 5) 
             {
@@ -154,6 +204,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
             product.Name = product.Name.Trim();
             product.Price = product.Price;
             product.DiscountedPrice = product.DiscountedPrice;
+            product.Count = productColorSizes.Sum(x => x.Count);
 
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
@@ -314,6 +365,15 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
             FileHelper.DeleteFile(_env, productImage.Image, "assets", "images", "shop");
 
             return PartialView("_ProductImagePartial", product.ProductImages);
+        }
+    
+        public async Task<IActionResult> ColorSizeItem()
+        {
+            ViewBag.Colors = await _context.Colors.ToListAsync();
+            ViewBag.Sizes = await _context.Sizes.ToListAsync();
+
+
+            return PartialView("_ProductColorSizePartial");
         }
     }
 }

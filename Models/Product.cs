@@ -37,7 +37,8 @@ namespace Wolmart.Ecommerce.Models
         public List<ProductImage> ProductImages { get; set; }
         public IEnumerable<Cart> Carts { get; set; }
         public IEnumerable<OrderItem> OrderItems { get; set; }
-        
+        public IEnumerable<ProductColorSize> ProductColorSizes { get; set; }
+
         [NotMapped]
         public IFormFile MainFile { get; set; }
         [NotMapped]
@@ -45,5 +46,13 @@ namespace Wolmart.Ecommerce.Models
         [NotMapped]
         [MaxLength(5)]
         public IEnumerable<IFormFile> Files { get; set; }
+        [NotMapped]
+        public List<int> ColorIDs { get; set; } 
+        [NotMapped]
+        public List<int> SizeIDs { get; set; } 
+        [NotMapped]
+        public List<int> Counts { get; set; } 
+
+
     }
 }

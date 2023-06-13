@@ -21,5 +21,8 @@ namespace Wolmart.Ecommerce.DAL
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Color> Colors { get; set; }
+        public DbSet<Size> Sizes { get; set; }
+        public DbSet<ProductColorSize> ProductColorSizes { get; set; }
     } 
 }

@@ -1,4 +1,13 @@
 ﻿$(document).ready(function () {
+    $(document).on('click', '.addInput', function (e) {
+        e.preventDefault();
+         
+        fetch($(this).attr('href'))
+            .then(res => res.text())
+            .then(data => {
+                $('.select-main').append(data)
+            })
+    })
 
     $(document).on('click', '#deleteBtn', function (e) {
         e.preventDefault();

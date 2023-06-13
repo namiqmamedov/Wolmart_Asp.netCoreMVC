@@ -133,7 +133,7 @@
                                                         <b>Total</b>
                                                     </th>
                                                     <td>
-                                                        <b>$100.00</b>
+                                                        <b>$@(Model.Carts.Sum(c=>c.Product.DiscountedPrice > 0 ? c.Product.DiscountedPrice * c.Count : c.Product.Price * c.Count).ToString("F2"))</b>
                                                     </td>
                                                 </tr>
                                             </tfoot>

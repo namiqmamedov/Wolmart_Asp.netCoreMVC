@@ -1,0 +1,17 @@
+﻿@model Product
+
+<div class="form-group col-lg-4">
+                <label asp-for="ColorIDs">Colors</label>
+                <select name="ColorIDs" class="form-select"  asp-items="new SelectList(ViewBag.Colors,nameof(Color.ID),nameof(Color.Name))" aria-label="Default select example">
+                </select>
+             </div>
+             <div class="form-group col-lg-4">
+                <label asp-for="SizeIDs">Colors</label>
+                <select name="SizeIDs" class="form-select"  asp-items="new SelectList(ViewBag.Sizes,nameof(Size.ID),nameof(Size.Name))" aria-label="Default select example">
+                </select>
+             </div>
+             <div class="form-group col-lg-4">
+                <label>Count</label>
+                <input name="Counts" placeholder="Count...">
+                <span class="text-danger" asp-validation-for="Count"></span>
+ </div>
