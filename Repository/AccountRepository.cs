@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Interfaces;
 using Wolmart.Ecommerce.Models;
+using Wolmart.Ecommerce.ViewModels.AccountViewModels;
 
 namespace Wolmart.Ecommerce.Repository
 {
@@ -38,7 +39,6 @@ namespace Wolmart.Ecommerce.Repository
         {
              return await _userManager.FindByEmailAsync(email);
         }
-
         public async Task SendEmailConfirmationEmail(AppUser appUser, string token)
         {
             string appDomain = _configuration.GetSection("Application:AppDomain").Value;
@@ -55,13 +55,31 @@ namespace Wolmart.Ecommerce.Repository
 
             await _emailService.SendEmailForEmailConfirmation(options);
         }
+        public async Task SendForgotPasswordEmail(AppUser appUser, string token)
+        {
+            string appDomain = _configuration.GetSection("Application:AppDomain").Value;
+            string confirmationLink = _configuration.GetSection("Application:ForgotPassword").Value;
 
-        [HttpPost]
+            UserEmailOptions options = new UserEmailOptions
+            {
+                ToEmails = new List<string>() { appUser.Email },
+                PlaceHolders = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("{{UserName}}", appUser.FirstName),
+                    new KeyValuePair<string, string>("{{Link}}", string.Format(appDomain + confirmationLink,appUser.Id,token))
+                }
+            };
+
+            await _emailService.SendEmailForForgotPassword(options);
+        }
         public async Task<IdentityResult> ConfirmEmailAsync(string uid, string token)
         {
             return await _userManager.ConfirmEmailAsync(await _userManager.FindByIdAsync(uid), token);
         }
-
+        public async Task<IdentityResult> ResetPasswordAsync(ResetPasswordVM model)
+        {
+            return await _userManager.ResetPasswordAsync(await _userManager.FindByIdAsync(model.UserId), model.Token, model.NewPassword);
+        }
         public async Task GenerateEmailConfirmationTokenAsync(AppUser appUser)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(appUser);
@@ -69,6 +87,16 @@ namespace Wolmart.Ecommerce.Repository
             if (!string.IsNullOrEmpty(token))
             { 
                 await SendEmailConfirmationEmail(appUser, token);
+            }
+        }
+
+        public async Task GenerateForgotPasswordTokenAsync(AppUser appUser)
+        {
+            var token = await _userManager.GeneratePasswordResetTokenAsync(appUser);
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                await SendForgotPasswordEmail(appUser, token);
             }
         }
     }

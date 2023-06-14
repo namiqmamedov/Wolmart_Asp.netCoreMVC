@@ -24,6 +24,15 @@ namespace Wolmart.Ecommerce.Services
 
             await SendEmail(userEmailOptions);
         }
+        public async Task SendEmailForForgotPassword(UserEmailOptions userEmailOptions)
+        {
+            userEmailOptions.Subject = UpdatePlaceHolders("Hello {{UserName}}, reset your password.", userEmailOptions.PlaceHolders);
+
+            userEmailOptions.Body = UpdatePlaceHolders(GetEmailBody("ForgotPassword"), userEmailOptions.PlaceHolders);
+
+            await SendEmail(userEmailOptions);
+        }
+
         public EmailService(IOptions<SMTPConfigModel> smtpConfig)
         {
             _smtpConfig = smtpConfig.Value;
@@ -57,13 +66,11 @@ namespace Wolmart.Ecommerce.Services
             mail.BodyEncoding = Encoding.Default;
             await smtpClient.SendMailAsync(mail);
         }
-
         private string GetEmailBody(string templateName)
         {
             var body = File.ReadAllText(string.Format(templatePath, templateName));
             return body;
         }
-
         private string UpdatePlaceHolders(string text, List<KeyValuePair<string, string>> keyValuePairs)
         {
             if (!string.IsNullOrEmpty(text) && keyValuePairs != null)

@@ -21398,3 +21398,305 @@ aside .sp-sidebar-banner span {
             justify-content: center;
   }
 }
+
+
+.woocommerce-form {
+    font-size: 1.3rem
+}
+
+    .woocommerce-form .form-row {
+        margin-bottom: 1.8rem
+    }
+
+    .woocommerce-form label {
+        margin-bottom: 8px
+    }
+
+.button {
+    display: inline-block;
+    border: 2px solid #eee;
+    outline: 0;
+    border-radius: 0;
+    padding: 1.3rem 2.7rem;
+    font-weight: 600;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: center;
+    transition: color 0.3s,border-color 0.3s,background-color 0.3s,box-shadow 0.3s;
+    white-space: nowrap;
+    cursor: pointer;
+    color: #fff;
+    border-color: #336699;
+    background-color: #336699
+}
+
+    .button:active, .button:focus, .button:hover {
+        color: #fff;
+        border-color: #3c78b3;
+        background-color: #3c78b3
+    }
+
+    .button.btn-solid {
+        color: #336699;
+        border-color: #fff;
+        background-color: #fff
+    }
+
+        .button.btn-solid:active, .button.btn-solid:focus, .button.btn-solid:hover {
+            border-color: #336699;
+            background-color: #336699;
+            color: #fff
+        }
+
+    .button.btn-outline {
+        color: #336699;
+        border-color: #336699;
+        background-color: transparent
+    }
+
+        .button.btn-outline:active, .button.btn-outline:focus, .button.btn-outline:hover {
+            background-color: #336699;
+            color: #fff
+        }
+
+    .button.btn-link {
+        background-color: transparent;
+        color: #336699
+    }
+
+        .button.btn-link:active, .button.btn-link:focus, .button.btn-link:hover {
+            color: #333
+        }
+
+    .button.btn-underline:active, .button.btn-underline:focus, .button.btn-underline:hover {
+        color: #336699
+    }
+
+    .button.loading {
+        opacity: 0.3
+    }
+
+    .button[disabled] {
+        cursor: not-allowed;
+        pointer-events: none
+    }
+
+.form-footer label {
+    margin-bottom: 0
+}
+
+.lost_password {
+    margin-bottom: 0
+}
+
+    .lost_password a {
+        color: #a94442
+    }
+
+.woocommerce-privacy-policy-link {
+    color: #336699
+}
+
+    .woocommerce-privacy-policy-link:hover {
+        text-decoration: underline
+    }
+
+form .submit-status {
+    margin: 2rem 0 0;
+    color: var(--wolmart-danger-color,#a94442)
+}
+
+form.lost_reset_password {
+    width: 450px;
+    margin: 0 auto;
+    border: 1px solid #ebebeb;
+    padding: 5rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1)
+}
+
+.woocommerce > .login-popup {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background: #fff
+}
+
+.woocommerce-form-row .button, .woocommerce-form .button {
+    display: block;
+    width: 100%
+}
+
+.woocommerce-form-login p {
+    font-size: inherit;
+    line-height: 1.84
+}
+
+    .woocommerce-form-login p:empty:before {
+        content: none
+    }
+
+.woocommerce-form-login .form-row {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem
+}
+
+    .woocommerce-form-login .form-row label {
+        display: inline-block;
+        margin-bottom: 8px
+    }
+
+    .woocommerce-form-login .form-row span {
+        vertical-align: middle
+    }
+
+    .woocommerce-form-login .form-row .form-control {
+        height: 3.7rem
+    }
+
+    .woocommerce-form-login .form-row .input-text {
+        background: #fff
+    }
+
+    .woocommerce-form-login .form-row input {
+        margin-right: 0.5rem
+    }
+
+        .woocommerce-form-login .form-row input[type=radio] {
+            vertical-align: sub
+        }
+
+.woocommerce-form-login .form-footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem
+}
+
+    .woocommerce-form-login .form-footer p {
+        margin-bottom: 8px;
+        line-height: inherit
+    }
+
+.woocommerce-form-login .button {
+    padding: 1rem
+}
+
+.woocommerce-form-login .lost-link {
+    text-align: right;
+    color: #a94442
+}
+
+    .woocommerce-form-login .lost-link:hover {
+        text-decoration: underline
+    }
+
+.woocommerce-form-login .social-login {
+    margin-bottom: 2.5rem;
+    color: #999
+}
+
+    .woocommerce-form-login .social-login p {
+        margin-bottom: 8px;
+        font-size: 1.2rem
+    }
+
+.woocommerce-form-login .social-icon {
+    color: #666
+}
+
+    .woocommerce-form-login .social-icon.framed {
+        border-color: #ccc
+    }
+
+.woocommerce-form-login .custom-checkbox {
+    margin-bottom: 2.5rem;
+    line-height: initial
+}
+.woocommerce-form-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.woocommerce-form-login .woocommerce-password-strength {
+    margin: 10px 0;
+    padding: 8px;
+    color: #fff;
+    text-align: center;
+    background: #336699
+}
+
+    .woocommerce-form-login .woocommerce-password-strength.short {
+        background: #ffa800
+    }
+
+    .woocommerce-form-login .woocommerce-password-strength.bad {
+        background: #a94442
+    }
+
+    .woocommerce-form-login .woocommerce-password-strength.good {
+        background: #799b5a
+    }
+
+.woocommerce-form-login .woocommerce-password-hint {
+    font-size: 1.2rem;
+    line-height: 1.86
+}
+
+.woocommerce-form-login .title {
+    font-size: 1.3rem;
+    font-weight: normal;
+    color: #666;
+    margin-bottom: 1.5rem
+}
+
+.input-text::placeholder {
+    color: inherit
+}
+
+.form-row {
+    line-height: 1;
+    margin-top: 15px;
+}
+
+    .form-row .input-text {
+        font-size: 1.4rem;
+        transition: background-color .3s,border-color .3s;
+        color: #666;
+        min-height: 4.4rem display: block;
+        width: 100%;
+        min-height: 4.1rem;
+        padding: 0.85rem 2rem;
+        border: 1px solid #eee;
+        font-size: 1.4rem;
+        line-height: 1.5;
+        font-weight: 400;
+        color: #666;
+        background-color: transparent;
+        border-radius: 2px;
+        box-shadow: none;
+        outline: 0;
+    }
+
+        .form-row .input-text:focus {
+            border: 1px solid #999
+        }
+
+    .form-row textarea {
+        padding-top: 1.5rem
+    }
+
+    .form-row label:not(.checkbox) {
+        display: inline-block;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        line-height: .9
+    }
+
+    .form-row .required {
+        text-decoration: none
+    }
+
+.select2-container {
+    margin-bottom: .4rem
+}

@@ -33,5 +33,8 @@ namespace Wolmart.Ecommerce.ViewModels.AccountViewModels
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
         [Compare(nameof(Password), ErrorMessage = "Passwords must be the same!")]
         public string ConfirmPassword { get; set; }
+        public string UserId { get; set; }
+        public string Token { get; set; }
+        public bool IsSuccess { get; set; }
     }
 }
