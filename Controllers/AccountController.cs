@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Interfaces;
 using Wolmart.Ecommerce.Models;
+using Wolmart.Ecommerce.Repository;
 using Wolmart.Ecommerce.ViewModels.AccountViewModels;
 using Wolmart.Ecommerce.ViewModels.CartViewModels;
 
@@ -23,13 +24,16 @@ namespace Wolmart.Ecommerce.Controllers
         private readonly AppDbContext _context;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
+        private readonly AccountRepository _accountRepository;
 
         public AccountController(RoleManager<IdentityRole> roleManager, 
             UserManager<AppUser> userManager, 
             SignInManager<AppUser> signInManager, 
             AppDbContext context,
             IEmailService emailService,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            AccountRepository accountRepository,
+            )
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -37,6 +41,7 @@ namespace Wolmart.Ecommerce.Controllers
             _context = context;
             _emailService = emailService;
             _configuration = configuration;
+            _accountRepository = accountRepository;
         }
         public IActionResult Index()
         {
@@ -307,21 +312,14 @@ namespace Wolmart.Ecommerce.Controllers
             return RedirectToAction("Profile");
         }
 
-        private async Task SendEmailConfirmationEmail(AppUser appUser, string token)
-        {
-            string appDomain = _configuration.GetSection("Application:AppDomain").Value;
-            string confirmationLink = _configuration.GetSection("Application:EmailConfirmation").Value;
-            UserEmailOptions options = new UserEmailOptions
-            {
-                ToEmails = new List<string>() { appUser.Email },
-                PlaceHolders = new List<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("{{UserName}}", appUser.FirstName),
-                    new KeyValuePair<string, string>("{{Link}}", string.Format(appDomain + confirmationLink,appUser.Id,token))
-                }
-            };
 
-            await _emailService.SendEmailForEmailConfirmation(options);
+        [HttpGet("confirm-email")]
+        public async Task ConfirmEmail(string uid, string token)
+        {
+            if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
+            {
+             var result =  await _accountRepository.ConfirmEmailAsync(uid, token);
+            }
         }
     }
 }

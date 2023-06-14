@@ -24,6 +24,10 @@ namespace Wolmart.Ecommerce.Services
 
             await SendEmail(userEmailOptions);
         }
+        public EmailService(IOptions<SMTPConfigModel> smtpConfig)
+        {
+            _smtpConfig = smtpConfig.Value;
+        }
         private async Task SendEmail(UserEmailOptions userEmailOptions)
         {
             MailMessage mail = new MailMessage
@@ -74,11 +78,6 @@ namespace Wolmart.Ecommerce.Services
             }
 
             return text;
-        }
-
-        public EmailService(IOptions<SMTPConfigModel> smtpConfig)
-        {
-            _smtpConfig = smtpConfig.Value;
         }
     }
 }
