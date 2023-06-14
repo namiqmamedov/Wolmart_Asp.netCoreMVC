@@ -53,7 +53,7 @@
                                     <div class="form-checkbox d-flex align-items-center justify-content-between">
                                         <input asp-for="RemindMe" class="custom-checkbox">
                                         <label for="RemindMe">Remember me</label>
-                                        <a href="#">Last your password?</a>
+                                        <a asp-controller="account" asp-action="lostpassword">Lost your password?</a>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Sign In</button>
                                 </form>

@@ -24,7 +24,7 @@ namespace Wolmart.Ecommerce.Controllers
         private readonly AppDbContext _context;
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
-        private readonly AccountRepository _accountRepository;
+        private readonly IAccountRepository _accountRepository;
 
         public AccountController(RoleManager<IdentityRole> roleManager, 
             UserManager<AppUser> userManager, 
@@ -32,8 +32,7 @@ namespace Wolmart.Ecommerce.Controllers
             AppDbContext context,
             IEmailService emailService,
             IConfiguration configuration,
-            AccountRepository accountRepository,
-            )
+            IAccountRepository accountRepository)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -86,7 +85,7 @@ namespace Wolmart.Ecommerce.Controllers
 
                 if (!string.IsNullOrEmpty(token))
                 {
-                    await SendEmailConfirmationEmail(appUser, token);
+                    await _accountRepository.GenerateEmailConfirmationTokenAsync(appUser);
                 }
             }
 
@@ -314,12 +313,38 @@ namespace Wolmart.Ecommerce.Controllers
 
 
         [HttpGet("confirm-email")]
-        public async Task ConfirmEmail(string uid, string token)
+        public async Task<IActionResult> ConfirmEmail(string uid, string token)
         {
             if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
             {
-             var result =  await _accountRepository.ConfirmEmailAsync(uid, token);
+                token = token.Replace(' ', '+');
+                var result =  await _accountRepository.ConfirmEmailAsync(uid, token);
+
+                if (result.Succeeded)
+                {
+                    ViewBag.IsSuccess = true;
+                }
             }
+
+            return View();
+        }
+
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(EmailConfirmModel model)
+        {
+            var user = await _accountRepository.GetUserByEmailAsync(model.Email);
+            if (user != null)
+            {
+                if (user.EmailConfirmed)
+                {
+                    model.IsConfirmed = true;
+                    return View(model);
+                }
+
+              await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
+
+            }
+            return View();
         }
     }
 }

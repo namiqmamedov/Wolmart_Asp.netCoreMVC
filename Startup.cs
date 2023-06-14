@@ -12,6 +12,7 @@ using System;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Interfaces;
 using Wolmart.Ecommerce.Models;
+using Wolmart.Ecommerce.Repository;
 using Wolmart.Ecommerce.Services;
 using IEmailService = Wolmart.Ecommerce.Interfaces.IEmailService;
 
@@ -51,6 +52,7 @@ namespace Wolmart.Ecommerce
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
+            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ILayoutService, LayoutService>();
             services.AddScoped<IEmailService, Services.EmailService>();
 
@@ -66,9 +68,13 @@ namespace Wolmart.Ecommerce
             }
 
             app.UseRouting();
+
             app.UseStaticFiles();
+
             app.UseAuthentication();
+
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

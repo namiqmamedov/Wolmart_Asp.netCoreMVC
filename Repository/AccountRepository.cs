@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using Wolmart.Ecommerce.Models;
 
 namespace Wolmart.Ecommerce.Repository
 {
-    public class AccountRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
@@ -33,7 +34,12 @@ namespace Wolmart.Ecommerce.Repository
             _configuration = configuration;
         }
 
-        private async Task SendEmailConfirmationEmail(AppUser appUser, string token)
+        public async Task<AppUser> GetUserByEmailAsync(string email)
+        {
+             return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task SendEmailConfirmationEmail(AppUser appUser, string token)
         {
             string appDomain = _configuration.GetSection("Application:AppDomain").Value;
             string confirmationLink = _configuration.GetSection("Application:EmailConfirmation").Value;
@@ -54,6 +60,16 @@ namespace Wolmart.Ecommerce.Repository
         public async Task<IdentityResult> ConfirmEmailAsync(string uid, string token)
         {
             return await _userManager.ConfirmEmailAsync(await _userManager.FindByIdAsync(uid), token);
+        }
+
+        public async Task GenerateEmailConfirmationTokenAsync(AppUser appUser)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(appUser);
+
+            if (!string.IsNullOrEmpty(token))
+            { 
+                await SendEmailConfirmationEmail(appUser, token);
+            }
         }
     }
 }
