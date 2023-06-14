@@ -91,7 +91,7 @@ namespace Wolmart.Ecommerce.Controllers
 
             await _userManager.AddToRoleAsync(appUser, "Member");
 
-            return RedirectToAction("Login");
+            return RedirectToAction("ConfirmEmail", new {email = registerVM.Email});
         }
 
         [HttpGet]
@@ -102,7 +102,6 @@ namespace Wolmart.Ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Login(int? id,LoginVM loginVM)
         {
 
@@ -225,7 +224,6 @@ namespace Wolmart.Ecommerce.Controllers
 
             return RedirectToAction("index", "home");
         }
-
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -311,10 +309,14 @@ namespace Wolmart.Ecommerce.Controllers
             return RedirectToAction("Profile");
         }
 
-
         [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail(string uid, string token)
+        public async Task<IActionResult> ConfirmEmail(string uid, string token,string email)
         {
+            EmailConfirmModel model = new EmailConfirmModel
+            {
+                Email = email,
+            };
+
             if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
             {
                 token = token.Replace(' ', '+');
@@ -322,11 +324,11 @@ namespace Wolmart.Ecommerce.Controllers
 
                 if (result.Succeeded)
                 {
-                    ViewBag.IsSuccess = true;
+                    model.EmailVerified = true;
                 }
             }
 
-            return View();
+            return View(model);
         }
 
         [HttpPost("confirm-email")]
@@ -337,14 +339,21 @@ namespace Wolmart.Ecommerce.Controllers
             {
                 if (user.EmailConfirmed)
                 {
-                    model.IsConfirmed = true;
+                    model.EmailVerified = true;
                     return View(model);
                 }
 
               await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
+              model.EmailSent = true;
+              ModelState.Clear();
 
             }
-            return View();
+            else
+            {
+                ModelState.AddModelError("", "Something went wrong");
+            }
+
+            return View(model);
         }
     }
 }
