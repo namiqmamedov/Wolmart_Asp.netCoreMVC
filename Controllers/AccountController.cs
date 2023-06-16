@@ -380,12 +380,13 @@ namespace Wolmart.Ecommerce.Controllers
         }
 
         [AllowAnonymous, HttpGet("reset-password")]
-        public IActionResult ResetPassword(string uid,string token)
+        public IActionResult ResetPassword(string uid,string token,string email)
         {
             ResetPasswordVM resetPasswordVM = new ResetPasswordVM
             {
                 Token = token,
                 UserId = uid,
+                Email = email,
             };
 
             return View(resetPasswordVM);
@@ -396,6 +397,7 @@ namespace Wolmart.Ecommerce.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _accountRepository.GetUserByEmailAsync(model.Email);
                 model.Token = model.Token.Replace(' ', '+');
                 var result =  await _accountRepository.ResetPasswordAsync(model);
 
@@ -403,6 +405,7 @@ namespace Wolmart.Ecommerce.Controllers
                 {
                     ModelState.Clear();
                     model.IsSuccess = true;
+                    await _accountRepository.GenerateLinkChangePasswordNotification(user);
                     return View(model);
                 }
 

@@ -9,8 +9,10 @@ namespace Wolmart.Ecommerce.Interfaces
     {
         Task<IdentityResult> ConfirmEmailAsync(string uid, string token);
         Task SendEmailConfirmationEmail(AppUser appUser, string token);
+        Task SendChangePasswordNotification(AppUser appUser);
         Task GenerateEmailConfirmationTokenAsync(AppUser appUser);
         Task GenerateForgotPasswordTokenAsync(AppUser appUser);
+        Task GenerateLinkChangePasswordNotification(AppUser appUser);
         Task<AppUser> GetUserByEmailAsync(string email);
         Task<IdentityResult> ResetPasswordAsync(ResetPasswordVM model);
     }

@@ -32,6 +32,14 @@ namespace Wolmart.Ecommerce.Services
 
             await SendEmail(userEmailOptions);
         }
+        public async Task SendEmailForChangePasswordNotification(UserEmailOptions userEmailOptions)
+        {
+            userEmailOptions.Subject = UpdatePlaceHolders("Password Changed", userEmailOptions.PlaceHolders);
+
+            userEmailOptions.Body = UpdatePlaceHolders(GetEmailBody("PasswordSuccess"), userEmailOptions.PlaceHolders);
+
+            await SendEmail(userEmailOptions);
+        }
 
         public EmailService(IOptions<SMTPConfigModel> smtpConfig)
         {

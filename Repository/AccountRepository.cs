@@ -66,7 +66,21 @@ namespace Wolmart.Ecommerce.Repository
                 PlaceHolders = new List<KeyValuePair<string, string>>()
                 {
                     new KeyValuePair<string, string>("{{UserName}}", appUser.FirstName),
-                    new KeyValuePair<string, string>("{{Link}}", string.Format(appDomain + confirmationLink,appUser.Id,token))
+                    new KeyValuePair<string, string>("{{Link}}", string.Format(appDomain + confirmationLink,appUser.Id,token,appUser.Email))
+                }
+            };
+
+            await _emailService.SendEmailForForgotPassword(options);
+        }
+        public async Task SendChangePasswordNotification(AppUser appUser)
+        {
+
+            UserEmailOptions options = new UserEmailOptions
+            {
+                ToEmails = new List<string>() { appUser.Email },
+                PlaceHolders = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("{{UserName}}", appUser.FirstName),
                 }
             };
 
@@ -98,6 +112,11 @@ namespace Wolmart.Ecommerce.Repository
             {
                 await SendForgotPasswordEmail(appUser, token);
             }
+        }
+
+        public async Task GenerateLinkChangePasswordNotification(AppUser appUser)
+        {
+           await SendChangePasswordNotification(appUser);
         }
     }
 }

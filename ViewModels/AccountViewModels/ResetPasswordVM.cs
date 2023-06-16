@@ -7,6 +7,8 @@ namespace Wolmart.Ecommerce.ViewModels.AccountViewModels
         [Required]
         public string UserId { get; set; }
 
+        [EmailAddress, StringLength(255), Display(Name = "Registered email address")]
+        public string Email { get; set; }
         [Required]
         public string Token { get; set; }
 

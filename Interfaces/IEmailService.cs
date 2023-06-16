@@ -7,5 +7,6 @@ namespace Wolmart.Ecommerce.Interfaces
     {
         Task SendEmailForEmailConfirmation(UserEmailOptions userEmailOptions);
         Task SendEmailForForgotPassword(UserEmailOptions userEmailOptions);
+        Task SendEmailForChangePasswordNotification(UserEmailOptions userEmailOptions);
     }
 }
