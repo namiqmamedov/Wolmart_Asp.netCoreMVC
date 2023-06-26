@@ -1,0 +1,74 @@
+﻿@model AddressVM
+
+@{
+    ViewData["Title"] = "Shipping";
+}
+
+<div class="text text-danger" asp-validation-summary="ModelOnly"></div>
+<div class="container">
+    <form class="form account-details-form mt-5" method="post" asp-controller="account" asp-action="updateaddress">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="firstname">First name *</label>
+                                                <input asp-for="FirstName"  placeholder="First name"
+                                                    class="form-control form-control-md">
+                                                <span class="text text-danger" asp-validation-for="FirstName"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="lastname">Last name *</label>
+                                                <input asp-for="LastName" placeholder="Last name"
+                                                    class="form-control form-control-md">
+                                                <span class="text text-danger" asp-validation-for="LastName"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="display-name">Street address *</label>
+                                        <input asp-for="StreetAddrFirst" placeholder="House number and street name"
+                                            class="form-control form-control-md mb-0">
+                                            <span class="text text-danger" asp-validation-for="StreetAddrFirst"></span>
+                                    </div>
+                                     <div class="form-group mb-3">
+                                        <input asp-for="StreetAddrSecond" placeholder="Apartment, suite, unit,etc.(optional)"
+                                            class="form-control form-control-md mb-0">
+                                            <span class="text text-danger" asp-validation-for="StreetAddrSecond"></span>
+                                    </div>
+
+                                   <div class="row">
+                                         <div class="col-md-6">
+                                             <div class="form-group mb-6">
+                                            <label>Town / City *</label>
+                                            <input asp-for="City" 
+                                                class="form-control form-control-md">
+                                            <span class="text text-danger" asp-validation-for="City"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                             <div class="form-group mb-6">
+                                            <label>Post Code *</label>
+                                            <input asp-for="PostCode" 
+                                                class="form-control form-control-md">
+                                            <span class="text text-danger" asp-validation-for="PostCode"></span>
+                                            </div>
+                                        </div>
+                                   </div>
+                                     <div class="col-md-6">
+                                             <div class="form-group mb-6">
+                                            <label>Phone *</label>
+                                            <input asp-for="AddrPhone" 
+                                                class="form-control form-control-md">
+                                            <span class="text text-danger" asp-validation-for="AddrPhone"></span>
+                                            </div>
+                                        </div>
+                                    <button type="submit" class="btn btn-dark btn-rounded btn-sm mb-4">Save Changes</button>
+</form>
+</div>
+
+@section Script {
+    <partial name="_ValidationPartial" />
+}
+

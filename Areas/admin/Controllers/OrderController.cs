@@ -39,25 +39,16 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
             //ViewBag.ItemCount = itemCount;
             return View(PagenationList<Order>.Create(query, page, itemCount));
         }
-
         private string GetCountryName(int CountryID)
         {
             string countryName = _context.Countries.Where(ct => ct.ID == CountryID).SingleOrDefault().Name;
             return countryName;
         }
-        private Order GetCustomer(int id)
-        {
-            Order order = _context.Orders
-                .Where(c => c.ID == id).FirstOrDefault();
-
-            return order;
-        }
 
         [HttpGet]
         public async Task<IActionResult> Update(int? id)
         {
-            Order orders = GetCustomer((int)id);
-            ViewBag.CountryName = GetCountryName(orders.CountryID);
+            //Order orders = GetCustomer((int)id);
 
             //ViewBag.Countries = await _context.Countries.ToListAsync();
 
@@ -71,6 +62,8 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
                 .Include(o => o.OrderItems)
                 .ThenInclude(o => o.Product)
                 .FirstOrDefaultAsync(o => o.ID == id);
+
+            ViewBag.CountryName = GetCountryName(order.CountryID);
 
             if (order == null) return NotFound();
 

@@ -53,8 +53,9 @@
                                             <div class="select-box">
                                               @*  <select asp-for="CountryID" class="form-control form-control-md" asp-items="new SelectList(ViewBag.Countries,nameof(Countries.ID),nameof(Countries.Name))">
                                                 </select>*@
-                                            <select id="lstCountryId" asp-for="CountryID" class ="form-control" asp-items="ViewBag.CountryID"
-                                            onchange="FillCities(this,'lstCity');" ></select>
+                                            <select id="lstCountryId" asp-for="CountryID" class ="form-control" asp-items="ViewBag.CountryID">
+                                                @*<option value="0">Please select a country</option>*@
+                                            </select>
                                             </div>
                            
                                         </div>

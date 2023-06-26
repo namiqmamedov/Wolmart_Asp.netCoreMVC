@@ -247,13 +247,80 @@ namespace Wolmart.Ecommerce.Controllers
                 Username = appUser.UserName
             };
 
+            AddressVM addressVM = new AddressVM
+            {
+                FirstName = appUser.FirstName,
+                LastName = appUser.LastName,
+                StreetAddrFirst = appUser.StreetAddrFirst,
+                StreetAddrSecond = appUser.StreetAddrSecond,
+                AddrPhone = appUser.AddrPhone,
+                PostCode = appUser.PostCode,
+                City = appUser.City,
+            };
+
             MemberVM memberVM = new MemberVM
             {
                 ProfileVM = profileVM,
+                AddressVM = addressVM,
                 Orders = appUser.Orders,
             };
 
             return View(memberVM);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Shipping()
+        {
+            AppUser appUser = await _userManager.Users.Include(u => u.Orders).ThenInclude(u => u.OrderItems).ThenInclude(u => u.Product).FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+            if (appUser == null) return NotFound();
+
+            AddressVM addressVM = new AddressVM
+            {
+                FirstName = appUser.FirstName,
+                LastName = appUser.LastName,
+                StreetAddrFirst = appUser.StreetAddrFirst,
+                StreetAddrSecond = appUser.StreetAddrSecond,
+                AddrPhone = appUser.AddrPhone,
+                PostCode = appUser.PostCode,
+                City = appUser.City,
+            };
+
+            return View(addressVM);
+        }
+
+        [Authorize(Roles = "Member")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateAddress(AddressVM addressVM)
+        {
+            if (!ModelState.IsValid) return View("Shipping", addressVM);
+
+            AppUser appUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            appUser.FirstName = addressVM.FirstName;
+            appUser.LastName = addressVM.LastName;
+            appUser.City = addressVM.City;
+            appUser.AddrPhone = addressVM.AddrPhone;
+            appUser.PostCode = addressVM.PostCode;
+            appUser.StreetAddrFirst = addressVM.StreetAddrFirst;
+            appUser.StreetAddrSecond = addressVM.StreetAddrSecond;
+
+            IdentityResult identityResult = await _userManager.UpdateAsync(appUser);
+
+            if (!identityResult.Succeeded)
+            {
+                foreach (var item in identityResult.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+
+                return View("Shipping", addressVM);
+            }
+
+            TempData["success"] = "Great! You have updated successfully.";
+
+            return RedirectToAction("Shipping");
         }
 
         [Authorize(Roles = "Member")]

@@ -6,6 +6,7 @@ namespace Wolmart.Ecommerce.ViewModels.AccountViewModels
     public class MemberVM
     {
         public ProfileVM ProfileVM { get; set; }
+        public AddressVM AddressVM { get; set; }
         public IEnumerable<Order> Orders { get; set; }
     }
 }

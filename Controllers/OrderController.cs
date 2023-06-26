@@ -26,6 +26,29 @@ namespace Wolmart.Ecommerce.Controllers
             _userManager = userManager;
             _context = context;
         }
+        //private List<SelectListItem> GetCountries()
+        //{
+        //    var lstCountries = new List<SelectListItem>();
+
+        //    List<Countries> countries = _context.Countries.ToList();
+
+        //    lstCountries = countries.Select(ct => new SelectListItem()
+        //    {
+        //        Value = ct.ID.ToString(),
+        //        Text = ct.Name
+        //    }).ToList();
+
+        //    var defItem = new SelectListItem()
+        //    {
+        //        Value = "",
+        //        Text = "----Select Country----"
+        //    };
+
+        //    lstCountries.Insert(0, defItem);
+
+        //    return lstCountries;
+        //}
+
         private List<SelectListItem> GetCountries()
         {
             var lstCountries = new List<SelectListItem>();
@@ -41,7 +64,7 @@ namespace Wolmart.Ecommerce.Controllers
             var defItem = new SelectListItem()
             {
                 Value = "",
-                Text = "----Select Country----"
+                Text = "Please select a country"
             };
 
             lstCountries.Insert(0, defItem);

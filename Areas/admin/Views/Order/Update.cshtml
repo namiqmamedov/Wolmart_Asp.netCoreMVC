@@ -15,11 +15,12 @@ int counter = 0;
            @* <p>
                 @Html.DisplayFor(modelItem => Model.Countries.Name)
             </p>*@
-             <div class="form-group">
+             @*<div class="form-group">
                 <label asp-for="CountryID" class="control-label"></label>
                 <input type="hidden" asp-for="CountryID" class="form-control" />
                 <input type="text" value="@ViewBag.CountryName" class="form-control" />
-            </div>
+            </div>*@
+            <p class="card-text">@ViewBag.CountryName</p>
             <p class="card-text">$@Model.TotalPrice</p>
             <p class="card-text">@Model.AddressFirst</p>
             <p class="card-text">@Model.AddressSecond</p>

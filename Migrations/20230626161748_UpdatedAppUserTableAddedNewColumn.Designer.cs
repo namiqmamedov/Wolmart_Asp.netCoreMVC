@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wolmart.Ecommerce.DAL;
 
 namespace Wolmart.Ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230626161748_UpdatedAppUserTableAddedNewColumn")]
+    partial class UpdatedAppUserTableAddedNewColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,11 +160,6 @@ namespace Wolmart.Ecommerce.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("AddrPhone")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -212,6 +209,11 @@ namespace Wolmart.Ecommerce.Migrations
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
