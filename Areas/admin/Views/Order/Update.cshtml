@@ -9,7 +9,17 @@ int counter = 0;
          <div class="card-body">
             <h5 class="card-title">@Model.Name @Model.Surname</h5>
             <p class="card-text">@Model.OrderStatus</p>
-            <p class="card-text">@Model.Countries</p>
+            @*<p class="card-text">@Model.Countries</p>*@
+       @*     <select asp-for="CountryID" class="form-select" asp-items="new SelectList(ViewBag.Countries, nameof(Countries.ID), nameof(Countries.Name))" aria-label="Default select example">
+             </select>*@
+           @* <p>
+                @Html.DisplayFor(modelItem => Model.Countries.Name)
+            </p>*@
+             <div class="form-group">
+                <label asp-for="CountryID" class="control-label"></label>
+                <input type="hidden" asp-for="CountryID" class="form-control" />
+                <input type="text" value="@ViewBag.CountryName" class="form-control" />
+            </div>
             <p class="card-text">$@Model.TotalPrice</p>
             <p class="card-text">@Model.AddressFirst</p>
             <p class="card-text">@Model.AddressSecond</p>

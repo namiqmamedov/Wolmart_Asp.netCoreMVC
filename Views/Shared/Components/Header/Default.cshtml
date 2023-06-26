@@ -1,4 +1,14 @@
 ﻿@model HeaderVM
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> userManager
+
+@{
+   AppUser appUser = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        appUser = userManager.Users.FirstOrDefault(a => a.UserName == User.Identity.Name);
+    }
+}
 
 <header class="header header-border">
             <div class="header-top">
@@ -36,13 +46,18 @@
                         <span class="divider d-lg-show"></span>
                         <a href="blog.html" class="d-lg-show">Blog</a>
                         <a href="contact-us.html" class="d-lg-show">Contact Us</a>
+                         @*@await Html.PartialAsync("_AccountIndexPartial",Model.ProfileVMs)*@
                         <a asp-controller="account" asp-action="profile" class="d-lg-show">My Account</a>
                          @if (User.Identity.IsAuthenticated)
                         {
-                            <a asp-controller="account" asp-action="login" class="d-lg-show"><i
-                                class="w-icon-account"></i>@User.Identity.Name</a>
+
+                       @*@foreach (AppUser item in Model.AppUser)
+                        {*@
+                        <a asp-controller="account" asp-action="profile" class="d-lg-show"><i
+                        class="w-icon-account"></i>@appUser.FirstName</a>
                             <span class="delimiter d-lg-show">/</span/>
                             <a asp-controller="account" asp-action="logout" class="ml-0 d-lg-show">Sign Out</a>
+                       @* }*@
 
                         }
                         else{
@@ -61,7 +76,7 @@
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger" aria-label="menu-toggle">
                         </a>
-                        <a  asp-controller="home" class="logo ml-lg-0">
+                        <a asp-controller="home" asp-action="index" class="logo ml-lg-0">
                             <img src="~/assets/images/@Model.Settings.FirstOrDefault(x=>x.Key == "HeaderLogo").Value" alt="logo" width="144" height="45" />
                         </a>
                         <form method="get" action="#" class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">

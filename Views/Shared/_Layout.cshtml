@@ -1,9 +1,17 @@
 ﻿@using Wolmart.Ecommerce.Interfaces
+@using Microsoft.AspNetCore.Identity
 @inject ILayoutService layoutService
+@inject UserManager<AppUser> userManager
 
 @{
     List<CartVM> cartVMs = await layoutService.GetCart();
+    //List<AppUser> appUsers = await layoutService.GetUser();
     IDictionary<string, string> settings = await layoutService.GetSetting();
+        AppUser appUser = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        appUser = userManager.Users.FirstOrDefault(a => a.UserName == User.Identity.Name);
+    }
 }
 
 

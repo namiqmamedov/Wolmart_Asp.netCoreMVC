@@ -145,7 +145,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
                     return View();
                 }
 
-                product.MainImage = await product.MainFile.CreateAsync(_env, "admin", "assets", "images", "product");
+                product.MainImage = await product.MainFile.CreateAsync(_env, "admin", "assets", "images");
             }
             else
             {
@@ -166,7 +166,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
                     return View();
                 }
 
-                product.HoverImage = await product.HoverFile.CreateAsync(_env, "admin", "assets", "images", "product");
+                product.HoverImage = await product.HoverFile.CreateAsync(_env, "admin", "assets", "images");
             }
             else
             {
@@ -193,7 +193,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
                     ProductImage productImage = new ProductImage
                     {
-                        Image = await file.CreateAsync(_env, "admin", "assets", "images", "product")
+                        Image = await file.CreateAsync(_env, "admin", "assets", "images")
                     };
 
                     productImages.Add(productImage);

@@ -26,9 +26,9 @@ namespace Wolmart.Ecommerce.Controllers
         private readonly IConfiguration _configuration;
         private readonly IAccountRepository _accountRepository;
 
-        public AccountController(RoleManager<IdentityRole> roleManager, 
-            UserManager<AppUser> userManager, 
-            SignInManager<AppUser> signInManager, 
+        public AccountController(RoleManager<IdentityRole> roleManager,
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
             AppDbContext context,
             IEmailService emailService,
             IConfiguration configuration,
@@ -91,7 +91,7 @@ namespace Wolmart.Ecommerce.Controllers
 
             await _userManager.AddToRoleAsync(appUser, "Member");
 
-            return RedirectToAction("ConfirmEmail", new {email = registerVM.Email});
+            return RedirectToAction("ConfirmEmail", new { email = registerVM.Email });
         }
 
         [HttpGet]
@@ -102,10 +102,10 @@ namespace Wolmart.Ecommerce.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(int? id,LoginVM loginVM)
+        public async Task<IActionResult> Login(int? id, LoginVM loginVM)
         {
 
-            AppUser appUser = await _userManager.Users.Include(u => u.Carts).FirstOrDefaultAsync(u => u.NormalizedEmail == 
+            AppUser appUser = await _userManager.Users.Include(u => u.Carts).FirstOrDefaultAsync(u => u.NormalizedEmail ==
             loginVM.LoginEmail.Trim().ToUpperInvariant() && !u.isAdmin && !u.IsDeleted);
             //AppUser appUser = await _userManager.FindByEmailAsync(loginVM.LoginEmail);
 
@@ -183,7 +183,7 @@ namespace Wolmart.Ecommerce.Controllers
             {
                 if (appUser.Carts != null && appUser.Carts.Count() > 0)
                 {
-                    List<CartVM> cartVMs = new List<CartVM>(); 
+                    List<CartVM> cartVMs = new List<CartVM>();
                     foreach (Cart carts in appUser.Carts)
                     {
                         CartVM cartVM = new CartVM
@@ -235,7 +235,7 @@ namespace Wolmart.Ecommerce.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            AppUser appUser = await _userManager.Users.Include(u=>u.Orders).ThenInclude(u=>u.OrderItems).ThenInclude(u=>u.Product).FirstOrDefaultAsync( u=>u.UserName == User.Identity.Name);
+            AppUser appUser = await _userManager.Users.Include(u => u.Orders).ThenInclude(u => u.OrderItems).ThenInclude(u => u.Product).FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
 
             if (appUser == null) return NotFound();
 
@@ -310,7 +310,7 @@ namespace Wolmart.Ecommerce.Controllers
         }
 
         [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail(string uid, string token,string email)
+        public async Task<IActionResult> ConfirmEmail(string uid, string token, string email)
         {
             EmailConfirmModel model = new EmailConfirmModel
             {
@@ -320,7 +320,7 @@ namespace Wolmart.Ecommerce.Controllers
             if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
             {
                 token = token.Replace(' ', '+');
-                var result =  await _accountRepository.ConfirmEmailAsync(uid, token);
+                var result = await _accountRepository.ConfirmEmailAsync(uid, token);
 
                 if (result.Succeeded)
                 {
@@ -343,9 +343,9 @@ namespace Wolmart.Ecommerce.Controllers
                     return View(model);
                 }
 
-              await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
-              model.EmailSent = true;
-              ModelState.Clear();
+                await _accountRepository.GenerateEmailConfirmationTokenAsync(user);
+                model.EmailSent = true;
+                ModelState.Clear();
 
             }
             else
@@ -356,7 +356,7 @@ namespace Wolmart.Ecommerce.Controllers
             return View(model);
         }
 
-        [AllowAnonymous,HttpGet("forgot-password")]
+        [AllowAnonymous, HttpGet("forgot-password")]
         public IActionResult ForgotPassword()
         {
             return View();
@@ -380,7 +380,7 @@ namespace Wolmart.Ecommerce.Controllers
         }
 
         [AllowAnonymous, HttpGet("reset-password")]
-        public IActionResult ResetPassword(string uid,string token,string email)
+        public IActionResult ResetPassword(string uid, string token, string email)
         {
             ResetPasswordVM resetPasswordVM = new ResetPasswordVM
             {
@@ -393,13 +393,14 @@ namespace Wolmart.Ecommerce.Controllers
         }
 
         [AllowAnonymous, HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+        public async Task<IActionResult> ResetPassword(ResetPasswordVM model, string email)
         {
+            var user = await _accountRepository.GetUserByEmailAsync(model.Email);
+
             if (ModelState.IsValid)
             {
-                var user = await _accountRepository.GetUserByEmailAsync(model.Email);
                 model.Token = model.Token.Replace(' ', '+');
-                var result =  await _accountRepository.ResetPasswordAsync(model);
+                var result = await _accountRepository.ResetPasswordAsync(model);
 
                 if (result.Succeeded)
                 {
@@ -419,6 +420,7 @@ namespace Wolmart.Ecommerce.Controllers
             {
                 ModelState.AddModelError("", "Something went wrong");
             }
+
             return View(model);
         }
 

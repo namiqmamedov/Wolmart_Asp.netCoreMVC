@@ -19,6 +19,5 @@ namespace Wolmart.Ecommerce.ViewComponents
         {
             return View(await Task.FromResult(sliders));
         }
-
     }
 }

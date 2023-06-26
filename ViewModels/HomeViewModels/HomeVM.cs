@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Wolmart.Ecommerce.Models;
+using Wolmart.Ecommerce.ViewModels.AccountViewModels;
 using Wolmart.Ecommerce.ViewModels.CartViewModels;
 
 namespace Wolmart.Ecommerce.ViewModels.HomeViewModels
@@ -13,6 +14,7 @@ namespace Wolmart.Ecommerce.ViewModels.HomeViewModels
         public List<Product> NewArrivals { get; set; }
         public List<Product> MostPopular { get; set; }
         public List<Product> Featured { get; set; }
+        public ProfileVM ProfileVM { get; set; }
 
     }
 }

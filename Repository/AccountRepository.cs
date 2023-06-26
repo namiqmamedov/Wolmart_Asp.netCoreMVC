@@ -84,7 +84,7 @@ namespace Wolmart.Ecommerce.Repository
                 }
             };
 
-            await _emailService.SendEmailForForgotPassword(options);
+            await _emailService.SendEmailForChangePasswordNotification(options);
         }
         public async Task<IdentityResult> ConfirmEmailAsync(string uid, string token)
         {

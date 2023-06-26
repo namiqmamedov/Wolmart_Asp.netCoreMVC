@@ -1,4 +1,6 @@
-﻿namespace Wolmart.Ecommerce.ViewModels.CartViewModels
+﻿using Wolmart.Ecommerce.ViewModels.AccountViewModels;
+
+namespace Wolmart.Ecommerce.ViewModels.CartViewModels
 {
     public class CartVM
     {
@@ -7,5 +9,6 @@
         public string Name { get; set; }
         public string Image { get; set; }
         public double Price { get; set; }
+
     }
 }

@@ -1,0 +1,20 @@
+﻿@*@model  List<AppUser> 
+
+<a asp-controller="account" asp-action="profile" class="d-lg-show">My Account</a>
+                         @if (User.Identity.IsAuthenticated)
+                        {
+                            @foreach (AppUser item in Model)
+                            {
+                                <a asp-controller="account" asp-action="login" class="d-lg-show"><i
+                                                        class="w-icon-account"></i>@item.FirstName</a>
+                                                    <span class="delimiter d-lg-show">/</span/>
+                                <a asp-controller="account" asp-action="logout" class="ml-0 d-lg-show">Sign Out</a>
+                            }
+
+                        }
+                        else{
+                            <a asp-controller="account" asp-action="login" class="d-lg-show"><i
+                                class="w-icon-account"></i>Sign In</a>
+                            <span class="delimiter d-lg-show">/</span>
+                          <a asp-controller="account" asp-action="register" class="ml-0 d-lg-show">Register</a>
+                        }*@

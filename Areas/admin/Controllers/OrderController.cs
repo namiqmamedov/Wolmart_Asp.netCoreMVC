@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
@@ -22,6 +23,12 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         }
         public async Task<IActionResult> Index(int page = 1)
         {
+
+            //List<Order> orders = _context.Orders
+            //    .Include(c => c.Countries)
+            //    .ToList();
+            //ViewBag.Countries = await _context.Countries.ToListAsync();
+
             IQueryable<Order> query = _context.Orders.Include(o=>o.OrderItems).ThenInclude(o=>o.Product);
 
             int itemCount = int.Parse(_context.Settings.FirstOrDefault(x => x.Key == "PageItem").Value);
@@ -32,12 +39,35 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
             //ViewBag.ItemCount = itemCount;
             return View(PagenationList<Order>.Create(query, page, itemCount));
         }
+
+        private string GetCountryName(int CountryID)
+        {
+            string countryName = _context.Countries.Where(ct => ct.ID == CountryID).SingleOrDefault().Name;
+            return countryName;
+        }
+        private Order GetCustomer(int id)
+        {
+            Order order = _context.Orders
+                .Where(c => c.ID == id).FirstOrDefault();
+
+            return order;
+        }
+
         [HttpGet]
         public async Task<IActionResult> Update(int? id)
         {
+            Order orders = GetCustomer((int)id);
+            ViewBag.CountryName = GetCountryName(orders.CountryID);
+
+            //ViewBag.Countries = await _context.Countries.ToListAsync();
+
+            //List<Order> orders = _context.Orders
+            //    .Include(c => c.Countries)
+            //    .ToList();
             if (id == null) return BadRequest();
 
             Order order = await _context.Orders
+                .Include(o => o.Countries)
                 .Include(o => o.OrderItems)
                 .ThenInclude(o => o.Product)
                 .FirstOrDefaultAsync(o => o.ID == id);

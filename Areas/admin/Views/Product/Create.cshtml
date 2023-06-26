@@ -22,6 +22,11 @@ SelectList selectListItems2 = new SelectList(ViewBag.Categories, nameof(Category
          <input asp-for="DiscountedPrice" placeholder="Discounted Price...">
          <span class="text-danger" asp-validation-for="DiscountedPrice"></span>
       </div>
+         <div class="form-group">
+         <label asp-for="Code">Discounted Price</label>
+         <input asp-for="Code" placeholder="Discounted Price...">
+         <span class="text-danger" asp-validation-for="Code"></span>
+      </div>
      @* <div class="form-group">
          <label asp-for="Count">Count</label>
          <input asp-for="Count" placeholder="Count...">
@@ -32,8 +37,13 @@ SelectList selectListItems2 = new SelectList(ViewBag.Categories, nameof(Category
          <input asp-for="MainFile" placeholder="Main Image...">
          <span class="text-danger" asp-validation-for="MainFile"></span>
       </div>
+        <div class="form-group">
+         <label asp-for="HoverFile">Main Image</label>
+         <input asp-for="HoverFile" placeholder="Main Image...">
+         <span class="text-danger" asp-validation-for="HoverFile"></span>
+      </div>
       <div class="form-group">
-         <label asp-for="Files">Main Image</label>
+         <label asp-for="Files">Image</label>
          <input asp-for="Files" multiple placeholder="Main Image...">
          <span class="text-danger" asp-validation-for="Files"></span>
       </div>

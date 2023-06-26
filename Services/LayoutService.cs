@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Interfaces;
 using Wolmart.Ecommerce.Models;
+using Wolmart.Ecommerce.ViewModels.AccountViewModels;
 using Wolmart.Ecommerce.ViewModels.CartViewModels;
 
 namespace Wolmart.Ecommerce.Services
@@ -19,12 +20,15 @@ namespace Wolmart.Ecommerce.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AppDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public LayoutService(IHttpContextAccessor httpContextAccessor,AppDbContext context, UserManager<AppUser> userManager)
+
+        public LayoutService(IHttpContextAccessor httpContextAccessor,AppDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
              _httpContextAccessor = httpContextAccessor;
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<List<CartVM>> GetCart()
@@ -56,7 +60,6 @@ namespace Wolmart.Ecommerce.Services
                             {
                                 ProductID = item.ProductID,
                                 Count = item.Count
-
                             };
 
                             cartVMs.Add(cartVM);
@@ -105,5 +108,36 @@ namespace Wolmart.Ecommerce.Services
 
             return settings;
         }
+
+        //public Task<List<AppUser>> GetUser()
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+
+        //public async Task<List<AppUser>> GetUser()
+        //{
+
+        //    return appUser;
+        //}
+
+        //public List<ProfileVM> GetUser()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public async Task<IActionResult> GetUser()
+        //{
+        //    AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == );
+
+        //    ProfileVM profileVM = new ProfileVM
+        //    {
+        //        Name = appUser.FirstName,
+        //        Surname = appUser.LastName,
+        //        Email = appUser.Email,
+        //        Username = appUser.UserName
+        //    };
+
+        //    return (IActionResult)profileVM;
+        //}
     }
 }

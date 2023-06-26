@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
@@ -25,10 +26,34 @@ namespace Wolmart.Ecommerce.Controllers
             _userManager = userManager;
             _context = context;
         }
+        private List<SelectListItem> GetCountries()
+        {
+            var lstCountries = new List<SelectListItem>();
+
+            List<Countries> countries = _context.Countries.ToList();
+
+            lstCountries = countries.Select(ct => new SelectListItem()
+            {
+                Value = ct.ID.ToString(),
+                Text = ct.Name
+            }).ToList();
+
+            var defItem = new SelectListItem()
+            {
+                Value = "",
+                Text = "----Select Country----"
+            };
+
+            lstCountries.Insert(0, defItem);
+
+            return lstCountries;
+        }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            ViewBag.Countries = await _context.Countries.ToListAsync();
+            //ViewBag.Countries = await _context.Countries.ToListAsync();
+            ViewBag.CountryID = GetCountries();
             AppUser appUser = await  _userManager.FindByNameAsync(User.Identity.Name);
 
             List<Cart> carts = await _context.Carts.Include(c=>c.Product).Where(c => c.AppUserID == appUser.Id).ToListAsync();
@@ -51,7 +76,8 @@ namespace Wolmart.Ecommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(Order order)
         {
-            ViewBag.Countries = await _context.Countries.ToListAsync();
+            ViewBag.CountryID = GetCountries();
+            //ViewBag.Countries = await _context.Countries.ToListAsync();
             AppUser appUser = await _userManager.Users.Include(u=>u.Carts).ThenInclude(c=>c.Product).FirstOrDefaultAsync(u=>u.UserName == User.Identity.Name);
 
             List<OrderItem> orderItems = new List<OrderItem>();
@@ -74,6 +100,7 @@ namespace Wolmart.Ecommerce.Controllers
             order.AppUserId = appUser.Id;
             order.OrderStatus = OrderStatus.Pending;
             order.TotalPrice = orderItems.Sum(o => o.TotalPrice);
+            //order.CountryID[i] = order.Country;
 
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
