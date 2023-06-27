@@ -1,0 +1,27 @@
+﻿@model Feedback
+
+@{
+    ViewData["Title"] = "View";
+}
+
+
+                                                        <textarea cols="30" rows="6" asp-for="Text" 
+                                                            placeholder="Write Your Review Here..." class="form-control"
+                                                            id="review">
+                                                        </textarea>
+                                                       @* <div class="row gutter-md">
+                                                            <div class="col-md-6">
+                                                                <input asp-for="Text" class="form-control"
+                                                                    placeholder="Your Name" id="author">
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <input asp-for="Text" class="form-control"
+                                                                    placeholder="Your Email" id="email_1">
+                                                            </div>
+                                                        </div>*@
+                                                        <div class="form-group">
+                                                            <input type="checkbox" class="custom-checkbox"
+                                                                id="save-checkbox">
+                                                            <label for="save-checkbox">Save my name, email, and website
+                                                                in this browser for the next time I comment.</label>
+                                                        </div>

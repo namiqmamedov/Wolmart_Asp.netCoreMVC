@@ -25,5 +25,6 @@ namespace Wolmart.Ecommerce.DAL
         public DbSet<Color> Colors { get; set; }
         public DbSet<Size> Sizes { get; set; }
         public DbSet<ProductColorSize> ProductColorSizes { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
     } 
 }

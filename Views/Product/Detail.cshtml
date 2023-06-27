@@ -1,4 +1,4 @@
-﻿@model Product
+﻿@model ProductVM
 @{
     ViewData["Title"] = "Detail";
 }
@@ -51,7 +51,7 @@
                                             }
                                         }">
                                             <div class="swiper-wrapper row cols-1 gutter-no">
-                                                @foreach (ProductImage item in Model.ProductImages)
+                                                @foreach (ProductImage item in Model.Product.ProductImages)
                                                 {
                                                     <div class="swiper-slide">
                                                     <figure class="product-image">
@@ -73,7 +73,7 @@
                                             }
                                         }">
                                             <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
-                                                @foreach (ProductImage item in Model.ProductImages)
+                                                @foreach (ProductImage item in Model.Product.ProductImages)
                                                 {
                                                     <div class="product-thumb swiper-slide">
                                                             <img src="~/assets/images/products/default/@item.Image"
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="col-md-6 mb-4 mb-md-6">
                                     <div class="product-details" data-sticky-options="{'minWidth': 767}">
-                                        <h1 class="product-title">@Model.Name</h1>
+                                        <h1 class="product-title">@Model.Product.Name</h1>
                                         <div class="product-bm-wrapper">
                                             <figure class="brand">
                                                 <img src="~/assets/images/products/brand/brand-1.jpg" alt="Brand"
@@ -108,14 +108,14 @@
                                         <hr class="product-divider">
 
                                         <div class="product-price">
-                                        @if(Model.DiscountedPrice > 0)
+                                        @if(Model.Product.DiscountedPrice > 0)
                                         {   
-                                             <ins class="new-price">$@Model.Price</ins>
-                                            <del class="old-price">$@Model.DiscountedPrice</del>
+                                             <ins class="new-price">$@Model.Product.Price</ins>
+                                            <del class="old-price">$@Model.Product.DiscountedPrice</del>
                                         }
                                         else
                                         {
-                                            <ins class="new-price">$@Model.Price</ins>
+                                            <ins class="new-price">$@Model.Product.Price</ins>
 
                                         }
 
@@ -161,7 +161,7 @@
                                             <a href="#" class="product-variation-clean">Clean All</a>
                                         </div>
 
-                                        @if(Model.Count > 0){
+                                        @if(Model.Product.Count > 0){
                                             <span class="stock__text text-success">In Stock</span>
                                         }
                                         else
@@ -521,8 +521,8 @@
                                                         Review</h3>
                                                     <p class="mb-3">Your email address will not be published. Required
                                                         fields are marked *</p>
-                                                    <form action="#" method="POST" class="review-form">
-                                                        <div class="rating-form">
+                                                    <form asp-controller="product" asp-action="feedback" method="POST" class="review-form">
+                                                       @* <div class="rating-form">
                                                             <label for="rating">Your Rating Of This Product :</label>
                                                             <span class="rating-stars">
                                                                 <a class="star-1" href="#">1</a>
@@ -540,27 +540,9 @@
                                                                 <option value="2">Not that bad</option>
                                                                 <option value="1">Very poor</option>
                                                             </select>
-                                                        </div>
-                                                        <textarea cols="30" rows="6"
-                                                            placeholder="Write Your Review Here..." class="form-control"
-                                                            id="review"></textarea>
-                                                        <div class="row gutter-md">
-                                                            <div class="col-md-6">
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="Your Name" id="author">
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <input type="text" class="form-control"
-                                                                    placeholder="Your Email" id="email_1">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <input type="checkbox" class="custom-checkbox"
-                                                                id="save-checkbox">
-                                                            <label for="save-checkbox">Save my name, email, and website
-                                                                in this browser for the next time I comment.</label>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-dark">Submit
+                                                        </div>*@
+                                                            @await Html.PartialAsync("_ProductFeedbackPartial",Model.Feedback)
+                                                            <button type="submit" class="btn btn-dark">Submit
                                                             Review</button>
                                                     </form>
                                                 </div>

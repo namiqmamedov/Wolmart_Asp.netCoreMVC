@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -7,15 +8,18 @@ using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.ViewModels.CartViewModels;
+using Wolmart.Ecommerce.ViewModels.ProductViewModels;
 
 namespace Wolmart.Ecommerce.Controllers
 {
     public class ProductController : Controller
     {
         private readonly AppDbContext _context;
-        public ProductController(AppDbContext context)
+        private readonly UserManager<AppUser> _userManager;
+        public ProductController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public async Task<IActionResult> Index()
         {
@@ -29,18 +33,23 @@ namespace Wolmart.Ecommerce.Controllers
                 return BadRequest();
             }
 
-            Product product = await _context.Products
-            .Include(p => p.ProductImages)
-            .Include(p => p.Brand)
-            .FirstOrDefaultAsync(p => p.ID == id);
+            ProductVM productVM = new ProductVM
+            {
+                Product = await _context.Products
+                .Include(p => p.ProductImages)
+                .Include(p => p.Brand)
+                .FirstOrDefaultAsync(p => p.ID == id)
+            };
 
-            if (product == null)
+            if (productVM == null)
             {
                 return BadRequest();
             }
 
-            return View(product);
+            return View(productVM);
+
         }
+
 
         public async Task<IActionResult> DetailForModal(int? id)
         {
@@ -67,6 +76,24 @@ namespace Wolmart.Ecommerce.Controllers
            .Where(p => p.Name.ToLower().Contains(search.Trim().ToLower())).ToListAsync();
 
             return PartialView("_SearchPartial", products);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Feedback(int? id,Feedback feedback)
+        {
+            AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+            if (appUser == null) { return BadRequest(); }
+
+            Product dbProduct = await _context.Products.FirstOrDefaultAsync(p => p.ID == id);
+
+            if (dbProduct == null) { return BadRequest(); }
+
+            feedback.IsDeleted = true;
+
+            await _context.AddAsync(feedback);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("index","product");
         }
     }
 }

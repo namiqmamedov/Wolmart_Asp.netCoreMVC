@@ -123,7 +123,6 @@ namespace Wolmart.Ecommerce.Controllers
             order.AppUserId = appUser.Id;
             order.OrderStatus = OrderStatus.Pending;
             order.TotalPrice = orderItems.Sum(o => o.TotalPrice);
-            //order.CountryID[i] = order.Country;
 
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
