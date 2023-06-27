@@ -521,7 +521,7 @@
                                                         Review</h3>
                                                     <p class="mb-3">Your email address will not be published. Required
                                                         fields are marked *</p>
-                                                    <form asp-controller="product" asp-action="feedback" method="POST" class="review-form">
+                                                    <form asp-controller="product" asp-action="feedback" asp-route-ProductID="@Model.Product.ID" method="POST" class="review-form">
                                                        @* <div class="rating-form">
                                                             <label for="rating">Your Rating Of This Product :</label>
                                                             <span class="rating-stars">

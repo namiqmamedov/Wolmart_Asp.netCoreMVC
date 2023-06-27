@@ -35,10 +35,10 @@ namespace Wolmart.Ecommerce.Models
         public bool IsMostPopular { get; set; }
         public bool IsFeatured { get; set; }
         public List<ProductImage> ProductImages { get; set; }
+        public List<Feedback> Feedbacks { get; set; }
         public IEnumerable<Cart> Carts { get; set; }
         public IEnumerable<OrderItem> OrderItems { get; set; }
         public IEnumerable<ProductColorSize> ProductColorSizes { get; set; }
-        public IEnumerable<Feedback> Feedbacks { get; set; }
 
         [NotMapped]
         public IFormFile MainFile { get; set; }

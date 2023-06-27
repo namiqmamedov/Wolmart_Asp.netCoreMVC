@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -84,13 +85,15 @@ namespace Wolmart.Ecommerce.Controllers
             AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
             if (appUser == null) { return BadRequest(); }
 
-            Product dbProduct = await _context.Products.FirstOrDefaultAsync(p => p.ID == id);
+            //Product dbProduct = await _context.Products.Include(p=>p.Feedbacks).FirstOrDefaultAsync(p => p.ID == id);
 
-            if (dbProduct == null) { return BadRequest(); }
+            //if (dbProduct == null) { return BadRequest(); }
 
             feedback.IsDeleted = true;
+            feedback.CreatedAt = DateTime.Now;
+            feedback.AppUserId = appUser.Id;
 
-            await _context.AddAsync(feedback);
+            await _context.Feedbacks.AddAsync(feedback);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("index","product");
