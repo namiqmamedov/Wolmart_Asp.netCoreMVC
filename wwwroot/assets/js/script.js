@@ -167,51 +167,17 @@
 
 })
 
-//FilePond.registerPlugin(
-//	FilePondPluginImageCrop,
-//	FilePondPluginImagePreview,
-//	FilePondPluginImageResize,
-//	FilePondPluginImageTransform
-//);
-
-//const inputElement = document.querySelector('input[type="file"]');
-//const pond = FilePond.create(inputElement, {
-//	imageCropAspectRatio: 1,
-//	imageResizeTargetWidth: 256,
-//	imageResizeMode: 'contain',
-//	imageTransformVariants: {
-//		thumb_medium_: transforms => {
-//			transforms.resize.size.width = 512;
-//			transforms.crop.aspectRatio = .5;
-//			return transforms;
-//		},
-//		thumb_small_: transforms => {
-//			transforms.resize.size.width = 64;
-//			return transforms;
-//		}
-//	},
-//	onaddfile: (err, fileItem) => {
-//		console.log(err, fileItem.getMetadata('resize'));
-//	},
-//	onpreparefile: (fileItem, outputFiles) => {
-//		outputFiles.forEach(output => {
-//			const img = new Image();
-//			img.src = URL.createObjectURL(output.file);
-//			document.body.appendChild(img);
-//		})
-//	}
-//});
-
-FilePond.registerPlugin(
-    // encodes the file as base64 data
-    FilePondPluginFileEncode,
-    // validates the size of the file
-    FilePondPluginFileValidateSize,
-    // corrects mobile image orientation
-    FilePondPluginImageExifOrientation,
-    // previews dropped images
-    FilePondPluginImagePreview
-);
-// Select the file input and use create() to turn it into a pond
-FilePond.create(document.querySelector('.filepond'));
-
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#imageUpload").change(function () {
+    readURL(this);
+});

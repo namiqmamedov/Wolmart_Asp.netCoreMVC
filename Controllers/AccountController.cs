@@ -252,6 +252,7 @@ namespace Wolmart.Ecommerce.Controllers
                 Surname = appUser.LastName,
                 Email = appUser.Email,
                 Username = appUser.UserName,
+                Image = appUser.ProfilePicture,
             };
 
             AddressVM addressVM = new AddressVM
@@ -332,7 +333,7 @@ namespace Wolmart.Ecommerce.Controllers
 
         [Authorize(Roles = "Member")]
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(ProfileVM profileVM)
         {
             if (!ModelState.IsValid) return View("Profile", profileVM);
@@ -344,6 +345,7 @@ namespace Wolmart.Ecommerce.Controllers
             dbAppUser.UserName = profileVM.Username;
             dbAppUser.Email = profileVM.Email;
             dbAppUser.Picture = profileVM.Picture;
+            dbAppUser.ProfilePicture = profileVM.Image;
 
             if (profileVM.Picture != null)
             {
@@ -404,32 +406,13 @@ namespace Wolmart.Ecommerce.Controllers
             return RedirectToAction("Profile");
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> SaveFile(ProfileVM profileVM)
-        //{
-        //    AppUser dbAppUser = await _userManager.FindByNameAsync(User.Identity.Name);
+        [HttpPost]
+        public async Task<IActionResult> SaveFile(ProfileVM profileVM)
+        {
+            AppUser dbAppUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
-        //    if (profileVM.Picture != null)
-        //    {
-        //        //if (!profileVM.Picture.CheckContentType("image/png"))
-        //        //{
-        //        //    ModelState.AddModelError("Picture", "Content type must be img !");
-        //        //    return View();
-        //        //}
-
-        //        //if (profileVM.Picture.CheckFileLength(50))
-        //        //{
-        //        //    ModelState.AddModelError("Picture", "Image length must be 50kb");
-        //        //    return View();
-        //        //}
-
-        //        //FileHelper.DeleteFile(_env, dbAppUser.ProfilePicture, "assets", "images", "demos");
-
-        //        dbAppUser.ProfilePicture = await profileVM.Picture.CreateAsync(_env, "assets", "images", "demos");
-
-        //    }
-        //    return RedirectToAction("Profile");
-        //}
+            return RedirectToAction("Profile");
+        }
 
         [HttpGet("confirm-email")]
         public async Task<IActionResult> ConfirmEmail(string uid, string token, string email)

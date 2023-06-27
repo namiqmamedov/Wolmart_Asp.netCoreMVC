@@ -6,7 +6,21 @@
                                    @*<input asp-for="Picture">*@
                                     @*<input id="testaaaaaaa" asp-for="Picture" placeholder="Main Image...">*@
                                      @*<input asp-for="Picture"  class="filepond" data-max-file-size="3MB" data-max-files="3"/>*@
-                                         <input asp-for="Picture" class="filepond">
+                                     @*<input asp-for="Picture" class="filepond">*@
+                                                                         <div class="container">
+                                       <label for="firstname">Profile picture *</label>
+                                        <div class="avatar-upload">
+                                            <div class="avatar-edit">
+                                                <input  type="hidden" asp-for="Image"/>
+                                                <input asp-for="Picture" id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                                <label for="imageUpload"></label>
+                                            </div>
+                                            <div class="avatar-preview">
+                                                <div id="imagePreview" style="background-image: url('/assets/images/demos/@Model.Image');">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
