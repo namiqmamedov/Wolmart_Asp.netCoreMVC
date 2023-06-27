@@ -21700,3 +21700,21 @@ form.lost_reset_password {
 .select2-container {
     margin-bottom: .4rem
 }
+
+
+.filepond--root {
+    width: 100%;
+    max-width: 100%;
+}
+
+.filepond--file-info-main{
+    font-size:1rem !important;
+}
+.filepond--file-info-sub{
+    font-size: 1rem !important;
+}
+.filepond--file-action-button{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+

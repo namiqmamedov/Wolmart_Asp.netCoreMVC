@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
 
     $('.product__modal').click(function (e) {
-        e.preventDefault();
+        e.preventdefault();
 
         let url = $(this).attr('href');
 
@@ -13,9 +13,9 @@
         })
     })
 
-    $('.searchInput').keyup(function () {
+    $('.searchinput').keyup(function () {
 
-        $(".search-body").addClass("d-block");
+        $(".search-body").addclass("d-block");
 
         let search = $(this).val().trim();
 
@@ -34,14 +34,14 @@
         }
         else {
             $('.search-body .list-group').html('');
-            $(".search-body").removeClass("d-block");
+            $(".search-body").removeclass("d-block");
         }
     })
 
-    // ------- Add To Cart ---------
+    // ------- add to cart ---------
 
-    $('.AddToCart').click(function (e) {
-        e.preventDefault();
+    $('.addtocart').click(function (e) {
+        e.preventdefault();
 
         let url = $(this).attr('href');
 
@@ -51,10 +51,10 @@
             });
     })
 
-    // ------- Delete From Cart ---------
+    // ------- delete from cart ---------
 
-    $(document).on('click', '#deleteCart', function (e) {
-        e.preventDefault();
+    $(document).on('click', '#deletecart', function (e) {
+        e.preventdefault();
 
         let url = $(this).attr('href');
 
@@ -65,28 +65,28 @@
                 //fetch('.cart-dropdown')
                 //    .then(res => res.text())
                 //    .then(data => {
-                //        $('#cartIndex .cart-table tbody tr').html(data);
+                //        $('#cartindex .cart-table tbody tr').html(data);
                 //    })
             })
     })
 
 
     $(document).on('click', '#quantity-minus', function (e) {
-        e.preventDefault();
+        e.preventdefault();
 
-        let inputCount = $(this).prev().prev().val();
+        let inputcount = $(this).prev().prev().val();
 
-        console.log(inputCount)
+        console.log(inputcount)
 
-        if (inputCount >= 2) {
-            inputCount--;
-            $(this).prev().prev().val(inputCount);
-            let url = $(this).attr('href') + '/?count=' + inputCount;
+        if (inputcount >= 2) {
+            inputcount--;
+            $(this).prev().prev().val(inputcount);
+            let url = $(this).attr('href') + '/?count=' + inputcount;
 
             fetch(url)
                 .then(res => res.text())
                 .then(data => {
-                    $('#cartIndex').html(data);
+                    $('#cartindex').html(data);
                     fetch('/cart/getcart').then(res => res.text())
                         .then(data => {
                             $('.cart-dropdown').html(data);
@@ -97,27 +97,27 @@
 
 
     $(document).on('click', '#quantity-plus', function (e) {
-        e.preventDefault();
+        e.preventdefault();
 
-        let inputCount = $(this).prev().val();
+        let inputcount = $(this).prev().val();
         
-        console.log(inputCount)
+        console.log(inputcount)
 
-        if (inputCount > 0) {
-            inputCount++;
+        if (inputcount > 0) {
+            inputcount++;
         }
         else {
-            inputCount = 1;
+            inputcount = 1;
         }
 
-        $(this).prev().val(inputCount);
+        $(this).prev().val(inputcount);
 
-        let url = $(this).attr('href') + '/?count=' + inputCount;
+        let url = $(this).attr('href') + '/?count=' + inputcount;
 
         fetch(url)
             .then(res => res.text())
             .then(data => {
-                $('#cartIndex').html(data);
+                $('#cartindex').html(data);
                 fetch('/cart/getcart').then(res => res.text())
                     .then(data => {
                         $('.cart-dropdown').html(data);
@@ -125,13 +125,13 @@
             })
     })
 
-    $(document).on('click', '.deleteFromCart', function (e) {
-        e.preventDefault();
+    $(document).on('click', '.deletefromcart', function (e) {
+        e.preventdefault();
 
         fetch($(this).attr('href'))
             .then(res => res.text())
             .then(data => {
-                $('#cartIndex').html(data);
+                $('#cartindex').html(data);
                 fetch('/cart/getcart').then(res => res.text())
                     .then(data => {
                         $('.cart-dropdown').html(data);
@@ -140,29 +140,78 @@
     })
 
     toastr.options = {
-        "closeButton": true,
+        "closebutton": true,
         "debug": false,
-        "newestOnTop": false,
-        "progressBar": true,
-        "positionClass": "toast-top-left",
-        "preventDuplicates": false,
+        "newestontop": false,
+        "progressbar": true,
+        "positionclass": "toast-top-left",
+        "preventduplicates": false,
         "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "3000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
+        "showduration": "300",
+        "hideduration": "1000",
+        "timeout": "3000",
+        "extendedtimeout": "1000",
+        "showeasing": "swing",
+        "hideeasing": "linear",
+        "showmethod": "fadein",
+        "hidemethod": "fadeout"
     }
 
-    if ($('#successInputAcc').val().length) {
-        toastr["success"]($('#successInputAcc').val().slice(6), $('#successInputAcc').val().split(' ')[0]);
+    if ($('#successinputacc').val().length) {
+        toastr["success"]($('#successinputacc').val().slice(6), $('#successinputacc').val().split(' ')[0]);
     }
 
-    if ($('#successInputPassword').val().length) {
-        toastr["success"]($('#successInputPassword').val().slice(6), $('#successInputPassword').val().split(' ')[0]);
+    if ($('#successinputpassword').val().length) {
+        toastr["success"]($('#successinputpassword').val().slice(6), $('#successinputpassword').val().split(' ')[0]);
     }
 
 })
+
+//FilePond.registerPlugin(
+//	FilePondPluginImageCrop,
+//	FilePondPluginImagePreview,
+//	FilePondPluginImageResize,
+//	FilePondPluginImageTransform
+//);
+
+//const inputElement = document.querySelector('input[type="file"]');
+//const pond = FilePond.create(inputElement, {
+//	imageCropAspectRatio: 1,
+//	imageResizeTargetWidth: 256,
+//	imageResizeMode: 'contain',
+//	imageTransformVariants: {
+//		thumb_medium_: transforms => {
+//			transforms.resize.size.width = 512;
+//			transforms.crop.aspectRatio = .5;
+//			return transforms;
+//		},
+//		thumb_small_: transforms => {
+//			transforms.resize.size.width = 64;
+//			return transforms;
+//		}
+//	},
+//	onaddfile: (err, fileItem) => {
+//		console.log(err, fileItem.getMetadata('resize'));
+//	},
+//	onpreparefile: (fileItem, outputFiles) => {
+//		outputFiles.forEach(output => {
+//			const img = new Image();
+//			img.src = URL.createObjectURL(output.file);
+//			document.body.appendChild(img);
+//		})
+//	}
+//});
+
+FilePond.registerPlugin(
+    // encodes the file as base64 data
+    FilePondPluginFileEncode,
+    // validates the size of the file
+    FilePondPluginFileValidateSize,
+    // corrects mobile image orientation
+    FilePondPluginImageExifOrientation,
+    // previews dropped images
+    FilePondPluginImagePreview
+);
+// Select the file input and use create() to turn it into a pond
+FilePond.create(document.querySelector('.filepond'));
+

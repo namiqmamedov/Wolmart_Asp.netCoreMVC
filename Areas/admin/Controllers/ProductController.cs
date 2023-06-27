@@ -231,7 +231,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int ? id,Product product)
+        public async Task<IActionResult> Update(int? id,Product product)
         {
             ViewBag.Brands = await _context.Brands.Where(b => !b.IsDeleted).ToListAsync();
             ViewBag.Categories = await _context.Categories.Where(b => !b.IsDeleted && !b.IsMain).ToListAsync();
@@ -268,7 +268,7 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
 
             if (product.Files != null && canSelectCount < product.Files.Count())
             {
-                ModelState.AddModelError("Files", $"You can  select  a {canSelectCount} items");
+                ModelState.AddModelError("Files", $"You can select a {canSelectCount} items");
                 return View();
             }
 

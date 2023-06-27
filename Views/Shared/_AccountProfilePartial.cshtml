@@ -1,7 +1,13 @@
 ﻿@model ProfileVM
 
 <div class="text text-danger" asp-validation-summary="ModelOnly"></div>
-<form class="form account-details-form" method="post" asp-controller="account" asp-action="update">
+<form class="form account-details-form" method="post" asp-controller="account" asp-action="update" enctype="multipart/form-data">
+                                    <div class="form-group mb-3">
+                                   @*<input asp-for="Picture">*@
+                                    @*<input id="testaaaaaaa" asp-for="Picture" placeholder="Main Image...">*@
+                                     @*<input asp-for="Picture"  class="filepond" data-max-file-size="3MB" data-max-files="3"/>*@
+                                         <input asp-for="Picture" class="filepond">
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Wolmart.Ecommerce.Models
 {
@@ -27,6 +29,10 @@ namespace Wolmart.Ecommerce.Models
         public string StreetAddrFirst { get; set; }
         [StringLength(255)]
         public string StreetAddrSecond { get; set; }
+        //[StringLength(1000)]
+        public string ProfilePicture { get; set; }
+        [NotMapped]
+        public IFormFile Picture { get; set; }
 
         public bool isAdmin { get; set; }
         public bool IsDeleted { get; set; }
