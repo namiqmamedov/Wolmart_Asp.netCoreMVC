@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wolmart.Ecommerce.DAL;
 
 namespace Wolmart.Ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230628175014_UpdatedFeedbackTableAddedEmailFirstnameAndLastnameTable")]
+    partial class UpdatedFeedbackTableAddedEmailFirstnameAndLastnameTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -441,11 +443,6 @@ namespace Wolmart.Ecommerce.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -475,57 +472,6 @@ namespace Wolmart.Ecommerce.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("Feedbacks");
-                });
-
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.FeedbackImage", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AppUserID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FeedbackID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("AppUserID");
-
-                    b.HasIndex("FeedbackID");
-
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("FeedbackImages");
                 });
 
             modelBuilder.Entity("Wolmart.Ecommerce.Models.Order", b =>
@@ -967,29 +913,6 @@ namespace Wolmart.Ecommerce.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.FeedbackImage", b =>
-                {
-                    b.HasOne("Wolmart.Ecommerce.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserID");
-
-                    b.HasOne("Wolmart.Ecommerce.Models.Feedback", "Feedback")
-                        .WithMany("FeedbackImages")
-                        .HasForeignKey("FeedbackID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Wolmart.Ecommerce.Models.Product", "Product")
-                        .WithMany("FeedbackImages")
-                        .HasForeignKey("ProductID");
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Feedback");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Wolmart.Ecommerce.Models.Order", b =>
                 {
                     b.HasOne("Wolmart.Ecommerce.Models.AppUser", "AppUser")
@@ -1110,11 +1033,6 @@ namespace Wolmart.Ecommerce.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("Wolmart.Ecommerce.Models.Feedback", b =>
-                {
-                    b.Navigation("FeedbackImages");
-                });
-
             modelBuilder.Entity("Wolmart.Ecommerce.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
@@ -1123,8 +1041,6 @@ namespace Wolmart.Ecommerce.Migrations
             modelBuilder.Entity("Wolmart.Ecommerce.Models.Product", b =>
                 {
                     b.Navigation("Carts");
-
-                    b.Navigation("FeedbackImages");
 
                     b.Navigation("Feedbacks");
 

@@ -47,7 +47,6 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
             ViewBag.Colors = await _context.Colors.ToListAsync();
             ViewBag.Sizes = await _context.Sizes.ToListAsync();
 
-
             return View();
         }
 

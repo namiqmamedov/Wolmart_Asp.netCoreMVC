@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Shared\Components\Account\" />
+    <Folder Include="wwwroot\assets\images\feedback\" />
   </ItemGroup>
 
 </Project>

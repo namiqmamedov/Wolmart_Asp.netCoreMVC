@@ -1,0 +1,39 @@
+﻿@model PagenationList<Feedback>
+
+@{
+    int counter  = Model.ItemCount * (Model.Page - 1);
+}
+
+  <table class="table table-hover table-bfeedbacked table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Message</th>
+      <th scope="col">Date</th>
+      <th scope="col">Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (Feedback feedback in Model)
+    {
+            counter++;
+            <tr>    
+              <th>@counter</th>
+              <td>@feedback.Firstname</td>
+              <td>@feedback.Lastname</td>
+              <td>@feedback.Text</td>
+              <td>@feedback.CreatedAt?.ToString("MMMM dd, yyyy")</td>
+              <td>
+                  <a asp-controller="feedback" asp-action="accepted" asp-area="admin" asp-route-id="@feedback.ID" class="btn btn-success">
+                      <i class="fa-solid fa-check"></i>
+                  </a>
+                  <a asp-controller="feedback" asp-action="rejected" asp-area="admin" asp-route-id="@feedback.ID" class="btn btn-danger">
+                     <i class="fa-solid fa-ban"></i>
+                  </a>
+              </td>
+            </tr>
+    }
+  </tbody>
+</table>

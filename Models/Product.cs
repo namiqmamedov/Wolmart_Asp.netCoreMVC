@@ -36,6 +36,7 @@ namespace Wolmart.Ecommerce.Models
         public bool IsFeatured { get; set; }
         public List<ProductImage> ProductImages { get; set; }
         public List<Feedback> Feedbacks { get; set; }
+        public List<FeedbackImage> FeedbackImages { get; set; }
         public IEnumerable<Cart> Carts { get; set; }
         public IEnumerable<OrderItem> OrderItems { get; set; }
         public IEnumerable<ProductColorSize> ProductColorSizes { get; set; }
