@@ -246,6 +246,8 @@ namespace Wolmart.Ecommerce.Controllers
 
             if (appUser == null) return NotFound();
 
+            Order order = await _context.Orders.Where(o=>o.AppUserId == appUser.Id).FirstOrDefaultAsync();
+
             ProfileVM profileVM = new ProfileVM
             {
                 Name = appUser.FirstName,
@@ -259,6 +261,11 @@ namespace Wolmart.Ecommerce.Controllers
             {
                 FirstName = appUser.FirstName,
                 LastName = appUser.LastName,
+                StreetAddrFirst = order.AddressFirst,
+                StreetAddrSecond = order.AddressSecond,
+                AddrPhone = order.Phone,
+                City = order.TownCity,
+                PostCode = order.ZipCode
                 //StreetAddrFirst = appUser.StreetAddrFirst,
                 //StreetAddrSecond = appUser.StreetAddrSecond,
                 //AddrPhone = appUser.AddrPhone,
@@ -283,10 +290,17 @@ namespace Wolmart.Ecommerce.Controllers
 
             if (appUser == null) return NotFound();
 
+            Order order = await _context.Orders.Where(o => o.AppUserId == appUser.Id).FirstOrDefaultAsync();
+
             AddressVM addressVM = new AddressVM
             {
                 FirstName = appUser.FirstName,
                 LastName = appUser.LastName,
+                StreetAddrFirst = order.AddressFirst,
+                StreetAddrSecond = order.AddressSecond,
+                AddrPhone = order.Phone,
+                City = order.TownCity,
+                PostCode = order.ZipCode
                 //StreetAddrFirst = appUser.StreetAddrFirst,
                 //StreetAddrSecond = appUser.StreetAddrSecond,
                 //AddrPhone = appUser.AddrPhone,

@@ -36,9 +36,6 @@ namespace Wolmart.Ecommerce.Models
         public string Phone { get; set; }
         [Required]
         [StringLength(255)]
-        public string CompanyName { get; set; }
-        [Required]
-        [StringLength(255)]
         public string AddressFirst { get; set; }
         [StringLength(255)]
         public string AddressSecond { get; set; }
