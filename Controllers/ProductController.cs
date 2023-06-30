@@ -28,9 +28,40 @@ namespace Wolmart.Ecommerce.Controllers
             _userManager = userManager;
             _env = env;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string q)
         {
-            return View(await _context.Products.ToListAsync());
+            ViewData["CurrentFilter"] = q;
+
+            //var product = await _context.Products.ToListAsync();
+            //if (!String.IsNullOrEmpty(SearchString))
+            //{
+            //    product = (List<Product>)product.Where(b=>b.Name.Contains(SearchString));
+            //}
+
+            //var product1 = product;
+
+            //return View(product1);
+            if (!String.IsNullOrWhiteSpace(q))
+            {
+                List<Product> products = await _context.Products
+                .Where(p => p.Name.ToLower().Contains(q.Trim().ToLower())).ToListAsync();
+            }
+            else
+            {
+                List<Product> products = await _context.Products.ToListAsync();
+            }
+
+            return View("Index");
+
+            //return View(await _context.Products.ToListAsync());
+        }
+        public async Task<IActionResult> Page(string q)
+        {
+            ViewData["CurrentFilter"] = q;
+
+            List<Product> products = await _context.Products.Where(p => p.Name.ToLower().Contains(q.Trim().ToLower())).ToListAsync();
+
+            return RedirectToAction("Index","Product");
         }
 
         public async Task<IActionResult> Detail(int? id)
@@ -88,6 +119,14 @@ namespace Wolmart.Ecommerce.Controllers
 
             return PartialView("_SearchPartial", products);
         }
+
+        //public async Task<IActionResult> SearchOtherPage(string searchotherpage)
+        //{
+        //    List<Product> products = await _context.Products
+        // .Where(p => p.Name.ToLower().Contains(searchotherpage.Trim().ToLower())).ToListAsync();
+
+        //    return RedirectToAction("Index","Product");
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
