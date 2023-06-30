@@ -1,25 +1,24 @@
 ﻿$(document).ready(function () {
 
     $('.product__modal').click(function (e) {
-        e.preventdefault();
+        e.preventDefault();
 
         let url = $(this).attr('href');
 
-        fetch(url).then(res =>
-        {
+        fetch(url).then(res => {
             return res.text();
         }).then(data => {
             $('#product-modal').html(data);
         })
     })
 
-    $('.searchinput').keyup(function () {
+    $('.searchInput').keyup(function () {
 
-        $(".search-body").addclass("d-block");
+        $(".search-body").addClass("d-block");
 
         let search = $(this).val().trim();
 
-        let url = $(this).data("url") 
+        let url = $(this).data("url")
 
 
         console.log(url)
@@ -34,14 +33,14 @@
         }
         else {
             $('.search-body .list-group').html('');
-            $(".search-body").removeclass("d-block");
+            $(".search-body").removeClass("d-block");
         }
     })
 
-    // ------- add to cart ---------
+    // ------- Add To Cart ---------
 
     $('.AddToCart').click(function (e) {
-        e.preventdefault();
+        e.preventDefault();
 
         let url = $(this).attr('href');
 
@@ -51,10 +50,10 @@
             });
     })
 
-    // ------- delete from cart ---------
+    // ------- Delete From Cart ---------
 
-    $(document).on('click', '#deletecart', function (e) {
-        e.preventdefault();
+    $(document).on('click', '#deleteCart', function (e) {
+        e.preventDefault();
 
         let url = $(this).attr('href');
 
@@ -65,28 +64,28 @@
                 //fetch('.cart-dropdown')
                 //    .then(res => res.text())
                 //    .then(data => {
-                //        $('#cartindex .cart-table tbody tr').html(data);
+                //        $('#cartIndex .cart-table tbody tr').html(data);
                 //    })
             })
     })
 
 
     $(document).on('click', '#quantity-minus', function (e) {
-        e.preventdefault();
+        e.preventDefault();
 
-        let inputcount = $(this).prev().prev().val();
+        let inputCount = $(this).prev().prev().val();
 
-        console.log(inputcount)
+        console.log(inputCount)
 
-        if (inputcount >= 2) {
-            inputcount--;
-            $(this).prev().prev().val(inputcount);
-            let url = $(this).attr('href') + '/?count=' + inputcount;
+        if (inputCount >= 2) {
+            inputCount--;
+            $(this).prev().prev().val(inputCount);
+            let url = $(this).attr('href') + '/?count=' + inputCount;
 
             fetch(url)
                 .then(res => res.text())
                 .then(data => {
-                    $('#cartindex').html(data);
+                    $('#cartIndex').html(data);
                     fetch('/cart/getcart').then(res => res.text())
                         .then(data => {
                             $('.cart-dropdown').html(data);
@@ -97,27 +96,27 @@
 
 
     $(document).on('click', '#quantity-plus', function (e) {
-        e.preventdefault();
+        e.preventDefault();
 
-        let inputcount = $(this).prev().val();
-        
-        console.log(inputcount)
+        let inputCount = $(this).prev().val();
 
-        if (inputcount > 0) {
-            inputcount++;
+        console.log(inputCount)
+
+        if (inputCount > 0) {
+            inputCount++;
         }
         else {
-            inputcount = 1;
+            inputCount = 1;
         }
 
-        $(this).prev().val(inputcount);
+        $(this).prev().val(inputCount);
 
-        let url = $(this).attr('href') + '/?count=' + inputcount;
+        let url = $(this).attr('href') + '/?count=' + inputCount;
 
         fetch(url)
             .then(res => res.text())
             .then(data => {
-                $('#cartindex').html(data);
+                $('#cartIndex').html(data);
                 fetch('/cart/getcart').then(res => res.text())
                     .then(data => {
                         $('.cart-dropdown').html(data);
@@ -125,13 +124,13 @@
             })
     })
 
-    $(document).on('click', '.deletefromcart', function (e) {
-        e.preventdefault();
+    $(document).on('click', '.deleteFromCart', function (e) {
+        e.preventDefault();
 
         fetch($(this).attr('href'))
             .then(res => res.text())
             .then(data => {
-                $('#cartindex').html(data);
+                $('#cartIndex').html(data);
                 fetch('/cart/getcart').then(res => res.text())
                     .then(data => {
                         $('.cart-dropdown').html(data);
@@ -140,29 +139,29 @@
     })
 
     toastr.options = {
-        "closebutton": true,
+        "closeButton": true,
         "debug": false,
-        "newestontop": false,
-        "progressbar": true,
-        "positionclass": "toast-top-left",
-        "preventduplicates": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-left",
+        "preventDuplicates": false,
         "onclick": null,
-        "showduration": "300",
-        "hideduration": "1000",
-        "timeout": "3000",
-        "extendedtimeout": "1000",
-        "showeasing": "swing",
-        "hideeasing": "linear",
-        "showmethod": "fadein",
-        "hidemethod": "fadeout"
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
     }
 
-    if ($('#successinputacc').val().length) {
-        toastr["success"]($('#successinputacc').val().slice(6), $('#successinputacc').val().split(' ')[0]);
+    if ($('#successInputAcc').val().length) {
+        toastr["success"]($('#successInputAcc').val().slice(6), $('#successInputAcc').val().split(' ')[0]);
     }
 
-    if ($('#successinputpassword').val().length) {
-        toastr["success"]($('#successinputpassword').val().slice(6), $('#successinputpassword').val().split(' ')[0]);
+    if ($('#successInputPassword').val().length) {
+        toastr["success"]($('#successInputPassword').val().slice(6), $('#successInputPassword').val().split(' ')[0]);
     }
 
 })

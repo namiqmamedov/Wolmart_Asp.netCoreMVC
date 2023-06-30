@@ -259,11 +259,11 @@ namespace Wolmart.Ecommerce.Controllers
             {
                 FirstName = appUser.FirstName,
                 LastName = appUser.LastName,
-                StreetAddrFirst = appUser.StreetAddrFirst,
-                StreetAddrSecond = appUser.StreetAddrSecond,
-                AddrPhone = appUser.AddrPhone,
-                PostCode = appUser.PostCode,
-                City = appUser.City,
+                //StreetAddrFirst = appUser.StreetAddrFirst,
+                //StreetAddrSecond = appUser.StreetAddrSecond,
+                //AddrPhone = appUser.AddrPhone,
+                //PostCode = appUser.PostCode,
+                //City = appUser.City,
             };
 
             MemberVM memberVM = new MemberVM
@@ -287,11 +287,11 @@ namespace Wolmart.Ecommerce.Controllers
             {
                 FirstName = appUser.FirstName,
                 LastName = appUser.LastName,
-                StreetAddrFirst = appUser.StreetAddrFirst,
-                StreetAddrSecond = appUser.StreetAddrSecond,
-                AddrPhone = appUser.AddrPhone,
-                PostCode = appUser.PostCode,
-                City = appUser.City,
+                //StreetAddrFirst = appUser.StreetAddrFirst,
+                //StreetAddrSecond = appUser.StreetAddrSecond,
+                //AddrPhone = appUser.AddrPhone,
+                //PostCode = appUser.PostCode,
+                //City = appUser.City,
             };
 
             return View(addressVM);
@@ -308,11 +308,11 @@ namespace Wolmart.Ecommerce.Controllers
 
             appUser.FirstName = addressVM.FirstName;
             appUser.LastName = addressVM.LastName;
-            appUser.City = addressVM.City;
-            appUser.AddrPhone = addressVM.AddrPhone;
-            appUser.PostCode = addressVM.PostCode;
-            appUser.StreetAddrFirst = addressVM.StreetAddrFirst;
-            appUser.StreetAddrSecond = addressVM.StreetAddrSecond;
+            //appUser.City = addressVM.City;
+            //appUser.AddrPhone = addressVM.AddrPhone;
+            //appUser.PostCode = addressVM.PostCode;
+            //appUser.StreetAddrFirst = addressVM.StreetAddrFirst;
+            //appUser.StreetAddrSecond = addressVM.StreetAddrSecond;
 
             IdentityResult identityResult = await _userManager.UpdateAsync(appUser);
 
