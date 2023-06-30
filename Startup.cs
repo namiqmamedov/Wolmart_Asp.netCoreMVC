@@ -66,6 +66,11 @@ namespace Wolmart.Ecommerce
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseStatusCodePagesWithRedirects("/error/{0}");
+                app.UseExceptionHandler("/Home/Error");
+            }
 
             app.UseRouting();
 

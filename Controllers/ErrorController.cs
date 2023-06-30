@@ -2,11 +2,21 @@
 
 namespace Wolmart.Ecommerce.Controllers
 {
+    [Route("Error/{statuscode}")]
     public class ErrorController : Controller
     {
-        public IActionResult Error()
+        public IActionResult Index(int statuscode)
         {
-            return View();
+            switch (statuscode)
+            {
+                case 404:
+                    ViewData["Error"] = "Page Not Found";
+                    break;
+
+                default:
+                    break;
+            }
+            return View("error");
         }
     }
 }
