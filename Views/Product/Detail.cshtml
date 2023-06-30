@@ -522,25 +522,6 @@
                                                     <p class="mb-3">Your email address will not be published. Required
                                                         fields are marked *</p>
                                                     <form asp-controller="product" asp-action="feedback" asp-route-ProductID="@Model.Product.ID" method="POST" class="review-form" enctype="multipart/form-data">
-                                                       @* <div class="rating-form">
-                                                            <label for="rating">Your Rating Of This Product :</label>
-                                                            <span class="rating-stars">
-                                                                <a class="star-1" href="#">1</a>
-                                                                <a class="star-2" href="#">2</a>
-                                                                <a class="star-3" href="#">3</a>
-                                                                <a class="star-4" href="#">4</a>
-                                                                <a class="star-5" href="#">5</a>
-                                                            </span>
-                                                            <select name="rating" id="rating" required=""
-                                                                style="display: none;">
-                                                                <option value="">Rate…</option>
-                                                                <option value="5">Perfect</option>
-                                                                <option value="4">Good</option>
-                                                                <option value="3">Average</option>
-                                                                <option value="2">Not that bad</option>
-                                                                <option value="1">Very poor</option>
-                                                            </select>
-                                                        </div>*@
                                                             @await Html.PartialAsync("_ProductFeedbackPartial",Model.Feedback)
                                                             <button type="submit" class="btn btn-dark">Submit
                                                             Review</button>
@@ -574,6 +555,8 @@
                                                     <ul class="comments list-style-none">
                                                         @foreach (Feedback item in Model.Feedbacks.Where(f=>!f.IsDeleted))
                                                         {
+                                                           var defaultStars = 6 - item.Rating;
+
                                                            <li class="comment">
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
@@ -586,12 +569,16 @@
                                                                         <span class="comment-date">@item.CreatedAt?.ToString("MMM dd yyyy")</span>
                                                                     </h4>
                                                                     <div class="ratings-container comment-rating">
-                                                                        <div class="ratings-full">
-                                                                            <span class="ratings"
-                                                                                style="width: 80%;"></span>
-                                                                            <span
-                                                                                class="tooltiptext tooltip-top"></span>
-                                                                        </div>
+                                                                           <span class="rating-stars text-danger">
+                                                                             @for (int i = 1; i <= item.Rating ; i++)
+                                                                            {
+                                                                                <i class="fas fa-star"></i>
+                                                                            }
+                                                                            @for (int i = 1; i < defaultStars; i++)
+                                                                            {
+                                                                                <i class="far fa-star"></i>
+                                                                            }
+                                                                           </span>
                                                                     </div>
                                                                     <p>@item.Text</p>
                                                                     <div class="comment-action">

@@ -40,7 +40,7 @@
 
     // ------- add to cart ---------
 
-    $('.addtocart').click(function (e) {
+    $('.AddToCart').click(function (e) {
         e.preventdefault();
 
         let url = $(this).attr('href');
@@ -180,4 +180,17 @@ function readURL(input) {
 }
 $("#imageUpload").change(function () {
     readURL(this);
+});
+
+$(".ratingStar").click(function () {
+    var starValue = $(this).attr("data-value");
+
+    $("#ratingValue").val(starValue);
+});
+
+$(".ratingStar").hover(function () {
+    $(".ratingStar").addClass("far").removeClass("fas");
+
+    $(this).addClass("fas").removeClass("far");
+    $(this).prevAll(".ratingStar").addClass("fas").removeClass("far");
 });

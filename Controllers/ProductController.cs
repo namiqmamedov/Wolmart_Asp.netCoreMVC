@@ -47,7 +47,7 @@ namespace Wolmart.Ecommerce.Controllers
                 .Include(p => p.Brand)
                 .FirstOrDefaultAsync(p => p.ID == id),
 
-                Feedbacks = await _context.Feedbacks.Where(p=> p.ID == p.FeedbackImages.Select(x=>x.FeedbackID).FirstOrDefault()).ToListAsync(),
+                Feedbacks = await _context.Feedbacks.Where(p=> p.ProductID == id ).ToListAsync(),
                 FeedbackImages = await _context.FeedbackImages.Where(p=> p.FeedbackID == p.Feedback.ID  && p.ProductID == id).ToListAsync(),
 
             };
@@ -90,13 +90,19 @@ namespace Wolmart.Ecommerce.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Feedback(int? id, Feedback feedback)
         {
             AppUser appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
 
             if (appUser == null) return BadRequest();
 
-            if (feedback.Files != null || feedback.Files.Count() > 0)
+            if (feedback.Files == null)
+            {
+                
+            }
+            else if (feedback.Files != null || feedback.Files.Count() > 0)
             {
                 List<FeedbackImage> feedbackImages = new List<FeedbackImage>();
 
@@ -112,7 +118,7 @@ namespace Wolmart.Ecommerce.Controllers
                     }
                     FeedbackImage feedbackImage = new FeedbackImage
                     {
-                        Image = await file.CreateAsync(_env, "assets", "images","feedback")
+                        Image = await file.CreateAsync(_env, "assets", "images", "feedback")
                     };
 
                     feedbackImages.Add(feedbackImage);
