@@ -79,8 +79,8 @@
                         <a asp-controller="home" asp-action="index" class="logo ml-lg-0">
                             <img src="~/assets/images/@Model.Settings.FirstOrDefault(x=>x.Key == "HeaderLogo").Value" alt="logo" width="144" height="45" />
                         </a>
-                        <form method="get" asp-controller="product" asp-action="index" class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
-                            @*<div class="select-box">
+                        <form method="get" asp-controller="product" asp-action="page" class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
+                            <div class="select-box">
                                 <select id="category" name="category">
                                     <option value="">All Categories</option>
                                     <option value="4">Fashion</option>
@@ -93,7 +93,7 @@
                                     <option value="11">Kitchen</option>
                                     <option value="12">Clothing</option>
                                 </select>
-                            </div>*@
+                            </div>
                             <input type="text" name="q" value="@ViewData["CurrentFilter"]" class="form-control searchInput"  id="search" placeholder="Search in..."/>
                             <div class="search-body d-none" style="position: absolute;width: 100%;z-index:999;background-color: white;top: 100%;border: 1px solid black;">
                                     <ul class="list-group">
