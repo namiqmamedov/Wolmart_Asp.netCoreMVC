@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Extensions;
 using Wolmart.Ecommerce.Models;
+using Wolmart.Ecommerce.ViewModels;
 using Wolmart.Ecommerce.ViewModels.CartViewModels;
 using Wolmart.Ecommerce.ViewModels.ProductViewModels;
 
@@ -28,9 +29,13 @@ namespace Wolmart.Ecommerce.Controllers
             _userManager = userManager;
             _env = env;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(await _context.Products.ToListAsync());
+            //int itemCount = int.Parse(_context.Settings.FirstOrDefault(x => x.Key == "PageItem").Value);
+
+            IQueryable<Product> products = _context.Products.Where(p => !p.IsDeleted);
+
+            return View(PagenationList<Product>.Create(products,page,6));
         }
         public async Task<IActionResult> Page(string q)
         {

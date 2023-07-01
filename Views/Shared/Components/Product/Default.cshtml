@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model PagenationList<Product>
 
  <!-- Start of Main -->
         <main class="main">
@@ -468,7 +468,7 @@
                             </div>
                     @if(Model.Count() >= 1)
                     {
-                        <div class="toolbox toolbox-pagination justify-content-between">
+                        @*<div class="toolbox toolbox-pagination justify-content-between">
                                 <p class="showing-info mb-2 mb-sm-0">
                                     Showing<span>1-12 of 60</span>Products
                                 </p>
@@ -490,7 +490,53 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div>*@
+                            <div class="container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <nav aria-label="Page navigation example">
+                                                  <ul class="pagination" style="justify-content: center;">
+                                                        @if(Model.HasPrev)
+                                                        {
+                                                                <li class="page-item">
+                                                                  <a class="page-link"  asp-controller="product" asp-action="index" asp-route-page="1" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                                                    <span class="sr-only">Previous</span>
+                                                                  </a>
+                                                                </li>
+                                                                <li class="page-item">
+                                                                  <a class="page-link" asp-controller="product" asp-action="index" asp-route-page="@(Model.Page-1)"  aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                    <span class="sr-only">Previous</span>
+                                                                  </a>
+                                                                </li>
+                                                        }
+                                                        @for(int i = 1; i <= Model.PageCount; i++)
+                                                      {
+                                                           <li class="page-item @(Model.Page == i ? "active" : "")"><a class="page-link" asp-controller="product" asp-action="index" asp-route-page="@i">@i</a></li>   
+                                                      }
+                    
+                                                        @if (Model.HasNext)
+                                                        {
+                                                            <li class="page-item">
+                                                                      <a class="page-link"  asp-controller="product" asp-action="index" asp-route-page="@(Model.Page+1)" aria-label="Next">
+                                                                        <span aria-hidden="true">&raquo;</span>
+                                                                        <span class="sr-only">Next</span>
+                                                                      </a>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                      <a class="page-link"  asp-controller="product" asp-action="index" asp-route-page="@Model.PageCount"  aria-label="Next">
+                                                                        <span aria-hidden="true">&raquo;&raquo;</span>
+                                                                        <span class="sr-only">Next</span>
+                                                                      </a>
+                                                            </li>        
+                                                        }
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+
                     }
                         </div>
                         <!-- End of Shop Main Content -->
