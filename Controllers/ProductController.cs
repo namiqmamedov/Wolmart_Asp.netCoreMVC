@@ -29,21 +29,46 @@ namespace Wolmart.Ecommerce.Controllers
             _userManager = userManager;
             _env = env;
         }
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string q,string sortOrder,int page)
         {
+            ViewBag.PriceSortParam = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
+            ViewBag.CurrentSortOrder = sortOrder;
+            ViewData["CurrentFilter"] = q;
+
+            IQueryable<Product> products = _context.Products.Where(p => !p.IsDeleted).OrderBy(p => p.ID);
+
+            switch (sortOrder)
+            {
+                case "price_desc":
+                    products = products.OrderByDescending(o => o.Name);    
+                    break;
+                default:
+                    products = products.OrderByDescending(o => o.Price);
+                    break;
+            }
+
             //int itemCount = int.Parse(_context.Settings.FirstOrDefault(x => x.Key == "PageItem").Value);
 
-            IQueryable<Product> products = _context.Products.Where(p => !p.IsDeleted);
 
             return View(PagenationList<Product>.Create(products,page,6));
         }
-        public async Task<IActionResult> Page(string q)
+
+        public async Task<IActionResult> Page(string q, int page)
         {
             ViewData["CurrentFilter"] = q;
 
-            List<Product> products = await _context.Products.Where(p => p.Name.ToLower().Contains(q.Trim().ToLower())).ToListAsync();
+            IQueryable<Product> products = _context.Products.Where(p => p.Name.ToLower().Contains(q.Trim().ToLower()));
 
-            return View(products);
+            if (!String.IsNullOrEmpty(q))
+            {
+                _ = products;
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            return View(PagenationList<Product>.Create(products, page,6));
         }
 
         public async Task<IActionResult> Detail(int? id)
@@ -101,14 +126,6 @@ namespace Wolmart.Ecommerce.Controllers
 
             return PartialView("_SearchPartial", products);
         }
-
-        //public async Task<IActionResult> SearchOtherPage(string searchotherpage)
-        //{
-        //    List<Product> products = await _context.Products
-        // .Where(p => p.Name.ToLower().Contains(searchotherpage.Trim().ToLower())).ToListAsync();
-
-        //    return RedirectToAction("Index","Product");
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]

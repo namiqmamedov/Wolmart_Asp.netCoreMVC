@@ -4,7 +4,7 @@
         <main class="main">
             <!-- Start of Breadcrumb -->
             <nav class="breadcrumb-nav">
-                <div class="container">
+                <div class="container">A
                     <ul class="breadcrumb bb-no">
                         <li><a href="demo1.html">Home</a></li>
                         <li>Shop</li>
@@ -353,6 +353,7 @@
                         <!-- End of Shop Sidebar -->
 
                         <!-- Start of Shop Main Content -->
+
                         <div class="main-content">
                             <nav class="toolbox sticky-toolbox sticky-content fix-top">
                                 <div class="toolbox-left">
@@ -361,14 +362,19 @@
                                             class="w-icon-category"></i><span>Filters</span></a>
                                     <div class="toolbox-item toolbox-sort select-box text-dark">
                                         <label>Sort By :</label>
-                                        <select name="orderby" class="form-control">
+                                        <div class="product-filter">
+                                                <a class="productFilter" style="font-size: 11px;padding-right: 8px"  asp-controller="product" asp-action="index" asp-route-page="@Model.Page"  asp-route-sortOrder="@ViewBag.PriceSortParam" >Sort by A to Z </a> 
+                                        </div>
+                                        @*<select name="orderby" class="form-control">
                                             <option value="default" selected="selected">Default sorting</option>
-                                            <option value="popularity">Sort by popularity</option>
-                                            <option value="rating">Sort by average rating</option>
+                                            <option value="/product/detail/" >Sort by A to Z</option>
+                                            <option value="rating">Sort by by Z to A</option>
                                             <option value="date">Sort by latest</option>
-                                            <option value="price-low">Sort by pric: low to high</option>
+                                            <option value="price-low">Sort by price: low to high</option>
                                             <option value="price-high">Sort by price: high to low</option>
-                                        </select>
+                                        </select>*@
+                                        @*<button style="padding: 0.93em .98em;" type="button" class="btn btn-secondary">*@
+                                        @*</button>*@
                                     </div>
                                 </div>
                                 <div class="toolbox-right">
@@ -398,74 +404,10 @@
                                 {
                                     <h3>Sorry, nothing can be found for the word you are looking for.</h3>
                                 }
-
-                    <div class="product-wrapper row cols-md-3 cols-sm-2 cols-2">
-                                @foreach (Product product in Model)
-                                {
-                                     <div class="product-wrap">
-                                    <div class="product text-center">
-                                        <figure class="product-media">
-                                            <a asp-controller="product" asp-action="detail" asp-route-id="@product.ID">
-                                                <img src="~/assets/images/shop/@product.MainImage" alt="Product" width="300"
-                                                    height="338" />
-                                                 @if (product.HoverImage != null)
-                                                {
-                                                    <img src="~/assets/images/shop/@product.HoverImage" width="300"
-                                                        height="338" />
-                                                }
-                                            </a>
-                                           @*  <div class="product-countdown-container">
-                                                <div class="product-countdown countdown-compact" data-until="2021, 9, 9"
-                                                    data-format="DHMS" data-compact="false"
-                                                    data-labels-short="Days, Hours, Mins, Secs">
-                                                    00:00:00:00</div>
-                                            </div>*@
-                                            <div class="product-action-horizontal">
-                                                <a asp-controller="cart" asp-action="AddToCart" asp-route-id="@product.ID" class="AddToCart btn-product-icon btn-cart w-icon-cart"
-                                                    title="Add to cart"></a>
-                                                <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                                    title="Wishlist"></a>
-                                                <a href="#" class="btn-product-icon btn-compare w-icon-compare"
-                                                    title="Compare"></a>
-                                                <a asp-controller="product" asp-action="DetailForModal" asp-route-id="@product.ID" class="btn-product-icon btn-quickview w-icon-search product__modal"
-                                                    title="Quick View"></a>
-                                            </div>
-                                        </figure>
-                                        <div class="product-details">
-                                            <div class="product-cat">
-                                                <a href="shop-banner-sidebar.html">Electronics</a>
-                                            </div>
-                                            <h3 class="product-name">
-                                                <a href="product-default.html">@product.Name</a>
-                                            </h3>
-                                            <div class="ratings-container">
-                                                <div class="ratings-full">
-                                                    <span class="ratings" style="width: 100%;"></span>
-                                                    <span class="tooltiptext tooltip-top"></span>
-                                                </div>
-                                                <a href="product-default.html" class="rating-reviews">(3 reviews)</a>
-                                            </div>
-                                            <div class="product-pa-wrapper">
-                                                <div class="product-price">
-                                                @if(product.DiscountedPrice > 0)
-                                                {
-                                                    <ins class="new-price">$@product.DiscountedPrice</ins>
-                                                    <del class="old-price">@product.Price</del>
-                                                }
-                                                else
-                                                {
-                                                    <del class="old-price">$@product.Price</del>
-                                                }
-
-                                                    @*@product.DiscountedPrice > 0 ?  <ins class="new-price">$30.00</ins> <del class="old-price">$60.00</del> 
-                                                    :  <del class="old-price">$60.00</del>*@
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="product-filter-item">
+                                           @await Html.PartialAsync("_FilterSortPartial",Model)
                                 </div>
-                                }
-                            </div>
+                    
                     @if(Model.Count() >= 1)
                     {
                         @*<div class="toolbox toolbox-pagination justify-content-between">
@@ -513,7 +455,7 @@
                                                         }
                                                         @for(int i = 1; i <= Model.PageCount; i++)
                                                       {
-                                                           <li class="page-item @(Model.Page == i ? "active" : "")"><a class="page-link" asp-controller="product" asp-action="index" asp-route-page="@i">@i</a></li>   
+                                                           <li class="page-item @(Model.Page == i ? "active" : "")"><a class="page-link" asp-controller="product"  asp-route-page="@i" asp-route-sortOrder="@ViewBag.CurrentSortOrder" asp-route-q="@ViewData["CurrentFilter"]">@i</a></li>   
                                                       }
                     
                                                         @if (Model.HasNext)
