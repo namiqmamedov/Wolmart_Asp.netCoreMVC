@@ -4,7 +4,7 @@
         <main class="main">
             <!-- Start of Breadcrumb -->
             <nav class="breadcrumb-nav">
-                <div class="container">A
+                <div class="container">
                     <ul class="breadcrumb bb-no">
                         <li><a href="demo1.html">Home</a></li>
                         <li>Shop</li>
@@ -293,13 +293,33 @@
                                                 <li><a href="#">$300.00 - $500.00</a></li>
                                                 <li><a href="#">$500.00+</a></li>
                                             </ul>
-                                            <form class="price-range">
-                                                <input type="number" name="min_price" class="min_price text-center"
-                                                    placeholder="$min"><span class="delimiter">-</span><input
-                                                    type="number" name="max_price" class="max_price text-center"
-                                                    placeholder="$max"><a href="#"
-                                                    class="btn btn-primary btn-rounded">Go</a>
+                                             <form method="get" class="price-range" asp-controller="product" asp-action="index">
+                                               <div class="form-row">
+                                                    <input type="number" name="minPrice" value="@ViewBag.MinPrice" class="min_price text-center"
+                                                    placeholder="$min">
+                                               </div>
+                                              <span class="delimiter">-</span>
+                                               <div class="form-row">
+                                                    <input type="number" name="maxPrice" value="@ViewBag.MaxPrice" class="max_price text-center" 
+                                                   placeholder="$max">
+                                               </div>
+                                                    
+                                               <button  type="submit" @*asp-controller="product" asp-action="index" asp-route-minPrice="@ViewData["MinPrice"]" asp-route-maxPrice="@ViewData["MaxPrice"]"*@
+                                                    class="btn btn-primary btn-rounded">Go</button>
                                             </form>
+@*                                            <form asp-controller="product" asp-action="PriceFilter" >
+                                                    <input type="number" name="maxPrice" value="@ViewData["MaxPrice"]" class="max_price text-center" 
+                                                   placeholder="$max">
+                                                   <input type="number" name="minPrice" value="@ViewData["MinPrice"]" class="min_price text-center"
+                                                    placeholder="$min">
+                                               </form>*@
+                                            
+                                           @* <form asp-controller="product" asp-action="PriceFilter">
+                                                <input type="text" name="minPrice" value="@ViewData["MinPrice"]" />
+                                                    <a class="btn btn-primary btn-rounded" style="font-size: 11px;padding-right: 8px"  asp-controller="product" asp-action="index" asp-route-page="@Model.Page" asp-route-q="@ViewData["CurrentFilter"]" asp-route-minPrice="@ViewData["MinPrice"]" >Sort by A to Z </a>
+                                            </form>*@
+                                                    @*<a asp-controller="product" asp-action="index" asp-route-minPrice="@ViewBag.MinPrice"
+                                                    class="btn btn-primary btn-rounded">Go</a>*@
                                         </div>
                                     </div>
                                     <!-- End of Collapsible Widget -->
@@ -363,8 +383,16 @@
                                     <div class="toolbox-item toolbox-sort select-box text-dark">
                                         <label>Sort By :</label>
                                         <div class="product-filter">
-                                                <a class="productFilter" style="font-size: 11px;padding-right: 8px"  asp-controller="product" asp-action="index" asp-route-page="@Model.Page"  asp-route-sortOrder="@ViewBag.PriceSortParam" >Sort by A to Z </a> 
-                                        </div>
+                                         @if (ViewData["CurrentFilter"] != null)
+                                        {
+                                        <a class="productFilter" style="font-size: 11px;padding-right: 8px"  asp-controller="product" asp-action="search" asp-route-page="@Model.Page" asp-route-q="@ViewData["CurrentFilter"]" asp-route-sort="@ViewBag.PriceSortParam" >Sort by A to Z </a>
+                                        }
+                                        else
+                                        {
+                                          <a class="productFilter" style="font-size: 11px;padding-right: 8px"  asp-controller="product" asp-action="index" asp-route-page="@Model.Page" asp-route-q="@ViewData["CurrentFilter"]" asp-route-sort="@ViewBag.PriceSortParam" >Sort by A to Z </a>
+
+                                        }
+                                </div>
                                         @*<select name="orderby" class="form-control">
                                             <option value="default" selected="selected">Default sorting</option>
                                             <option value="/product/detail/" >Sort by A to Z</option>
@@ -478,7 +506,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                     }
                         </div>
                         <!-- End of Shop Main Content -->
@@ -489,3 +516,17 @@
             <!-- End of Page Content -->
         </main>
         <!-- End of Main -->
+
+<script>
+    var priceSlider = $("#slide-range").slider({
+        range: true,
+        min:0,
+        max: @Model.Select(x=>x.Price).FirstOrDefault(),
+        values: [0,2900],
+        slide: function(event,ui) {
+            $("#amount").val("$" + ui.values[0] + ".00" + " - " + "$" + ui.values[1] + ".00");
+            //clearTimeout(time0);
+            //time0 = setTimeout(function () {alert("Hello"); }, 1000);
+        }
+    })
+</script>

@@ -2,9 +2,9 @@
 
 @foreach(Product item in Model)
 {
-    <li class="list-group-item d-flex align-items-center">
-                <img src="assets/images/shop/@item.MainImage" style="width: 100px" alt="Image" />
-                <h5>@item.Name</h5>
+    <li class="list-group-item d-flex align-items-center mb-3">
+                <img src="~/assets/images/shop/@item.MainImage" style="width: 100px" alt="Image" />
+                <h5 class="ml-2">@item.Name</h5>
     </li>
 }
 

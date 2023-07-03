@@ -29,32 +29,74 @@ namespace Wolmart.Ecommerce.Controllers
             _userManager = userManager;
             _env = env;
         }
-        public async Task<IActionResult> Index(string q,string sortOrder,int page)
+        public async Task<IActionResult> Index(string q,string sort, int page,int minPrice,int maxPrice)
         {
-            ViewBag.PriceSortParam = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
-            ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.CurrentSortOrder = sort;
+            ViewBag.PriceSortParam = String.IsNullOrEmpty(sort) ? "price_desc" : "";
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
             ViewData["CurrentFilter"] = q;
 
-            IQueryable<Product> products = _context.Products.Where(p => !p.IsDeleted).OrderBy(p => p.ID);
+            IQueryable<Product> products =  _context.Products.Where(p => !p.IsDeleted).OrderBy(p => p.ID);
 
-            switch (sortOrder)
+            
+
+            switch (sort)
             {
                 case "price_desc":
-                    products = products.OrderByDescending(o => o.Name);    
+                    products = products.OrderBy(o => o.Name);    
+                    break;
+                case "filter_desc":
+                    products = products.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
                     break;
                 default:
-                    products = products.OrderByDescending(o => o.Price);
+                    //products = products.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
+                    _ = products;
                     break;
             }
-
-            //int itemCount = int.Parse(_context.Settings.FirstOrDefault(x => x.Key == "PageItem").Value);
-
 
             return View(PagenationList<Product>.Create(products,page,6));
         }
 
-        public async Task<IActionResult> Page(string q, int page)
+        //public async Task<IActionResult> PriceFilter(string minPrice, string maxPrice, string sort, int page)
+        //{
+        //    ViewBag.PriceSortParam = String.IsNullOrEmpty(sort) ? "price_desc" : "";
+        //    ViewBag.CurrentSortOrder = sort;
+        //    ViewBag.MinPrice = minPrice;
+        //    ViewBag.MaxPrice = maxPrice;
+
+        //    IQueryable<Product> products = _context.Products.Where(p => p.Name.ToLower().Contains(minPrice.Trim().ToLower()));
+
+        //    if (!String.IsNullOrEmpty(minPrice))
+        //    {
+        //        _ = products;
+        //    }
+        //    if (!String.IsNullOrEmpty(maxPrice))
+        //    {
+        //        _ = products;
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    switch (sort)
+        //    {
+        //        case "price_desc":
+        //            products = products.Where(p => p.Name.ToLower().Contains(minPrice.Trim().ToLower())).OrderByDescending(o => o.Name);
+        //            break;
+        //        default:
+        //            _ = products;
+        //            break;
+        //    }
+
+        //    return View(PagenationList<Product>.Create(products, page, 6));
+        //}
+
+        public async Task<IActionResult> Search(string q, string sort, int page)
         {
+            ViewBag.PriceSortParam = String.IsNullOrEmpty(sort) ? "price_desc" : "";
+            ViewBag.CurrentSortOrder = sort;
             ViewData["CurrentFilter"] = q;
 
             IQueryable<Product> products = _context.Products.Where(p => p.Name.ToLower().Contains(q.Trim().ToLower()));
@@ -68,9 +110,18 @@ namespace Wolmart.Ecommerce.Controllers
                 return NotFound();
             }
 
+            switch (sort)
+            {
+                case "price_desc":
+                    products = products.Where(p=>p.Name.ToLower().Contains(q.Trim().ToLower())).OrderByDescending(o => o.Name);
+                    break;
+                default:
+                    _ = products;
+                    break;
+            }
+
             return View(PagenationList<Product>.Create(products, page,6));
         }
-
         public async Task<IActionResult> Detail(int? id)
         {
             if (id == null)
@@ -119,7 +170,7 @@ namespace Wolmart.Ecommerce.Controllers
             return PartialView("_ProductModalPartial", product);
         }
 
-        public async Task<IActionResult> Search(string search)
+        public async Task<IActionResult> SearchProduct(string search)
         {
             List<Product> products = await _context.Products
            .Where(p => p.Name.ToLower().Contains(search.Trim().ToLower())).ToListAsync();
