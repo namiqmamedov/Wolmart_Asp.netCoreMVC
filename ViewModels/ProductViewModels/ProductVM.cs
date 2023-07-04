@@ -10,9 +10,12 @@ namespace Wolmart.Ecommerce.ViewModels.ProductViewModels
         public Feedback Feedback { get; set; }
         public List<Feedback> Feedbacks { get; set; }
         public FeedbackImage FeedbackImage { get; set; }
+        public Color Color { get; set; }
+        public IEnumerable<Color> Colors { get; set; }
         public List<FeedbackImage> FeedbackImages { get; set; }
         public AppUser AppUser { get; set; }
         public string AppUserId { get; set; }
+
     }
 }
 

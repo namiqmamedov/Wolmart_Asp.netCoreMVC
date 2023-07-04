@@ -51,16 +51,49 @@
                                             }
                                         }">
                                             <div class="swiper-wrapper row cols-1 gutter-no">
-                                                @foreach (ProductImage item in Model.Product.ProductImages)
+                                               @foreach (ProductImage item in Model.Product.ProductImages)
                                                 {
-                                                    <div class="swiper-slide">
+                                                            <div class="swiper-slide">
+                                                                        <img src="~/assets/images/shop/@item.Image"
+                                                                            data-zoom-image="assets/images/products/default/1-800x900.jpg"
+                                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
+                                                             </div>
+                                                }
+@*                                                <div class="swiper-slide">
                                                     <figure class="product-image">
-                                                        <img src="~/assets/images/products/default/@item.Image"
-                                                            data-zoom-image="~/assets/images/products/default/@item.Image"
+                                                        <img src="~/assets/images/products/default/2-800x900.jpg"
+                                                            data-zoom-image="assets/images/products/default/2-800x900.jpg"
+                                                            alt="Electronics Black Wrist Watch" width="488" height="549">
+                                                    </figure>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <figure class="product-image">
+                                                        <img src="~/assets/images/products/default/3-800x900.jpg"
+                                                            data-zoom-image="assets/images/products/default/3-800x900.jpg"
                                                             alt="Electronics Black Wrist Watch" width="800" height="900">
                                                     </figure>
                                                 </div>
-                                                }
+                                                <div class="swiper-slide">
+                                                    <figure class="product-image">
+                                                        <img src="~/assets/images/products/default/4-800x900.jpg"
+                                                            data-zoom-image="assets/images/products/default/4-800x900.jpg"
+                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
+                                                    </figure>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <figure class="product-image">
+                                                        <img src="~/assets/images/products/default/5-800x900.jpg"
+                                                            data-zoom-image="assets/images/products/default/5-800x900.jpg"
+                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
+                                                    </figure>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <figure class="product-image">
+                                                        <img src="~/assets/images/products/default/6-800x900.jpg"
+                                                            data-zoom-image="assets/images/products/default/6-800x900.jpg"
+                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
+                                                    </figure>
+                                                </div>*@
                                             </div>
                                             <button class="swiper-button-next"></button>
                                             <button class="swiper-button-prev"></button>
@@ -73,13 +106,30 @@
                                             }
                                         }">
                                             <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
-                                                @foreach (ProductImage item in Model.Product.ProductImages)
-                                                {
-                                                    <div class="product-thumb swiper-slide">
-                                                            <img src="~/assets/images/products/default/@item.Image"
-                                                                alt="Product Thumb" width="800" height="900">
-                                                    </div>
-                                                }
+                                                <div class="product-thumb swiper-slide">
+                                                    <img src="~/assets/images/products/default/1-800x900.jpg"
+                                                        alt="Product Thumb" width="800" height="900">
+                                                </div>
+                                                <div class="product-thumb swiper-slide">
+                                                    <img src="~/assets/images/products/default/2-800x900.jpg"
+                                                        alt="Product Thumb" width="800" height="900">
+                                                </div>
+                                                <div class="product-thumb swiper-slide">
+                                                    <img src="~/assets/images/products/default/3-800x900.jpg"
+                                                        alt="Product Thumb" width="800" height="900">
+                                                </div>
+                                                <div class="product-thumb swiper-slide">
+                                                    <img src="~/assets/images/products/default/4-800x900.jpg"
+                                                        alt="Product Thumb" width="800" height="900">
+                                                </div>
+                                                <div class="product-thumb swiper-slide">
+                                                    <img src="~/assets/images/products/default/5-800x900.jpg"
+                                                        alt="Product Thumb" width="800" height="900">
+                                                </div>
+                                                <div class="product-thumb swiper-slide">
+                                                    <img src="~/assets/images/products/default/6-800x900.jpg"
+                                                        alt="Product Thumb" width="800" height="900">
+                                                </div>
                                             </div>
                                             <button class="swiper-button-next"></button>
                                             <button class="swiper-button-prev"></button>
@@ -140,16 +190,23 @@
 
                                         <hr class="product-divider">
 
-                                        <div class="product-form product-variation-form product-color-swatch">
-                                            <label>Color:</label>
-                                            <div class="d-flex align-items-center product-variations">
-                                                <a href="#" class="color" style="background-color: #ffcc01"></a>
-                                                <a href="#" class="color" style="background-color: #ca6d00;"></a>
-                                                <a href="#" class="color" style="background-color: #1c93cb;"></a>
-                                                <a href="#" class="color" style="background-color: #ccc;"></a>
-                                                <a href="#" class="color" style="background-color: #333;"></a>
+                                        <form id="cart__index-form" method="get" asp-controller="cart" asp-action="addtocart" asp-route-id="@Model.Product.ID">
+                                                <div class="product-form product-variation-form product-color-swatch">
+                                                <label>Color:</label>
+                                                <div class="d-flex align-items-center product-variations">
+                                                    @*<a href="#" class="color" style="background-color: #ffcc01"></a>
+                                                    <a href="#" class="color" style="background-color: #ca6d00;"></a>
+                                                    <a href="#" class="color" style="background-color: #1c93cb;"></a>
+                                                    <a href="#" class="color" style="background-color: #ccc;"></a>
+                                                    <a href="#" class="color" style="background-color: #333;"></a>*@
+                                                    <select class="form-select" name="colorID" id="colorID" aria-label="Default select example">
+                                                      @foreach (ProductColorSize item in Model.Product.ProductColorSizes)
+                                                        {
+                                                            <option selected value="@item.Color.ID">@item.Color.Name</option>
+                                                        }
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
                                         <div class="product-form product-variation-form product-size-swatch">
                                             <label class="mb-1">Size:</label>
                                             <div class="flex-wrap d-flex align-items-center product-variations">
@@ -171,7 +228,7 @@
                                         <div class="product-variation-price">
                                             <span></span>
                                         </div>
-
+                                               
                                         <div class="fix-bottom product-sticky-content sticky-content">
                                             <div class="product-form container">
                                                 <div class="product-qty-form">
@@ -182,12 +239,17 @@
                                                         <button class="quantity-minus w-icon-minus"></button>
                                                     </div>
                                                 </div>
-                                                <button class="btn btn-primary btn-cart">
+                                                <button type="submit" class="btn btn-primary btn-cart AddToCartBtn">
                                                     <i class="w-icon-cart"></i>
-                                                    <span>Add to Cart</span>
+                                                    Add to Cart
                                                 </button>
+                                         @* <button class="btn" type="submit">
+                                                Add to Cart
+                                        </button>*@
                                             </div>
                                         </div>
+
+                                        </form>
 
                                         <div class="social-links-wrapper">
                                             <div class="social-links">

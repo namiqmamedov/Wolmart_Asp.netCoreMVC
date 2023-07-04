@@ -50,6 +50,27 @@
             });
     })
 
+    $(document).on('click', ".AddToCartBtn", function (e) {
+        e.preventDefault();
+
+        let url = $("#cart__index-form").attr('action');
+        let colorID = $("#colorID").val();
+
+        url = url + "?colorID=" + colorID;
+
+        fetch(url).then(res => {
+            return res.text()
+        }).then(data => {
+            $(".cart-dropdown").html(data)
+        })
+
+
+        fetch(url).then(res => res.text())
+            .then(data => {
+                $('.cart-dropdown').html(data);
+            });
+    })
+
     // ------- Delete From Cart ---------
 
     $(document).on('click', '#deleteCart', function (e) {

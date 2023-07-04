@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Wolmart.Ecommerce.DAL;
 using Wolmart.Ecommerce.Extensions;
+using Wolmart.Ecommerce.Migrations;
 using Wolmart.Ecommerce.Models;
 using Wolmart.Ecommerce.ViewModels;
 using Wolmart.Ecommerce.ViewModels.CartViewModels;
@@ -29,7 +31,7 @@ namespace Wolmart.Ecommerce.Controllers
             _userManager = userManager;
             _env = env;
         }
-        public async Task<IActionResult> Index(string q,string sort, int page,int minPrice,int maxPrice)
+        public async Task<IActionResult> Index(int? id, string q, string sort, int page, int minPrice, int maxPrice)
         {
             ViewBag.CurrentSortOrder = sort;
             ViewBag.PriceSortParam = String.IsNullOrEmpty(sort) ? "price_desc" : "";
@@ -37,23 +39,24 @@ namespace Wolmart.Ecommerce.Controllers
             ViewBag.MaxPrice = maxPrice;
             ViewData["CurrentFilter"] = q;
 
-            IQueryable<Product> products =  _context.Products.Where(p => !p.IsDeleted).OrderBy(p => p.ID);
 
-            
+            IQueryable<Product> products = _context.Products.Include(p=>p.ProductColorSizes).ThenInclude(p=>p.Color).Where(p => !p.IsDeleted).OrderBy(p => p.ID);
 
-            switch (sort)
-            {
-                case "price_desc":
-                    products = products.OrderBy(o => o.Name);    
-                    break;
-                case "filter_desc":
-                    products = products.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
-                    break;
-                default:
-                    //products = products.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
-                    _ = products;
-                    break;
-            }
+            //Color = await _context.Colors.Where(p=>p.ProductColorSizes.Any(p=>p.ProductID == id)).ToList();
+
+            //switch (sort)
+            //{
+            //    case "price_desc":
+            //        products = products.OrderBy(o => o.Name);    
+            //        break;
+            //    case "filter_desc":
+            //        products = products.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
+            //        break;
+            //    default:
+            //        //products = products.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
+            //        _ = products;
+            //        break;
+            //}
 
             return View(PagenationList<Product>.Create(products,page,6));
         }
@@ -122,7 +125,7 @@ namespace Wolmart.Ecommerce.Controllers
 
             return View(PagenationList<Product>.Create(products, page,6));
         }
-        public async Task<IActionResult> Detail(int? id)
+        public async Task<IActionResult> Detail(int? id,int colorID)
         {
             if (id == null)
             {
@@ -134,11 +137,11 @@ namespace Wolmart.Ecommerce.Controllers
                 Product = await _context.Products
                 .Include(p => p.ProductImages)
                 .Include(p => p.Brand)
+                .Include(p => p.ProductColorSizes).ThenInclude(p => p.Color)
                 .FirstOrDefaultAsync(p => p.ID == id),
 
                 Feedbacks = await _context.Feedbacks.Where(p=> p.ProductID == id ).ToListAsync(),
                 FeedbackImages = await _context.FeedbackImages.Where(p=> p.FeedbackID == p.Feedback.ID  && p.ProductID == id).ToListAsync(),
-
             };
 
             if (productVM == null)
@@ -149,8 +152,6 @@ namespace Wolmart.Ecommerce.Controllers
             return View(productVM);
 
         }
-
-
         public async Task<IActionResult> DetailForModal(int? id)
         {
             if (id == null)

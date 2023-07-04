@@ -18,11 +18,12 @@
                             {
                                 <div class="product product-cart">
                                 <div class="product-detail">
-                                    <a asp-controller="product" asp-action="detail" asp-route-id="@cartVM.ProductID" class="product-name">@cartVM.Name</a>
+                                    <a asp-controller="product" asp-action="detail" asp-route-id="@cartVM.ProductID" asp-route-cartID="@cartVM.ColorID" class="product-name">@cartVM.Name</a>
                                     <div class="price-box">
                                         <span class="product-quantity">@(cartVM.Count)x</span>
                                         <span class="product-price">$@cartVM.Price</span>
                                     </div>
+                                    <span class="product-color">@cartVM.Color</span>
                                 </div>
                                 <figure class="product-media">
                                     <a asp-controller="product" asp-action="detail" asp-route-id="@cartVM.ProductID">
@@ -36,7 +37,7 @@
                             }   
                             <div class="cart-total">
                                 <label>Subtotal:</label>
-                                <span class="price">$@(Model.Sum(p=>p.Price * p.Count))</span>
+                                <span class="price">$@(Model.Sum(p=>p.Price * p.Count).ToString("F2"))</span>
                             </div>
                             <div class="cart-action">
                                 <a asp-controller="cart" asp-action="index" class="btn btn-dark btn-outline btn-rounded">View Cart</a>

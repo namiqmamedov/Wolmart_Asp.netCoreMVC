@@ -8,5 +8,7 @@
         public Product Product { get; set; }
         public string AppUserID { get; set; }
         public AppUser AppUser { get; set; }
+        public int ColorID { get; set; }
+        public string Color { get; set; }
     }
 }

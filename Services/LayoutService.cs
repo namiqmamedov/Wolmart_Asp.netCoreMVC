@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿    using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -54,11 +54,12 @@ namespace Wolmart.Ecommerce.Services
                 {
                     foreach (var item in appUser.Carts)
                     {
-                        if (!cartVMs.Any(c=>c.ProductID == item.ProductID))
+                        if (!cartVMs.Any(c=>c.ProductID == item.ProductID && c.ColorID == item.ColorID))
                         {
                             CartVM cartVM = new CartVM
                             {
                                 ProductID = item.ProductID,
+                                ColorID = item.ColorID,
                                 Count = item.Count
                             };
 
@@ -75,9 +76,9 @@ namespace Wolmart.Ecommerce.Services
                 {
                     foreach (CartVM cartVM in cartVMs)
                     {
-                        if (cartVMs.Any(c => c.ProductID == cartVM.ProductID))
+                        if (cartVMs.Any(c => c.ProductID == cartVM.ProductID && c.ColorID == cartVM.ColorID))
                         {
-                            Cart existedCart = appUser.Carts.FirstOrDefault(c => c.ProductID == cartVM.ProductID);
+                            Cart existedCart = appUser.Carts.FirstOrDefault(c => c.ProductID == cartVM.ProductID && c.ColorID == cartVM.ColorID);
 
                             appUser.Carts.Remove(existedCart);
                         }
@@ -94,9 +95,12 @@ namespace Wolmart.Ecommerce.Services
             {
                 Product product = await _context.Products.FirstOrDefaultAsync(p => p.ID == item.ProductID);
 
+                Color color = await _context.Colors.FirstOrDefaultAsync(p => p.ID == item.ColorID);
+
                 item.Name = product.Name;
                 item.Price = product.DiscountedPrice > 0 ? product.DiscountedPrice : product.Price;
                 item.Image = product.MainImage;
+                item.Color = color.Name;
             }
 
             return cartVMs;

@@ -51,7 +51,6 @@ namespace Wolmart.Ecommerce.Areas.admin.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> Create(Product product)
         {
             ViewBag.Brands = await _context.Brands.Where(b => !b.IsDeleted).ToListAsync();

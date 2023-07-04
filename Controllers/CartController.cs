@@ -39,14 +39,22 @@ namespace Wolmart.Ecommerce.Controllers
             return View(await _getCartItemAsync(cartVMs));
         }
 
-        public async Task<IActionResult> AddToCart(int? id)
+        public async Task<IActionResult> AddToCart(int? id,int? colorID)
         {
+
             if (id == null)
             {
                 return BadRequest();
             }
 
+            if (colorID == null)
+            {
+                return BadRequest();
+            }
+
+
             Product product = await _context.Products.FirstOrDefaultAsync(p => p.ID == id);
+            Color color = await _context.Colors.FirstOrDefaultAsync(c => c.ID == colorID);
 
             if (product == null)
             {
@@ -75,6 +83,7 @@ namespace Wolmart.Ecommerce.Controllers
                 CartVM cartVM = new CartVM
                 {
                     ProductID = product.ID,
+                    ColorID = color.ID,
                     Count = 1,
                 };
                 cartVMs.Add(cartVM);
@@ -96,6 +105,7 @@ namespace Wolmart.Ecommerce.Controllers
                         Cart newCart = new Cart
                         {
                             ProductID = (int)id,
+                            ColorID = (int)id,
                             Count = 1,
                         };
 
@@ -106,7 +116,7 @@ namespace Wolmart.Ecommerce.Controllers
                 {
                     List<Cart> carts = new List<Cart>
                     {
-                        new Cart { ProductID = (int)id, Count = 1 },
+                        new Cart { ProductID = (int)id, ColorID = (int)id, Count = 1 },
                     };
 
                     appUser.Carts = carts;
@@ -120,7 +130,6 @@ namespace Wolmart.Ecommerce.Controllers
             HttpContext.Response.Cookies.Append("cart", cart);
 
             return PartialView("_CartPartial", await _getCartItemAsync(cartVMs));
-
         }
 
         public async Task<IActionResult> GetCart()
@@ -149,9 +158,9 @@ namespace Wolmart.Ecommerce.Controllers
                 return BadRequest();
             }
 
-            if(!await _context.Products.AnyAsync(p=>p.ID == id))
-            {   
-                return NotFound();    
+            if (!await _context.Products.AnyAsync(p => p.ID == id))
+            {
+                return NotFound();
             }
 
             string cart = HttpContext.Request.Cookies["cart"];
@@ -162,7 +171,7 @@ namespace Wolmart.Ecommerce.Controllers
 
             CartVM cartVM = cartVMs.Find(p => p.ProductID == id);
 
-            if(cartVM == null) { return NotFound(); }
+            if (cartVM == null) { return NotFound(); }
 
             if (User.Identity.IsAuthenticated)
             {
@@ -181,16 +190,16 @@ namespace Wolmart.Ecommerce.Controllers
             cartVMs.Remove(cartVM);
 
             cart = JsonConvert.SerializeObject(cartVMs);
-            HttpContext.Response.Cookies.Append("cart",cart);
+            HttpContext.Response.Cookies.Append("cart", cart);
 
             return PartialView("_CartPartial", await _getCartItemAsync(cartVMs));
         }
 
-        public async Task<IActionResult> UpdateCount(int? id,int count)
+        public async Task<IActionResult> UpdateCount(int? id, int count)
         {
             if (id == null) return BadRequest();
 
-            if (!await _context.Products.AnyAsync(p=>p.ID == id))
+            if (!await _context.Products.AnyAsync(p => p.ID == id))
             {
                 return NotFound();
             }
@@ -202,11 +211,11 @@ namespace Wolmart.Ecommerce.Controllers
             if (!string.IsNullOrWhiteSpace(cart))
             {
                 cartVMs = JsonConvert.DeserializeObject<List<CartVM>>(cart);
-            
-                CartVM cartVM = cartVMs.FirstOrDefault(p=>p.ProductID == id);
+
+                CartVM cartVM = cartVMs.FirstOrDefault(p => p.ProductID == id);
 
                 if (cartVM == null) return BadRequest();
-                 
+
                 cartVM.Count = count <= 0 ? 1 : count;
 
                 cart = JsonConvert.SerializeObject(cartVMs);
@@ -215,13 +224,13 @@ namespace Wolmart.Ecommerce.Controllers
             }
             else
             {
-                return BadRequest(); 
+                return BadRequest();
             }
 
             return PartialView("_CartIndexPartial", await _getCartItemAsync(cartVMs));
         }
 
-        public async Task<IActionResult> DeleteFromCart(int? id) 
+        public async Task<IActionResult> DeleteFromCart(int? id)
         {
             if (id == null)
             {
@@ -264,15 +273,17 @@ namespace Wolmart.Ecommerce.Controllers
 
             return PartialView("_CartIndexPartial", await _getCartItemAsync(cartVMs));
         }
-        private async  Task<List<CartVM>> _getCartItemAsync(List<CartVM> cartVMs)
+        public async  Task<List<CartVM>> _getCartItemAsync(List<CartVM> cartVMs)
         {
             foreach (CartVM item in cartVMs) // mes: sekil falan dbda deyisilende saytda reski gorsenmesi ucun
             {
                 Product dbProduct = await _context.Products.FirstOrDefaultAsync(p => p.ID == item.ProductID);
+                Color color = await _context.Colors.FirstOrDefaultAsync(c => c.ID == item.ColorID);
 
                 item.Name = dbProduct.Name;
                 item.Price = dbProduct.DiscountedPrice > 0 ? dbProduct.DiscountedPrice : dbProduct.Price;
                 item.Image = dbProduct.MainImage;
+                item.Color = color.Name; 
             }
 
             return cartVMs;

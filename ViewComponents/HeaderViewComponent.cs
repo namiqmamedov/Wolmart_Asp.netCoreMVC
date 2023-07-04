@@ -44,13 +44,13 @@ namespace Wolmart.Ecommerce.ViewComponents
                     {
                         foreach (var item in appUser.Carts)
                         {
-                            if (!cartVMs.Any(c => c.ProductID == item.ProductID))
+                            if (!cartVMs.Any(c => c.ProductID == item.ProductID && c.ColorID == item.ColorID))
                             {
                                 CartVM cartVM = new CartVM
                                 {
                                     ProductID = item.ProductID,
+                                    ColorID = item.ColorID,
                                     Count = item.Count
-
                                 };
 
                                 cartVMs.Add(cartVM);
@@ -66,9 +66,9 @@ namespace Wolmart.Ecommerce.ViewComponents
                     {
                         foreach (CartVM cartVM in cartVMs)
                         {
-                            if (cartVMs.Any(c => c.ProductID == cartVM.ProductID))
+                            if (cartVMs.Any(c => c.ProductID == cartVM.ProductID && c.ColorID == cartVM.ColorID))
                             {
-                                Cart existedCart = appUser.Carts.FirstOrDefault(c => c.ProductID == cartVM.ProductID);
+                                Cart existedCart = appUser.Carts.FirstOrDefault(c => c.ProductID == cartVM.ProductID && c.ColorID == cartVM.ColorID);
 
                                 appUser.Carts.Remove(existedCart);
                             }
@@ -84,10 +84,12 @@ namespace Wolmart.Ecommerce.ViewComponents
                 foreach (CartVM cartVM in cartVMs)
                 {
                     Product product = await _context.Products.FirstOrDefaultAsync(p => p.ID == cartVM.ProductID);
+                    Color color = await _context.Colors.FirstOrDefaultAsync(p => p.ID == cartVM.ColorID);
 
                     cartVM.Image = product.MainImage;
                     cartVM.Name = product.Name;
                     cartVM.Price = product.DiscountedPrice > 0 ? product.DiscountedPrice : product.Price;
+                    cartVM.Color = color.Name;
                 }
             }
             else
